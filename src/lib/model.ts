@@ -18,6 +18,55 @@ export interface OptimizerResult {
     recommendation: string;
 }
 
+export interface GridState {
+    importPowerW?: number;
+    exportPowerW?: number;
+}
+
+export interface PvState {
+    productionPowerW?: number;
+}
+
+export interface BatteryState {
+    socPercent?: number;
+    powerW?: number;
+    capacityWh?: number;
+}
+
+export interface HouseState {
+    consumptionPowerW?: number;
+}
+
+export interface EnergySystemState {
+    grid: GridState;
+    pv: PvState;
+    battery: BatteryState;
+    house: HouseState;
+}
+
+export interface OptimizationGoals {
+    maximizeSelfConsumption: boolean;
+    minimizeGridCosts: boolean;
+    preserveBatteryForEvening: boolean;
+    emergencyReservePercent: number;
+    minimizeBatteryCycles: boolean;
+}
+
+export interface OptimizerInput {
+    system: EnergySystemState;
+    tariff: TariffConfig;
+    goals: OptimizationGoals;
+    weatherForecast?: WeatherForecast;
+}
+
+export interface OptimizerDecision {
+    recommendation: string;
+    targetBatterySocPercent?: number;
+    allowDischarge?: boolean;
+    allowGridCharging?: boolean;
+    confidencePercent?: number;
+}
+
 export type NumericLiveStateId = (typeof STATE_IDS.live)[keyof typeof STATE_IDS.live];
 
 export interface IStateProvider {
