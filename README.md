@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/logo.png"
+  <img src="docs/images/logo..png"
        alt="ioBroker Energy Optimizer"
        width="220">
 </p>
