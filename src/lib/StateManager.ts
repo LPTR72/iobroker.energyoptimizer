@@ -1,0 +1,75 @@
+import { EnergyOptimizerConfig, toNumber } from "./config";
+import { NumericLiveStateId } from "./model";
+import { BooleanStateId, CostStateId, STATE_IDS, StringStateId, numericStates } from "./states";
+
+export class StateManager {
+    public constructor(private readonly adapter: ioBroker.Adapter) {}
+
+    public async createStates(): Promise<void> {
+        for (const state of numericStates) {
+            await this.adapter.setObjectNotExistsAsync(state.id, {
+                type: "state",
+                common: {
+                    name: state.name,
+                    type: "number",
+                    role: state.role,
+                    read: state.read ?? true,
+                    write: state.write ?? false,
+                    unit: state.unit,
+                    def: 0,
+                },
+                native: {},
+            });
+        }
+
+        await this.createBooleanState(STATE_IDS.info.connection, "Adapter connection state", "indicator.connected", false);
+        await this.createBooleanState(STATE_IDS.simulation.ready, "Simulation data readiness", "indicator", false);
+        await this.createStringState(STATE_IDS.optimizer.recommendation, "Optimizer recommendation", "text", "");
+    }
+
+    public async initializeRuntimeStates(config: EnergyOptimizerConfig): Promise<void> {
+        const workPriceCt = toNumber(config.fixedWorkPriceCt, 0) ?? 0;
+        const basePriceMonthlyEuro = toNumber(config.fixedBasePriceMonthlyEuro, 0) ?? 0;
+
+        await this.adapter.setStateAsync(STATE_IDS.info.connection, true, true);
+        await this.adapter.setStateAsync(STATE_IDS.simulation.ready, false, true);
+        await this.adapter.setStateAsync(STATE_IDS.optimizer.recommendation, "collecting data", true);
+        await this.adapter.setStateAsync(STATE_IDS.config.workPriceCt, workPriceCt, true);
+        await this.adapter.setStateAsync(STATE_IDS.config.basePriceMonthlyEuro, basePriceMonthlyEuro, true);
+    }
+
+    public async writeMirroredLiveValue(stateId: NumericLiveStateId, value: number): Promise<void> {
+        await this.adapter.setStateAsync(stateId, value, true);
+    }
+
+    public async addCost(valueToAdd: number): Promise<void> {
+        await this.addToState(STATE_IDS.costs.todayCurrentTariffEuro, valueToAdd);
+        await this.addToState(STATE_IDS.costs.monthCurrentTariffEuro, valueToAdd);
+    }
+
+    private async addToState(stateId: CostStateId, valueToAdd: number): Promise<void> {
+        if (!Number.isFinite(valueToAdd) || valueToAdd <= 0) {
+            return;
+        }
+
+        const currentState = await this.adapter.getStateAsync(stateId);
+        const currentValue = toNumber(currentState?.val, 0) ?? 0;
+        await this.adapter.setStateAsync(stateId, Number((currentValue + valueToAdd).toFixed(6)), true);
+    }
+
+    private async createBooleanState(id: BooleanStateId, name: string, role: string, def: boolean): Promise<void> {
+        await this.adapter.setObjectNotExistsAsync(id, {
+            type: "state",
+            common: { name, type: "boolean", role, read: true, write: false, def },
+            native: {},
+        });
+    }
+
+    private async createStringState(id: StringStateId, name: string, role: string, def: string): Promise<void> {
+        await this.adapter.setObjectNotExistsAsync(id, {
+            type: "state",
+            common: { name, type: "string", role, read: true, write: false, def },
+            native: {},
+        });
+    }
+}
