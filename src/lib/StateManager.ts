@@ -8,6 +8,11 @@ export interface HealthStatus {
     missingSources: number;
     lastPollingTimestamp: number;
     lastPollingDurationMs: number;
+    assetsCount: number;
+    gridAssetsCount: number;
+    pvAssetsCount: number;
+    batteryAssetsCount: number;
+    consumerAssetsCount: number;
 }
 
 export class StateManager {
@@ -56,6 +61,11 @@ export class StateManager {
         await this.adapter.setStateAsync(STATE_IDS.health.missingSources, status.missingSources, true);
         await this.adapter.setStateAsync(STATE_IDS.health.lastPollingTimestamp, status.lastPollingTimestamp, true);
         await this.adapter.setStateAsync(STATE_IDS.health.lastPollingDurationMs, status.lastPollingDurationMs, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.assetsCount, status.assetsCount, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.gridAssetsCount, status.gridAssetsCount, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.pvAssetsCount, status.pvAssetsCount, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.batteryAssetsCount, status.batteryAssetsCount, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.consumerAssetsCount, status.consumerAssetsCount, true);
     }
 
     public async addCost(valueToAdd: number): Promise<void> {

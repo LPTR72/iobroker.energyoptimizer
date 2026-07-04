@@ -23,6 +23,11 @@ export const STATE_IDS = {
         missingSources: "health.missingSources",
         lastPollingTimestamp: "health.lastPollingTimestamp",
         lastPollingDurationMs: "health.lastPollingDurationMs",
+        assetsCount: "health.assets.count",
+        gridAssetsCount: "health.assets.grid.count",
+        pvAssetsCount: "health.assets.pv.count",
+        batteryAssetsCount: "health.assets.battery.count",
+        consumerAssetsCount: "health.assets.consumer.count",
     },
     info: {
         connection: "info.connection",
@@ -70,4 +75,9 @@ export const numericStates: readonly NumericStateDefinition[] = [
     { id: STATE_IDS.health.missingSources, name: "Missing source count", role: "value" },
     { id: STATE_IDS.health.lastPollingTimestamp, name: "Last polling timestamp", role: "value.time", unit: "ms" },
     { id: STATE_IDS.health.lastPollingDurationMs, name: "Last polling duration", role: "value.interval", unit: "ms" },
+    { id: STATE_IDS.health.assetsCount, name: "Normalized energy asset count", role: "value" },
+    { id: STATE_IDS.health.gridAssetsCount, name: "Normalized grid asset count", role: "value" },
+    { id: STATE_IDS.health.pvAssetsCount, name: "Normalized PV asset count", role: "value" },
+    { id: STATE_IDS.health.batteryAssetsCount, name: "Normalized battery asset count", role: "value" },
+    { id: STATE_IDS.health.consumerAssetsCount, name: "Normalized consumer asset count", role: "value" },
 ];

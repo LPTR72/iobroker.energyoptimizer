@@ -1,5 +1,6 @@
 import * as utils from "@iobroker/adapter-core";
 import { EnergyOptimizerConfig, getPollingIntervalSeconds, toNumber } from "./lib/config";
+import { ConfigurationNormalizer } from "./lib/ConfigurationNormalizer";
 import { IoBrokerStateProvider } from "./lib/IoBrokerStateProvider";
 import { IStateProvider, NumericLiveStateId } from "./lib/model";
 import { StateManager } from "./lib/StateManager";
@@ -10,6 +11,7 @@ class EnergyOptimizer extends utils.Adapter {
     private pollTimer?: NodeJS.Timeout;
     private readonly stateManager: StateManager;
     private readonly stateProvider: IStateProvider;
+    private readonly configurationNormalizer = new ConfigurationNormalizer();
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({ ...options, name: "energyoptimizer" });
@@ -92,12 +94,18 @@ class EnergyOptimizer extends utils.Adapter {
 
         const configuredSources = sourceIds.filter(sourceId => Boolean(sourceId?.trim())).length;
         const validSources = sourceValues.filter(value => value !== undefined).length;
+        const normalizedAssets = this.configurationNormalizer.normalize(config);
         await this.stateManager.writeHealthStatus({
             configuredSources,
             validSources,
             missingSources: configuredSources - validSources,
             lastPollingTimestamp: pollingStartedAt,
             lastPollingDurationMs: Date.now() - pollingStartedAt,
+            assetsCount: normalizedAssets.length,
+            gridAssetsCount: normalizedAssets.filter(asset => asset.type === "grid").length,
+            pvAssetsCount: normalizedAssets.filter(asset => asset.type === "pv").length,
+            batteryAssetsCount: normalizedAssets.filter(asset => asset.type === "battery").length,
+            consumerAssetsCount: normalizedAssets.filter(asset => asset.type === "consumer").length,
         });
     }
 
