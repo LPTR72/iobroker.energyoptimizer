@@ -2,6 +2,12 @@
   "i18n": true,
   "type": "panel",
   "items": {
+    "_tariffHeader": {
+      "type": "header",
+      "text": "Tariff",
+      "size": 3,
+      "sm": 12
+    },
     "fixedWorkPriceCt": {
       "type": "number",
       "label": "Work price (ct/kWh)",
@@ -11,39 +17,69 @@
     },
     "fixedBasePriceMonthlyEuro": {
       "type": "number",
-      "label": "Base price monthly (EUR)",
+      "label": "Monthly base price (EUR)",
       "min": 0,
       "sm": 12,
       "md": 6
     },
+    "_gridHeader": {
+      "type": "header",
+      "text": "Grid",
+      "size": 3,
+      "sm": 12
+    },
     "sourceGridImportPower": {
       "type": "objectId",
-      "label": "Source state: grid import power (W)",
+      "label": "Grid import power state",
       "sm": 12
     },
     "sourceGridExportPower": {
       "type": "objectId",
-      "label": "Source state: grid export power (W)",
+      "label": "Grid export power state",
+      "sm": 12
+    },
+    "_houseHeader": {
+      "type": "header",
+      "text": "House",
+      "size": 3,
       "sm": 12
     },
     "sourceHouseConsumptionPower": {
       "type": "objectId",
-      "label": "Source state: house consumption power (W)",
+      "label": "House consumption power state",
+      "sm": 12
+    },
+    "_photovoltaicsHeader": {
+      "type": "header",
+      "text": "Photovoltaics",
+      "size": 3,
       "sm": 12
     },
     "sourcePvPower": {
       "type": "objectId",
-      "label": "Source state: PV power (W)",
+      "label": "PV production power state",
+      "sm": 12
+    },
+    "_batteryHeader": {
+      "type": "header",
+      "text": "Battery",
+      "size": 3,
       "sm": 12
     },
     "sourceBatterySoc": {
       "type": "objectId",
-      "label": "Source state: battery state of charge (%)",
+      "label": "Battery state of charge state",
       "sm": 12
     },
     "sourceBatteryPower": {
       "type": "objectId",
-      "label": "Source state: battery power (W)",
+      "label": "Battery power state",
+      "sm": 12
+    },
+    "_runtimeHeader": {
+      "type": "header",
+      "text": "Runtime",
+      "size": 3,
       "sm": 12
     },
     "pollingIntervalSeconds": {
