@@ -78,6 +78,30 @@ export interface OptimizerDecision {
     confidencePercent?: number;
 }
 
+export interface AnalysisResult {
+    currentSurplusPowerW?: number;
+    isImportingFromGrid?: boolean;
+    isExportingToGrid?: boolean;
+    batteryBelowReserve?: boolean;
+    explanation: readonly string[];
+}
+
+export interface PredictionResult {
+    pvPrediction?: PvPrediction;
+    explanation: readonly string[];
+}
+
+export interface EvaluationResult {
+    score?: number;
+    risks: readonly string[];
+    explanation: readonly string[];
+}
+
+export interface RecommendationResult {
+    decision: OptimizerDecision;
+    explanation: readonly string[];
+}
+
 export type NumericLiveStateId = (typeof STATE_IDS.live)[keyof typeof STATE_IDS.live];
 
 export interface IStateProvider {
