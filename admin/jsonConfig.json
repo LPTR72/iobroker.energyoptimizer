@@ -19,7 +19,6 @@
     "sourceGridImportPower": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
@@ -30,7 +29,6 @@
     "sourceGridExportPower": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
@@ -41,7 +39,6 @@
     "sourceHouseConsumptionPower": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
@@ -52,7 +49,6 @@
     "sourcePvPower": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
@@ -63,7 +59,6 @@
     "sourceBatterySoc": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
@@ -74,7 +69,6 @@
     "sourceBatteryPower": {
       "type": "objectId",
       "customFilter": {
-        "type": "state",
         "common": {
           "type": "number"
         }
