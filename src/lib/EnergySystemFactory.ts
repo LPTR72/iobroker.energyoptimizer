@@ -12,11 +12,14 @@ import {
 } from "./model";
 
 export class EnergySystemFactory {
-    public constructor(private readonly stateProvider: IStateProvider) {}
+    public constructor(
+        private readonly stateProvider: IStateProvider,
+        private readonly configurationNormalizer: ConfigurationNormalizer = new ConfigurationNormalizer(),
+    ) {}
 
     public async create(config: EnergyOptimizerConfig): Promise<EnergySystemState> {
         const legacyState = await this.createLegacyState(config);
-        const assetConfigs = new ConfigurationNormalizer().normalize(config);
+        const assetConfigs = this.configurationNormalizer.normalize(config);
 
         if (assetConfigs.length === 0) {
             return legacyState;

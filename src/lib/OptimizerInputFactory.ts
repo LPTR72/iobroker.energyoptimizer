@@ -6,12 +6,15 @@ import { IStateProvider, OptimizationGoals, OptimizerInput, TariffConfig } from 
 export class OptimizerInputFactory {
     private readonly energySystemFactory: EnergySystemFactory;
 
-    public constructor(stateProvider: IStateProvider) {
-        this.energySystemFactory = new EnergySystemFactory(stateProvider);
+    public constructor(
+        stateProvider: IStateProvider,
+        private readonly configurationNormalizer: ConfigurationNormalizer = new ConfigurationNormalizer(),
+    ) {
+        this.energySystemFactory = new EnergySystemFactory(stateProvider, configurationNormalizer);
     }
 
     public async create(config: EnergyOptimizerConfig): Promise<OptimizerInput> {
-        const assetConfigs = new ConfigurationNormalizer().normalize(config);
+        const assetConfigs = this.configurationNormalizer.normalize(config);
         const system = await this.energySystemFactory.create({
             ...config,
             energyAssets: assetConfigs,
