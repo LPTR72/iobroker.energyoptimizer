@@ -1,3 +1,5 @@
+import type { EnergyAssetConfig } from "./model";
+
 export interface EnergyOptimizerConfig {
     fixedWorkPriceCt?: number | string;
     fixedBasePriceMonthlyEuro?: number | string;
@@ -7,6 +9,7 @@ export interface EnergyOptimizerConfig {
     sourcePvPower?: string;
     sourceBatterySoc?: string;
     sourceBatteryPower?: string;
+    energyAssets?: readonly EnergyAssetConfig[];
     pollingIntervalSeconds?: number | string;
 }
 

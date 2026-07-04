@@ -51,6 +51,18 @@ export interface EnergyAsset {
     capabilities: readonly EnergyAssetCapability[];
 }
 
+export interface EnergyAssetConfig {
+    enabled?: boolean;
+    id: string;
+    name?: string;
+    type: EnergyAssetType;
+    powerStateId?: string;
+    socStateId?: string;
+    capacityWh?: number;
+    manufacturer?: string;
+    model?: string;
+}
+
 export interface GridState {
     importPowerW?: number;
     exportPowerW?: number;
