@@ -23,3 +23,25 @@ export type NumericLiveStateId = (typeof STATE_IDS.live)[keyof typeof STATE_IDS.
 export interface IStateProvider {
     readNumericState(sourceId: string | undefined): Promise<number | undefined>;
 }
+
+export interface WeatherForecastPoint {
+    timestamp: number;
+    temperatureC?: number;
+    cloudCoverPercent?: number;
+    precipitationProbabilityPercent?: number;
+}
+
+export interface WeatherForecast {
+    points: readonly WeatherForecastPoint[];
+}
+
+export interface ForecastProviderConfig {
+    timestampStateId?: string;
+    temperatureStateId?: string;
+    cloudCoverStateId?: string;
+    precipitationProbabilityStateId?: string;
+}
+
+export interface IForecastProvider {
+    getForecast(config: ForecastProviderConfig): Promise<WeatherForecast>;
+}
