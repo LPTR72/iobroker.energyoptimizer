@@ -1,0 +1,57 @@
+{
+  "type": "panel",
+  "items": {
+    "fixedWorkPriceCt": {
+      "type": "number",
+      "label": "Work price (ct/kWh)",
+      "min": 0,
+      "sm": 12,
+      "md": 6
+    },
+    "fixedBasePriceMonthlyEuro": {
+      "type": "number",
+      "label": "Base price monthly (EUR)",
+      "min": 0,
+      "sm": 12,
+      "md": 6
+    },
+    "sourceGridImportPower": {
+      "type": "text",
+      "label": "Source state: grid import power (W)",
+      "sm": 12
+    },
+    "sourceGridExportPower": {
+      "type": "text",
+      "label": "Source state: grid export power (W)",
+      "sm": 12
+    },
+    "sourceHouseConsumptionPower": {
+      "type": "text",
+      "label": "Source state: house consumption power (W)",
+      "sm": 12
+    },
+    "sourcePvPower": {
+      "type": "text",
+      "label": "Source state: PV power (W)",
+      "sm": 12
+    },
+    "sourceBatterySoc": {
+      "type": "text",
+      "label": "Source state: battery state of charge (%)",
+      "sm": 12
+    },
+    "sourceBatteryPower": {
+      "type": "text",
+      "label": "Source state: battery power (W)",
+      "sm": 12
+    },
+    "pollingIntervalSeconds": {
+      "type": "number",
+      "label": "Polling interval (seconds)",
+      "min": 1,
+      "default": 60,
+      "sm": 12,
+      "md": 6
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "iobroker.energyoptimizer",
+  "version": "0.1.0",
+  "description": "Generic ioBroker adapter for collecting energy data points and calculating fixed-tariff costs.",
+  "author": "Lars Petrovcic",
+  "homepage": "https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "energy",
+    "optimizer",
+    "tariff",
+    "photovoltaics",
+    "battery"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer/issues"
+  },
+  "main": "build/main.js",
+  "types": "build/main.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "prepare": "npm run build",
+    "test:package": "npm pack --dry-run",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "admin/",
+    "build/",
+    "src/",
+    "tsconfig.json",
+    "io-package.json",
+    "LICENSE",
+    "README.md"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "common": {
+    "name": "energyoptimizer",
+    "version": "0.1.0",
+    "title": "Energy Optimizer",
+    "titleLang": {
+      "en": "Energy Optimizer",
+      "de": "Energieoptimierer"
+    },
+    "desc": {
+      "en": "Collects existing energy data points, mirrors live values and calculates costs based on a fixed tariff.",
+      "de": "Erfasst vorhandene Energie-Datenpunkte, spiegelt Live-Werte und berechnet Kosten auf Basis eines festen Tarifs."
+    },
+    "authors": [
+      "Lars Petrovcic"
+    ],
+    "keywords": [
+      "energy",
+      "tariff",
+      "costs",
+      "pv",
+      "battery"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/Lars-Petrovcic/ioBroker.energyoptimizer/main/admin/energyoptimizer.png",
+    "readme": "https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer/blob/main/README.md",
+    "loglevel": "info",
+    "type": "energy",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
+    ]
+  },
+  "native": {
+    "fixedWorkPriceCt": 0,
+    "fixedBasePriceMonthlyEuro": 0,
+    "sourceGridImportPower": "",
+    "sourceGridExportPower": "",
+    "sourceHouseConsumptionPower": "",
+    "sourcePvPower": "",
+    "sourceBatterySoc": "",
+    "sourceBatteryPower": "",
+    "pollingIntervalSeconds": 60
+  },
+  "objects": [],
+  "instanceObjects": []
+}
