@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/images/logo..png"
        alt="ioBroker Energy Optimizer"
-       width="220">
+       width="820">
 </p>
 
 <h1 align="center">
