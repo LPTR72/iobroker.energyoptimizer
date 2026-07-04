@@ -44,12 +44,23 @@ export interface EnergySystemState {
     house: HouseState;
 }
 
+export type GridOptimizationMode = "zeroExport" | "baseLoadCoverage" | "selfConsumption" | "costOptimized";
+
+export interface GridOptimizationPreferences {
+    mode: GridOptimizationMode;
+    targetGridImportW?: number;
+    targetBaseLoadW?: number;
+    allowedExportW?: number;
+    deadbandW?: number;
+}
+
 export interface OptimizationGoals {
     maximizeSelfConsumption: boolean;
     minimizeGridCosts: boolean;
     preserveBatteryForEvening: boolean;
     emergencyReservePercent: number;
     minimizeBatteryCycles: boolean;
+    gridOptimization: GridOptimizationPreferences;
 }
 
 export interface OptimizerInput {
@@ -82,6 +93,39 @@ export interface WeatherForecastPoint {
 
 export interface WeatherForecast {
     points: readonly WeatherForecastPoint[];
+}
+
+export interface PvPredictionPoint {
+    timestamp: number;
+    expectedPowerW?: number;
+    confidencePercent?: number;
+}
+
+export interface PvPrediction {
+    points: readonly PvPredictionPoint[];
+}
+
+export interface PvLearningSample {
+    timestamp: number;
+    pvPowerW: number;
+    temperatureC?: number;
+    cloudCoverPercent?: number;
+    precipitationProbabilityPercent?: number;
+    solarRadiationWm2?: number;
+    uvIndex?: number;
+    hourOfDay: number;
+    dayOfYear: number;
+}
+
+export interface PvPredictionModelInput {
+    weatherForecast?: WeatherForecast;
+    historicalSamples: readonly PvLearningSample[];
+}
+
+export interface PvPredictionModelResult {
+    prediction: PvPrediction;
+    modelName: string;
+    explanation: readonly string[];
 }
 
 export interface ForecastProviderConfig {
