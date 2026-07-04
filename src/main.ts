@@ -62,20 +62,43 @@ class EnergyOptimizer extends utils.Adapter {
     }
 
     private async pollSources(): Promise<void> {
+        const pollingStartedAt = Date.now();
         const config = this.config as EnergyOptimizerConfig;
         const pollingIntervalSeconds = getPollingIntervalSeconds(config);
         const workPriceCt = toNumber(config.fixedWorkPriceCt, 0) ?? 0;
 
+        const sourceIds = [
+            config.sourceGridImportPower,
+            config.sourceGridExportPower,
+            config.sourceHouseConsumptionPower,
+            config.sourcePvPower,
+            config.sourceBatterySoc,
+            config.sourceBatteryPower,
+        ];
+
         const importPowerW = await this.mirrorSource(config.sourceGridImportPower, STATE_IDS.live.gridImportPower);
-        await this.mirrorSource(config.sourceGridExportPower, STATE_IDS.live.gridExportPower);
-        await this.mirrorSource(config.sourceHouseConsumptionPower, STATE_IDS.live.houseConsumptionPower);
-        await this.mirrorSource(config.sourcePvPower, STATE_IDS.live.pvPower);
-        await this.mirrorSource(config.sourceBatterySoc, STATE_IDS.live.batterySoc);
-        await this.mirrorSource(config.sourceBatteryPower, STATE_IDS.live.batteryPower);
+        const sourceValues = [
+            importPowerW,
+            await this.mirrorSource(config.sourceGridExportPower, STATE_IDS.live.gridExportPower),
+            await this.mirrorSource(config.sourceHouseConsumptionPower, STATE_IDS.live.houseConsumptionPower),
+            await this.mirrorSource(config.sourcePvPower, STATE_IDS.live.pvPower),
+            await this.mirrorSource(config.sourceBatterySoc, STATE_IDS.live.batterySoc),
+            await this.mirrorSource(config.sourceBatteryPower, STATE_IDS.live.batteryPower),
+        ];
 
         const intervalKwh = TariffEngine.calculateIntervalKwh(importPowerW ?? 0, pollingIntervalSeconds);
         const intervalCostEuro = TariffEngine.calculateIntervalCostEuro(intervalKwh, workPriceCt);
         await this.stateManager.addCost(intervalCostEuro);
+
+        const configuredSources = sourceIds.filter(sourceId => Boolean(sourceId?.trim())).length;
+        const validSources = sourceValues.filter(value => value !== undefined).length;
+        await this.stateManager.writeHealthStatus({
+            configuredSources,
+            validSources,
+            missingSources: configuredSources - validSources,
+            lastPollingTimestamp: pollingStartedAt,
+            lastPollingDurationMs: Date.now() - pollingStartedAt,
+        });
     }
 
     private async mirrorSource(
