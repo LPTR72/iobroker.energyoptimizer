@@ -17,32 +17,68 @@
       "md": 6
     },
     "sourceGridImportPower": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: grid import power (W)",
       "sm": 12
     },
     "sourceGridExportPower": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: grid export power (W)",
       "sm": 12
     },
     "sourceHouseConsumptionPower": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: house consumption power (W)",
       "sm": 12
     },
     "sourcePvPower": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: PV power (W)",
       "sm": 12
     },
     "sourceBatterySoc": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: battery state of charge (%)",
       "sm": 12
     },
     "sourceBatteryPower": {
-      "type": "text",
+      "type": "objectId",
+      "customFilter": {
+        "type": "state",
+        "common": {
+          "type": "number"
+        }
+      },
       "label": "Source state: battery power (W)",
       "sm": 12
     },
