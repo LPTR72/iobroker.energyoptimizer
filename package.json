@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Generic ioBroker adapter for collecting energy data points and calculating fixed-tariff costs.",
   "author": "Lars Petrovcic",
-  "homepage": "https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer",
+  "homepage": "https://github.com/LPTR72/iobroker.energyoptimizer",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer.git"
+    "url": "git+https://github.com/LPTR72/iobroker.energyoptimizer.git"
   },
   "bugs": {
-    "url": "https://github.com/Lars-Petrovcic/ioBroker.energyoptimizer/issues"
+    "url": "https://github.com/LPTR72/iobroker.energyoptimizer/issues"
   },
   "main": "build/main.js",
   "types": "build/main.d.ts",
@@ -46,6 +46,7 @@
   "files": [
     "admin/",
     "build/",
+    "docs/",
     "src/",
     "tsconfig.json",
     "io-package.json",

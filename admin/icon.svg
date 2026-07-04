@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ioBroker Energy Optimizer</title>
+  <desc id="desc">House with solar panels, battery storage, energy flow and optimization arrow.</desc>
+
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#19a8ff"/>
+      <stop offset="100%" stop-color="#0051c8"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7bd923"/>
+      <stop offset="100%" stop-color="#168c1c"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd23a"/>
+      <stop offset="100%" stop-color="#ff9f00"/>
+    </linearGradient>
+    <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#001b2d" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="82" fill="#ffffff"/>
+
+  <!-- circular optimization arcs -->
+  <path d="M75 333C37 214 93 89 207 42" fill="none" stroke="url(#blue)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M199 439C309 491 442 441 487 329" fill="none" stroke="url(#green)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M241 33C357 23 453 92 481 201" fill="none" stroke="url(#green)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M470 197l30 13-24 23z" fill="#22a322"/>
+
+  <!-- sun -->
+  <circle cx="146" cy="100" r="42" fill="url(#sun)"/>
+  <g stroke="#ffb300" stroke-width="10" stroke-linecap="round">
+    <line x1="146" y1="32" x2="146" y2="11"/>
+    <line x1="146" y1="189" x2="146" y2="168"/>
+    <line x1="78" y1="100" x2="57" y2="100"/>
+    <line x1="235" y1="100" x2="214" y2="100"/>
+    <line x1="98" y1="52" x2="83" y2="37"/>
+    <line x1="209" y1="163" x2="194" y2="148"/>
+    <line x1="98" y1="148" x2="83" y2="163"/>
+    <line x1="209" y1="37" x2="194" y2="52"/>
+  </g>
+
+  <!-- solar panels -->
+  <g filter="url(#softShadow)" transform="translate(83 104) skewX(-16)">
+    <g fill="url(#blue)" stroke="#ffffff" stroke-width="6">
+      <rect x="0" y="0" width="64" height="34" rx="5"/>
+      <rect x="70" y="0" width="64" height="34" rx="5"/>
+      <rect x="140" y="0" width="64" height="34" rx="5"/>
+      <rect x="-21" y="42" width="64" height="34" rx="5"/>
+      <rect x="49" y="42" width="64" height="34" rx="5"/>
+      <rect x="119" y="42" width="64" height="34" rx="5"/>
+      <rect x="-42" y="84" width="64" height="34" rx="5"/>
+      <rect x="28" y="84" width="64" height="34" rx="5"/>
+      <rect x="98" y="84" width="64" height="34" rx="5"/>
+    </g>
+  </g>
+  <path d="M69 235h150" stroke="#0b2b3c" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- house -->
+  <g filter="url(#softShadow)" fill="#0b2b3c">
+    <path d="M130 309v104c0 20 16 36 36 36h143c20 0 36-16 36-36V309h20c10 0 15-13 7-20L253 184c-7-6-17-6-24 0L110 289c-8 7-3 20 7 20h13z"/>
+    <path d="M295 177h36v70l-36-32z"/>
+  </g>
+  <path d="M158 306l84-74 85 74v104c0 12-10 22-22 22H180c-12 0-22-10-22-22V306z" fill="#ffffff"/>
+
+  <!-- windows -->
+  <g fill="#0b2b3c">
+    <rect x="257" y="285" width="24" height="24" rx="3"/>
+    <rect x="290" y="285" width="24" height="24" rx="3"/>
+    <rect x="257" y="319" width="24" height="24" rx="3"/>
+    <rect x="290" y="319" width="24" height="24" rx="3"/>
+  </g>
+
+  <!-- battery -->
+  <g>
+    <rect x="176" y="328" width="88" height="103" rx="13" fill="#ffffff" stroke="#0b2b3c" stroke-width="12"/>
+    <rect x="207" y="315" width="27" height="20" rx="5" fill="#0b2b3c"/>
+    <rect x="193" y="346" width="54" height="18" rx="4" fill="url(#green)"/>
+    <rect x="193" y="376" width="54" height="18" rx="4" fill="url(#green)"/>
+    <rect x="193" y="406" width="54" height="18" rx="4" fill="url(#green)"/>
+  </g>
+
+  <!-- optimization trend -->
+  <polyline points="292,383 326,349 350,369 389,326 417,341 469,285" fill="none" stroke="url(#green)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="326" cy="349" r="12" fill="#2aa51e"/>
+  <circle cx="389" cy="326" r="12" fill="#2aa51e"/>
+  <circle cx="469" cy="285" r="12" fill="#2aa51e"/>
+  <path d="M464 264l34 5-18 29z" fill="#2aa51e"/>
+
+  <!-- energy badge -->
+  <circle cx="383" cy="398" r="65" fill="#0b2b3c" filter="url(#softShadow)"/>
+  <path d="M395 336l-39 68h34l-18 55 53-77h-36z" fill="#ffffff"/>
+</svg>
