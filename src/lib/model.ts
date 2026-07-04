@@ -24,10 +24,14 @@ export interface GridState {
 }
 
 export interface PvState {
+    id?: string;
+    name?: string;
     productionPowerW?: number;
 }
 
 export interface BatteryState {
+    id: string;
+    name?: string;
     socPercent?: number;
     powerW?: number;
     capacityWh?: number;
@@ -39,8 +43,14 @@ export interface HouseState {
 
 export interface EnergySystemState {
     grid: GridState;
+    /** Aggregated/default PV view. */
     pv: PvState;
+    /** Preferred model for multiple PV systems. */
+    pvSystems: readonly PvState[];
+    /** Legacy/default single-battery view retained for compatibility. */
     battery: BatteryState;
+    /** Preferred model for multiple battery systems. */
+    batteries: readonly BatteryState[];
     house: HouseState;
 }
 

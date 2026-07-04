@@ -1,5 +1,5 @@
 import { EnergyOptimizerConfig } from "./config";
-import { EnergySystemState, IStateProvider } from "./model";
+import { BatteryState, EnergySystemState, IStateProvider, PvState } from "./model";
 
 export class EnergySystemFactory {
     public constructor(private readonly stateProvider: IStateProvider) {}
@@ -15,18 +15,27 @@ export class EnergySystemFactory {
                 this.stateProvider.readNumericState(config.sourceHouseConsumptionPower),
             ]);
 
+        const battery: BatteryState = {
+            id: "default",
+            name: "Default battery",
+            socPercent,
+            powerW,
+        };
+        const pv: PvState = {
+            id: "default",
+            name: "Default PV system",
+            productionPowerW,
+        };
+
         return {
             grid: {
                 importPowerW,
                 exportPowerW,
             },
-            pv: {
-                productionPowerW,
-            },
-            battery: {
-                socPercent,
-                powerW,
-            },
+            pv,
+            pvSystems: [pv],
+            battery,
+            batteries: [battery],
             house: {
                 consumptionPowerW,
             },
