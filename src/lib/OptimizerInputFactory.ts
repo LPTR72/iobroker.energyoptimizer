@@ -1,4 +1,5 @@
 import { EnergyOptimizerConfig, toNumber } from "./config";
+import { ConfigurationNormalizer } from "./ConfigurationNormalizer";
 import { EnergySystemFactory } from "./EnergySystemFactory";
 import { IStateProvider, OptimizationGoals, OptimizerInput, TariffConfig } from "./model";
 
@@ -10,7 +11,11 @@ export class OptimizerInputFactory {
     }
 
     public async create(config: EnergyOptimizerConfig): Promise<OptimizerInput> {
-        const system = await this.energySystemFactory.create(config);
+        const assetConfigs = new ConfigurationNormalizer().normalize(config);
+        const system = await this.energySystemFactory.create({
+            ...config,
+            energyAssets: assetConfigs,
+        });
         const tariff: TariffConfig = {
             workPriceCt: toNumber(config.fixedWorkPriceCt, 0) ?? 0,
             basePriceMonthlyEuro: toNumber(config.fixedBasePriceMonthlyEuro, 0) ?? 0,
