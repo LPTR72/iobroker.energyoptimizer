@@ -18,6 +18,39 @@ export interface OptimizerResult {
     recommendation: string;
 }
 
+export type EnergyAssetType =
+    | "grid"
+    | "pv"
+    | "battery"
+    | "consumer"
+    | "evCharger"
+    | "heatPump"
+    | "boiler"
+    | "generator"
+    | "unknown";
+
+export type EnergyAssetCapability =
+    | "measurePower"
+    | "forecastProduction"
+    | "forecastConsumption"
+    | "storeEnergy"
+    | "charge"
+    | "discharge"
+    | "controllable"
+    | "schedulable";
+
+export interface EnergyAsset {
+    id: string;
+    type: EnergyAssetType;
+    name?: string;
+    manufacturer?: string;
+    model?: string;
+    currentPowerW?: number;
+    capacityWh?: number;
+    socPercent?: number;
+    capabilities: readonly EnergyAssetCapability[];
+}
+
 export interface GridState {
     importPowerW?: number;
     exportPowerW?: number;
@@ -42,6 +75,7 @@ export interface HouseState {
 }
 
 export interface EnergySystemState {
+    /** Existing grid/PV/battery/house properties remain compatibility and aggregated views. */
     grid: GridState;
     /** Aggregated/default PV view. */
     pv: PvState;
@@ -52,6 +86,8 @@ export interface EnergySystemState {
     /** Preferred model for multiple battery systems. */
     batteries: readonly BatteryState[];
     house: HouseState;
+    /** Preferred future model for heterogeneous energy components. */
+    assets: readonly EnergyAsset[];
 }
 
 export type GridOptimizationMode = "zeroExport" | "baseLoadCoverage" | "selfConsumption" | "costOptimized";

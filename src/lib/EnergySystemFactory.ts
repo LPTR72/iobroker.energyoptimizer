@@ -1,5 +1,5 @@
 import { EnergyOptimizerConfig } from "./config";
-import { BatteryState, EnergySystemState, IStateProvider, PvState } from "./model";
+import { BatteryState, EnergyAsset, EnergySystemState, IStateProvider, PvState } from "./model";
 
 export class EnergySystemFactory {
     public constructor(private readonly stateProvider: IStateProvider) {}
@@ -26,6 +26,38 @@ export class EnergySystemFactory {
             name: "Default PV system",
             productionPowerW,
         };
+        const assets: readonly EnergyAsset[] = [
+            {
+                id: "grid",
+                type: "grid",
+                name: "Grid",
+                currentPowerW: importPowerW,
+                capabilities: ["measurePower"],
+            },
+            {
+                id: "pv.default",
+                type: "pv",
+                name: pv.name,
+                currentPowerW: pv.productionPowerW,
+                capabilities: ["measurePower", "forecastProduction"],
+            },
+            {
+                id: "battery.default",
+                type: "battery",
+                name: battery.name,
+                currentPowerW: battery.powerW,
+                capacityWh: battery.capacityWh,
+                socPercent: battery.socPercent,
+                capabilities: ["measurePower", "storeEnergy", "charge", "discharge"],
+            },
+            {
+                id: "house",
+                type: "consumer",
+                name: "House",
+                currentPowerW: consumptionPowerW,
+                capabilities: ["measurePower", "forecastConsumption"],
+            },
+        ];
 
         return {
             grid: {
@@ -39,6 +71,7 @@ export class EnergySystemFactory {
             house: {
                 consumptionPowerW,
             },
+            assets,
         };
     }
 }
