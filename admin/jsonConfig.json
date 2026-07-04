@@ -76,6 +76,75 @@
       "label": "Battery power state",
       "sm": 12
     },
+    "_energyAssetsHeader": {
+      "type": "header",
+      "text": "Energy Assets",
+      "size": 3,
+      "sm": 12
+    },
+    "energyAssets": {
+      "type": "table",
+      "label": "Energy assets",
+      "sm": 12,
+      "items": [
+        {
+          "type": "checkbox",
+          "attr": "enabled",
+          "title": "Enabled"
+        },
+        {
+          "type": "text",
+          "attr": "id",
+          "title": "ID"
+        },
+        {
+          "type": "text",
+          "attr": "name",
+          "title": "Name"
+        },
+        {
+          "type": "select",
+          "attr": "type",
+          "title": "Type",
+          "options": [
+            { "label": "Grid", "value": "grid" },
+            { "label": "PV", "value": "pv" },
+            { "label": "Battery", "value": "battery" },
+            { "label": "Consumer", "value": "consumer" },
+            { "label": "EV charger", "value": "evCharger" },
+            { "label": "Heat pump", "value": "heatPump" },
+            { "label": "Boiler", "value": "boiler" },
+            { "label": "Generator", "value": "generator" },
+            { "label": "Unknown", "value": "unknown" }
+          ]
+        },
+        {
+          "type": "objectId",
+          "attr": "powerStateId",
+          "title": "Power state"
+        },
+        {
+          "type": "objectId",
+          "attr": "socStateId",
+          "title": "State of charge state"
+        },
+        {
+          "type": "number",
+          "attr": "capacityWh",
+          "title": "Capacity (Wh)"
+        },
+        {
+          "type": "text",
+          "attr": "manufacturer",
+          "title": "Manufacturer"
+        },
+        {
+          "type": "text",
+          "attr": "model",
+          "title": "Model"
+        }
+      ]
+    },
     "_runtimeHeader": {
       "type": "header",
       "text": "Runtime",
