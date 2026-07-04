@@ -18,61 +18,31 @@
     },
     "sourceGridImportPower": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: grid import power (W)",
       "sm": 12
     },
     "sourceGridExportPower": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: grid export power (W)",
       "sm": 12
     },
     "sourceHouseConsumptionPower": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: house consumption power (W)",
       "sm": 12
     },
     "sourcePvPower": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: PV power (W)",
       "sm": 12
     },
     "sourceBatterySoc": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: battery state of charge (%)",
       "sm": 12
     },
     "sourceBatteryPower": {
       "type": "objectId",
-      "customFilter": {
-        "common": {
-          "type": "number"
-        }
-      },
       "label": "Source state: battery power (W)",
       "sm": 12
     },
