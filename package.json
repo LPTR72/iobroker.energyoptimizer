@@ -24,6 +24,7 @@
   "types": "build/main.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.js",
     "watch": "tsc -p tsconfig.json --watch",
     "check": "tsc --noEmit -p tsconfig.json",
     "prepare": "npm run build",
