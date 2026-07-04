@@ -4,7 +4,7 @@ This directory contains maintained documentation diagrams and branding assets.
 
 Current files:
 
-- `logo.png` — main logo displayed in the root README
+- `Logo_Large.png` — main logo displayed in the root README
 - `logo-icon.png` — reusable icon placeholder for future adapter, social-preview, and documentation branding
 
 Future planned files:

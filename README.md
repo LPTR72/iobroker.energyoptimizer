@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/logo..png"
+  <img src="docs/images/Logo_Large.png"
        alt="ioBroker Energy Optimizer"
        width="820">
 </p>
@@ -81,16 +81,7 @@ Legacy native fields remain supported: `fixedWorkPriceCt`, `fixedBasePriceMonthl
 - [Roadmap](docs/roadmap/ROADMAP.md)
 - [Project status](docs/roadmap/PROJECT_STATUS.md)
 
-## Development workflow
-
-```text
-ChatGPT architecture planning
-  -> Codex implementation
-  -> Review
-  -> Commit
-  -> GitHub
-  -> ioBroker test installation
-```
+## Development
 
 ```bash
 npm install

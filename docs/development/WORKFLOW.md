@@ -1,19 +1,20 @@
 # Development workflow
 
 ```text
-ChatGPT architecture planning
-  -> Codex implementation
-  -> manual review
-  -> validation commands
-  -> git commit
-  -> git push
-  -> pull and test on ioBroker server
+Architecture Design
+  -> Implementation
+  -> Review
+  -> Testing
+  -> Documentation Update
+  -> Commit
+  -> GitHub
+  -> Integration Testing
 ```
 
 ## Practical flow
 
 1. Plan architecture and scope, including explicit behavior boundaries.
-2. Implement a focused change on Windows with Codex.
+2. Implement a focused change on a feature branch.
 3. Review changed files and verify no unrelated runtime behavior moved.
 4. Run `npm run build`, `npm test`, `git diff --check`, and `git status`.
 5. Create a small, descriptive Git commit and push it to GitHub.
