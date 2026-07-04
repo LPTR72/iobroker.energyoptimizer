@@ -2,6 +2,14 @@ import { EnergyOptimizerConfig, toNumber } from "./config";
 import { NumericLiveStateId } from "./model";
 import { BooleanStateId, CostStateId, STATE_IDS, StringStateId, numericStates } from "./states";
 
+export interface HealthStatus {
+    configuredSources: number;
+    validSources: number;
+    missingSources: number;
+    lastPollingTimestamp: number;
+    lastPollingDurationMs: number;
+}
+
 export class StateManager {
     public constructor(private readonly adapter: ioBroker.Adapter) {}
 
@@ -40,6 +48,14 @@ export class StateManager {
 
     public async writeMirroredLiveValue(stateId: NumericLiveStateId, value: number): Promise<void> {
         await this.adapter.setStateAsync(stateId, value, true);
+    }
+
+    public async writeHealthStatus(status: HealthStatus): Promise<void> {
+        await this.adapter.setStateAsync(STATE_IDS.health.configuredSources, status.configuredSources, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.validSources, status.validSources, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.missingSources, status.missingSources, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.lastPollingTimestamp, status.lastPollingTimestamp, true);
+        await this.adapter.setStateAsync(STATE_IDS.health.lastPollingDurationMs, status.lastPollingDurationMs, true);
     }
 
     public async addCost(valueToAdd: number): Promise<void> {
