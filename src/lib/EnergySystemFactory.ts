@@ -1,4 +1,5 @@
 import { EnergyOptimizerConfig } from "./config";
+import { ConfigurationNormalizer } from "./ConfigurationNormalizer";
 import {
     BatteryState,
     EnergyAsset,
@@ -15,17 +16,17 @@ export class EnergySystemFactory {
 
     public async create(config: EnergyOptimizerConfig): Promise<EnergySystemState> {
         const legacyState = await this.createLegacyState(config);
-        const enabledAssetConfigs = (config.energyAssets ?? []).filter(asset => asset.enabled === true);
+        const assetConfigs = new ConfigurationNormalizer().normalize(config);
 
-        if (enabledAssetConfigs.length === 0) {
+        if (assetConfigs.length === 0) {
             return legacyState;
         }
 
-        const assets = await Promise.all(enabledAssetConfigs.map(asset => this.createAsset(asset)));
+        const assets = await Promise.all(assetConfigs.map(asset => this.createAsset(asset)));
         const pvAssets = assets.filter(asset => asset.type === "pv");
         const batteryAssets = assets.filter(asset => asset.type === "battery");
         const consumerAsset = assets.find(asset => asset.type === "consumer");
-        const gridConfigIndex = enabledAssetConfigs.findIndex(
+        const gridConfigIndex = assetConfigs.findIndex(
             asset => asset.type === "grid" && Boolean(asset.powerStateId?.trim()),
         );
         const gridAsset = gridConfigIndex >= 0 ? assets[gridConfigIndex] : undefined;
