@@ -1,4 +1,4 @@
-import { PredictionHorizon } from "./prediction";
+import type { PredictionHorizon } from "../prediction";
 
 export type EnergySituationType =
     | "pv_surplus"
@@ -14,10 +14,10 @@ export type EnergySituationType =
 export type EnergySituationSeverity = "info" | "warning" | "critical";
 
 export interface EnergySituation {
-    type: EnergySituationType;
-    severity: EnergySituationSeverity;
-    horizon: PredictionHorizon;
-    confidencePercent?: number;
-    message?: string;
-    relatedAssetIds?: readonly string[];
+    readonly type: EnergySituationType;
+    readonly severity: EnergySituationSeverity;
+    readonly horizon: Readonly<PredictionHorizon>;
+    readonly confidencePercent?: number;
+    readonly message?: string;
+    readonly relatedAssetIds?: readonly string[];
 }

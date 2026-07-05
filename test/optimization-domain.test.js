@@ -1,82 +1,56 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 
-test("a situation references a prediction horizon", () => {
+test("optimization models compose into a neutral plan", () => {
     const situation = {
         type: "pv_surplus",
         severity: "info",
         horizon: { from: 1000, to: 2000 },
+        relatedAssetIds: ["pv.roof"],
     };
-
-    assert.deepEqual(situation.horizon, { from: 1000, to: 2000 });
-});
-
-test("a recommendation references situation types", () => {
     const recommendation = {
-        type: "charge_battery",
+        type: "charge_storage",
         priority: "high",
-        horizon: { from: 1000, to: 2000 },
-        reason: "Use expected PV surplus",
-        relatedSituationTypes: ["pv_surplus", "battery_low"],
+        horizon: situation.horizon,
+        reason: { code: "pv_surplus", description: "Store expected surplus" },
+        relatedSituationTypes: [situation.type],
+        targetAssetIds: ["storage.home"],
     };
-
-    assert.deepEqual(recommendation.relatedSituationTypes, ["pv_surplus", "battery_low"]);
-});
-
-test("an execution plan represents noop", () => {
     const plan = {
-        generatedAt: 1000,
-        status: "noop",
-        actions: [{ type: "noop", reason: "No action required" }],
-        warnings: [],
-    };
-
-    assert.equal(plan.status, "noop");
-    assert.equal(plan.actions[0].type, "noop");
-});
-
-test("an execution plan represents a battery charge action", () => {
-    const plan = {
-        generatedAt: 1000,
+        generatedAt: 900,
         status: "ready",
-        actions: [{ type: "set_battery_charge_power", targetAssetId: "battery.default", powerW: 1500 }],
+        actions: [{ type: "charge_storage", targetAssetId: "storage.home", powerW: 1500 }],
         warnings: [],
     };
 
-    assert.equal(plan.actions[0].targetAssetId, "battery.default");
-    assert.equal(plan.actions[0].powerW, 1500);
+    assert.equal(recommendation.reason.code, "pv_surplus");
+    assert.equal(plan.actions[0].targetAssetId, recommendation.targetAssetIds[0]);
 });
 
-test("a device capability expresses maximum battery charge power", () => {
+test("capabilities and constraints express neutral operating bounds", () => {
     const capability = {
-        assetId: "battery.default",
-        type: "battery_charge_power",
-        minPowerW: 0,
+        assetId: "storage.home",
+        type: "charge_storage",
+        minPowerW: 100,
         maxPowerW: 2500,
+        maxEnergyWh: 5000,
+        maxStateOfChargePercent: 90,
     };
-
-    assert.equal(capability.maxPowerW, 2500);
-});
-
-test("a constraint expresses an 800 W feed-in limit", () => {
     const constraint = {
-        type: "max_feed_in_power",
+        type: "required_capability",
         enabled: true,
-        value: 800,
+        assetId: capability.assetId,
+        requiredCapability: capability.type,
+        maxPowerW: capability.maxPowerW,
+        maxStateOfChargePercent: capability.maxStateOfChargePercent,
     };
 
-    assert.equal(constraint.value, 800);
+    assert.equal(constraint.requiredCapability, "charge_storage");
+    assert.equal(constraint.maxPowerW, 2500);
 });
 
-test("goals express maximizing self-consumption and protecting the battery", () => {
-    const goals = [
-        { type: "maximize_self_consumption", priority: 90, enabled: true },
-        { type: "protect_battery", priority: 100, enabled: true },
-    ];
+test("goals cover self-consumption, grid import, and feed-in", () => {
+    const goals = ["maximize_self_consumption", "minimize_grid_import", "avoid_feed_in"];
 
-    assert.deepEqual(
-        goals.map(goal => goal.type),
-        ["maximize_self_consumption", "protect_battery"],
-    );
-    assert.ok(goals.every(goal => goal.priority >= 1 && goal.priority <= 100));
+    assert.deepEqual(goals, ["maximize_self_consumption", "minimize_grid_import", "avoid_feed_in"]);
 });
