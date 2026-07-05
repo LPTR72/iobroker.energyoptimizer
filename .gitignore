@@ -5,9 +5,6 @@ coverage/
 *.log
 .env
 
-# Local private context; keep only the neutral template versioned.
+# Local private context; never commit
 .local/
-!.local/
-.local/*
-!.local/PROJECT_CONTEXT.template.md
 docs/private/
