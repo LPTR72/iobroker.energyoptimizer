@@ -6,18 +6,27 @@ import { IStateProvider, NumericLiveStateId } from "./lib/model";
 import { StateManager } from "./lib/StateManager";
 import { STATE_IDS } from "./lib/states";
 import { TariffEngine } from "./lib/TariffEngine";
+import { SimulationPublicationMapper } from "./lib/SimulationPublication";
+import { SimulationRuntime } from "./lib/SimulationRuntime";
+import { SimulationRuntimeIntegration } from "./lib/SimulationRuntimeIntegration";
 
 class EnergyOptimizer extends utils.Adapter {
     private pollTimer?: NodeJS.Timeout;
     private readonly stateManager: StateManager;
     private readonly stateProvider: IStateProvider;
     private readonly configurationNormalizer = new ConfigurationNormalizer();
+    private readonly simulationIntegration: SimulationRuntimeIntegration;
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({ ...options, name: "energyoptimizer" });
 
         this.stateManager = new StateManager(this);
         this.stateProvider = new IoBrokerStateProvider(this);
+        this.simulationIntegration = new SimulationRuntimeIntegration(
+            new SimulationRuntime(this.stateProvider),
+            new SimulationPublicationMapper(),
+            this.stateManager,
+        );
         this.on("ready", this.onReady.bind(this));
         this.on("unload", this.onUnload.bind(this));
     }
@@ -107,6 +116,13 @@ class EnergyOptimizer extends utils.Adapter {
             batteryAssetsCount: normalizedAssets.filter(asset => asset.type === "battery").length,
             consumerAssetsCount: normalizedAssets.filter(asset => asset.type === "consumer").length,
         });
+
+        try {
+            await this.simulationIntegration.run(config);
+        } catch (error) {
+            await this.stateManager.markSimulationUnavailable();
+            this.log.warn(`Read-only simulation failed: ${this.formatError(error)}`);
+        }
     }
 
     private async mirrorSource(

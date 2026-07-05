@@ -34,6 +34,7 @@ export const STATE_IDS = {
     },
     simulation: {
         ready: "simulation.ready",
+        publicationJson: "simulation.publication.json",
     },
     optimizer: {
         recommendation: "optimizer.recommendation",
@@ -48,7 +49,7 @@ export type NumericStateId =
 export type CostStateId = (typeof STATE_IDS.costs)[keyof typeof STATE_IDS.costs];
 export type HealthStateId = (typeof STATE_IDS.health)[keyof typeof STATE_IDS.health];
 export type BooleanStateId = typeof STATE_IDS.info.connection | typeof STATE_IDS.simulation.ready;
-export type StringStateId = typeof STATE_IDS.optimizer.recommendation;
+export type StringStateId = typeof STATE_IDS.optimizer.recommendation | typeof STATE_IDS.simulation.publicationJson;
 
 export interface NumericStateDefinition {
     id: NumericStateId;

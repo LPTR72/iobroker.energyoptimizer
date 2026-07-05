@@ -1,6 +1,13 @@
 import { EnergyOptimizerConfig, toNumber } from "./config";
 import { NumericLiveStateId } from "./model";
+import type { SimulationPublicationSnapshot } from "./SimulationPublication";
 import { BooleanStateId, CostStateId, STATE_IDS, StringStateId, numericStates } from "./states";
+
+const INITIAL_SIMULATION_PUBLICATION_JSON = JSON.stringify({
+    status: "awaiting_first_simulation",
+    warnings: [],
+    recommendations: [],
+});
 
 export interface HealthStatus {
     configuredSources: number;
@@ -37,6 +44,12 @@ export class StateManager {
 
         await this.createBooleanState(STATE_IDS.info.connection, "Adapter connection state", "indicator.connected", false);
         await this.createBooleanState(STATE_IDS.simulation.ready, "Simulation data readiness", "indicator", false);
+        await this.createStringState(
+            STATE_IDS.simulation.publicationJson,
+            "Simulation publication snapshot",
+            "json",
+            INITIAL_SIMULATION_PUBLICATION_JSON,
+        );
         await this.createStringState(STATE_IDS.optimizer.recommendation, "Optimizer recommendation", "text", "");
     }
 
@@ -46,6 +59,11 @@ export class StateManager {
 
         await this.adapter.setStateAsync(STATE_IDS.info.connection, true, true);
         await this.adapter.setStateAsync(STATE_IDS.simulation.ready, false, true);
+        await this.adapter.setStateAsync(
+            STATE_IDS.simulation.publicationJson,
+            INITIAL_SIMULATION_PUBLICATION_JSON,
+            true,
+        );
         await this.adapter.setStateAsync(STATE_IDS.optimizer.recommendation, "collecting data", true);
         await this.adapter.setStateAsync(STATE_IDS.config.workPriceCt, workPriceCt, true);
         await this.adapter.setStateAsync(STATE_IDS.config.basePriceMonthlyEuro, basePriceMonthlyEuro, true);
@@ -53,6 +71,15 @@ export class StateManager {
 
     public async writeMirroredLiveValue(stateId: NumericLiveStateId, value: number): Promise<void> {
         await this.adapter.setStateAsync(stateId, value, true);
+    }
+
+    public async writeSimulationPublication(snapshot: SimulationPublicationSnapshot): Promise<void> {
+        await this.adapter.setStateAsync(STATE_IDS.simulation.publicationJson, snapshot.json, true);
+        await this.adapter.setStateAsync(STATE_IDS.simulation.ready, snapshot.ready, true);
+    }
+
+    public async markSimulationUnavailable(): Promise<void> {
+        await this.adapter.setStateAsync(STATE_IDS.simulation.ready, false, true);
     }
 
     public async writeHealthStatus(status: HealthStatus): Promise<void> {
