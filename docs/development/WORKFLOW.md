@@ -44,4 +44,25 @@ Architecture Design
 7. Install or update the adapter there and validate object creation, polling, logs, mirrored values, costs, shutdown behavior, and relevant new functionality.
 8. Promote only a reviewed and validated revision to production.
 
+## ioBroker validation checkpoint
+
+Relevant architecture, domain, engine, factory, configuration, build, or runtime changes must pass validation on the ioBroker test server before work starts on the next architecture milestone. Apply the same rule to any other change where a regression could be introduced.
+
+Minor documentation, typo, comment, or cosmetic README changes do not require a full ioBroker deployment. When in doubt, use the full validation path. Early validation keeps the change delta small and makes regressions easier to find.
+
+### Test-server checklist
+
+1. Pull the reviewed branch on the ioBroker test server with `git pull`.
+2. Run `npm install` if dependencies or the lockfile changed.
+3. Run `npm run build`.
+4. Run `npm test`.
+5. Run `npm pack` and review the package result.
+6. Install or update the adapter with `iobroker url https://github.com/LPTR72/iobroker.energyoptimizer`.
+7. Run `iobroker upload energyoptimizer`.
+8. Restart the instance with `iobroker restart energyoptimizer.0`.
+9. Check the adapter status with `iobroker status energyoptimizer.0`.
+10. Check adapter logs for errors and unexpected warnings.
+11. Check connection, asset-health, and normalized-asset health states.
+12. Verify polling, mirrored values, cost calculations, and clean shutdown behavior.
+
 Domain-only work should remain dormant in production until an explicit integration step is designed. Server testing confirms that structural changes did not disturb the existing adapter.
