@@ -3,6 +3,11 @@ export interface PredictionHorizon {
     to: number;
 }
 
+export interface PredictionOptions {
+    readonly resolutionMinutes: number;
+    readonly horizonMinutes: number;
+}
+
 export interface PowerPrediction {
     horizon: PredictionHorizon;
     expectedPvPowerW: number;
