@@ -32,7 +32,17 @@ Repository documentation remains the canonical project documentation.
 
 ## Next recommended step
 
-Design the remaining neutral execution-planning semantics for power, energy, duration, state of charge, conflicts, and expiry before considering any runtime integration.
+Before the next functional milestone, perform a short infrastructure analysis titled **TypeScript 6/7 Readiness**. The analysis must determine:
+
+- Why `moduleResolution=node10` is reported as deprecated.
+- Which `moduleResolution` the current ioBroker adapter template recommends.
+- What TypeScript 6 recommends and what migration to TypeScript 7 requires.
+- Whether migration is appropriate now or `ignoreDeprecations: "6.0"` should be used temporarily.
+- How a change could affect build behavior, tests, and ioBroker compatibility.
+
+This is analysis only. Do not change TypeScript configuration or code without a separate explicit approval.
+
+After that analysis, the next planned domain work remains the design of neutral execution-planning semantics for power, energy, duration, state of charge, conflicts, and expiry before considering any runtime integration.
 
 This milestone has not started and requires explicit user approval. No runtime integration, plan publication, scheduling, execution provider, or device control is approved.
 
