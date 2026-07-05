@@ -6,13 +6,14 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
 
 ## Current Status
 
-- `RecommendationEngine` completed in commit `e02ff5e`.
+- Read-only `SimulationRuntime` completed in commit `03e4c57` (`Add read-only simulation runtime foundation`).
 - Active branch: `refactor/core-architecture`.
 - Build successful.
-- Tests: 49/49 passing.
+- Tests: 53/53 passing.
 - `git diff --check` successful.
-- Documentation and ADR updated.
-- `RecommendationEngine` intentionally has no runtime integration yet.
+- Package installation and validation on the ioBroker test server successful.
+- `energyoptimizer.0` starts cleanly; `health.configuredSources = 2` and logs show no new adapter errors.
+- ADR-0008 records the read-only simulation-runtime decision.
 
 ## Architecture Status
 
@@ -25,13 +26,13 @@ ConfigurationNormalizer
   → Recommendation
 ```
 
-Implemented foundations include the Generic Asset Model, factories, `AnalysisEngine`, forecast abstraction, `PredictionEngine`, `PredictionOptions`, `TimeSeriesMerger`, neutral optimization models, `EvaluationEngine`, `EvaluationOptions`, `RecommendationEngine`, and `RecommendationOptions`.
+Implemented foundations include the Generic Asset Model, factories, `AnalysisEngine`, forecast abstraction, `PredictionEngine`, `PredictionOptions`, `TimeSeriesMerger`, neutral optimization models, `EvaluationEngine`, `EvaluationOptions`, `RecommendationEngine`, `RecommendationOptions`, and the dormant read-only `SimulationRuntime`.
 
 All architecture components remain deterministic, runtime-independent, and fully unit-tested.
 
 ## Runtime Status
 
-The current adapter runtime is intentionally unchanged:
+The production adapter runtime remains intentionally unchanged. `SimulationRuntime` is not connected to `main.ts`, polling, or ioBroker states:
 
 - No scheduling.
 - No execution.
@@ -45,13 +46,14 @@ Simulation mode remains the default operating mode. The optimizer must first exp
 
 ## Next Milestone
 
-### Simulation Runtime (read-only)
+### Prepare read-only adapter integration
 
-The first dormant orchestration path is implemented locally. It reads a consistent source snapshot, runs the neutral pipeline in memory, and suppresses recommendations when configured sources are incomplete. It is not connected to `main.ts` or polling. Local build and typecheck succeed, with 53/53 tests passing.
+Prepare the separately review-gated adapter connection for the validated `SimulationRuntime`. The integration must remain explanatory and read-only.
 
 Goals:
 
-- Connect the existing architecture to the adapter runtime.
+- Define and review the public recommendation-state contract and publication lifecycle.
+- Connect the existing architecture to the adapter runtime only after that contract is accepted.
 - Read real ioBroker source states.
 - Execute the read-only pipeline:
 
@@ -65,7 +67,7 @@ Goals:
 - Publish recommendation results into ioBroker states only.
 - Make no runtime behavior changes outside the new recommendation states.
 
-Before activation, define and review the public recommendation-state contract and publication lifecycle. The current implementation changes no ioBroker states.
+The completed simulation foundation reads a consistent source snapshot, runs the neutral pipeline in memory, and suppresses recommendations when configured sources are incomplete. The current implementation changes no ioBroker states.
 
 Explicitly out of scope:
 

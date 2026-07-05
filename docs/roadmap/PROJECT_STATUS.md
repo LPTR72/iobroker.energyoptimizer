@@ -13,7 +13,7 @@
 - Neutral `EnergySituation`, `Recommendation`, `ExecutionPlan`, `ExecutionAction`, `OptimizationCapability`, `OptimizationConstraint`, and `OptimizationGoal` models
 - Neutral `EvaluationEngine` and validated `EvaluationOptions`
 - Neutral `RecommendationEngine` and validated `RecommendationOptions`
-- Dormant read-only `SimulationRuntime` with source snapshot and completeness warnings
+- Validated dormant read-only `SimulationRuntime` with source snapshot and completeness warnings
 - Scalable documentation structure
 
 ## Open
@@ -39,6 +39,6 @@ The test suite should be validated with `npm test` in an environment with npm av
 | Prediction | Medium/high |
 | Optimization domain models | Medium/high |
 | Evaluation | Implemented and validated |
-| Recommendation | Implemented; integration validation pending |
-| Simulation runtime | Foundation implemented; publication not integrated |
+| Recommendation | Implemented and validated through the simulation pipeline |
+| Simulation runtime | Foundation implemented and test-server validated; publication not integrated |
 | Execution | Planned |

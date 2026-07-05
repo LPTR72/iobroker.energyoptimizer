@@ -21,9 +21,9 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - `RecommendationEngine` — implemented, integration validation pending
 - Evaluation-resolution policy
 
-## Read-only simulation runtime — in progress
+## Read-only simulation runtime — foundation done
 
-- Dormant orchestration path — implemented locally
+- Dormant orchestration path — implemented and validated on the ioBroker test server
 - Public recommendation-state contract and polling publication — planned and separately review-gated
 
 ## Phase 4 — Planning — planned

@@ -66,3 +66,17 @@ Minor documentation, typo, comment, or cosmetic README changes do not require a 
 12. Verify polling, mirrored values, cost calculations, and clean shutdown behavior.
 
 Domain-only work should remain dormant in production until an explicit integration step is designed. Server testing confirms that structural changes did not disturb the existing adapter.
+
+## Definition of milestone complete
+
+A relevant architecture or runtime milestone is complete only when all of the following are done:
+
+1. `npm run build`, `npm test`, and `git diff --check` succeed.
+2. The focused change is committed and pushed.
+3. `npm pack` succeeds and the resulting package is available to the test system.
+4. The package is installed on the ioBroker test server.
+5. Intended states and health values are verified.
+6. Logs contain no new adapter errors.
+7. `NEXT_CHAT.md` records the validated state and identifies the next milestone.
+
+Do not start the next architecture milestone before this checkpoint is complete.
