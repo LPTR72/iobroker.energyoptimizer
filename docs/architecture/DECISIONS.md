@@ -8,6 +8,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0004: Forecast abstraction](ADR/ADR-0004-forecast-abstraction.md)
 - [ADR-0005: Prediction engine](ADR/ADR-0005-prediction-engine.md)
 - [ADR-0006: Evaluation engine](ADR/ADR-0006-evaluation-engine.md)
+- [ADR-0007: Recommendation engine](ADR/ADR-0007-recommendation-engine.md)
 
 The summaries below provide a readable overview.
 
@@ -30,6 +31,8 @@ Time alignment, explicit resolution and horizon options, fallbacks, and predicti
 ## Planned recommendations are not execution
 
 Recommendations express device-independent intent. A separate `ExecutionPlanner` will match intent against capabilities and constraints. A future execution layer alone may perform side effects; the architecture avoids a monolithic `OptimizerEngine` that mixes reasoning and control.
+
+`RecommendationEngine` now implements the intent-producing step. It ranks known situation/goal combinations deterministically and applies only recommendation-level constraints; it does not plan or execute actions.
 
 ## Evaluation produces neutral situations
 

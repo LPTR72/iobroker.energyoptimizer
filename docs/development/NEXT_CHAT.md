@@ -8,6 +8,8 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
 
 - **Active branch:** `refactor/core-architecture`
 - **Latest important commits:**
+  - `a3341e2 feat: add neutral EvaluationEngine`
+  - `58d4fe2 docs: update next chat after architecture validation`
   - `0aa855d docs: document ioBroker validation checkpoints`
   - `efeff34 docs: restore canonical project logo`
   - `9f7674f Make NEXT_CHAT the canonical session entry point`
@@ -20,14 +22,14 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
   - `1b0b7aa Add neutral energy analysis engine`
   - `b35dbd3 feat(health): expose normalized asset counts`
 - **Build:** passing
-- **Tests:** `npm test` passing
+- **Tests:** 43/43 passing
 - **Dependencies:** `npm install` works and `package-lock.json` exists
 - **Environment:** the local developer environment is fully configured
 
-The current architecture milestone—Analysis, forecast abstraction, Prediction, configurable `PredictionOptions`, and neutral optimization domain models—has been successfully validated on the ioBroker test server.
+The latest completed milestone adds the neutral `EvaluationEngine` and configurable `EvaluationOptions`. `minimumRelevantPowerW` defaults to 20 W. The default cheap/high price thresholds are placeholder/demo values only, not recommended tariff values.
 
-- **Repository validation:** `npm run build` and `npm test` completed successfully.
-- **ioBroker validation:** adapter installation/update, restart, polling, health states, and existing runtime behavior were verified successfully.
+- **Repository validation:** build and all 43 tests completed successfully; the adapter package was created successfully.
+- **ioBroker validation:** the package was installed on the test server; the adapter started successfully; polling, health states, and existing runtime behavior were verified.
 - **Result:** no regressions were detected.
 
 Runtime behavior remains unchanged. The new domain pipeline is still not integrated into active polling.
@@ -46,7 +48,9 @@ Implemented foundations:
 - configurable `PredictionOptions`
 - `TimeSeriesMerger`
 - neutral optimization models
-- `EvaluationEngine` and configurable `EvaluationOptions`
+- `EvaluationEngine`
+- configurable `EvaluationOptions` with a 20 W default relevance threshold
+- `RecommendationEngine` and configurable `RecommendationOptions`
 - asset health and normalized-asset counters
 
 The runtime adapter still only mirrors states and calculates fixed tariffs. The new optimization pipeline is intentionally **not** connected to polling yet.
@@ -67,22 +71,19 @@ Completed:
 - Configurable prediction timing
 - Neutral optimization models
 - Evaluation
+- Recommendation
 
 Timing, efficiency, cost, and goal models are architectural commitments; they are not implemented runtime functionality. See the [project roadmap](../roadmap/ROADMAP.md) for the broader sequence.
 
-## Open Design Decisions
+## Current Milestone Validation
 
-- Timing architecture: relationships among sampling, prediction, evaluation, and planning time scales
-- Physical model: energy flows, storage, conversion, boundaries, and units
-- Efficiency model: charge, discharge, inverter, conversion, roundtrip, and standby losses
-- Cost model: import price, feed-in tariff, degradation, and opportunity costs
-- Evaluation strategy: situation rules, confidence, severity, cadence, and deterministic handling of incomplete data
+The neutral `RecommendationEngine` is implemented locally:
 
-## Next Steps
+- **Inputs:** `EnergySituation[]`, `OptimizationGoal[]`, and `OptimizationConstraint[]`
+- **Output:** `Recommendation[]`
+- **Local validation:** build and typecheck successful; 49/49 tests passing
 
-1. Complete repository and ioBroker integration validation for the `EvaluationEngine` milestone.
-2. Implement `RecommendationEngine` only after that validation succeeds.
-3. Keep execution planning and runtime integration out of scope until explicitly requested.
+Complete repository and ioBroker integration validation before starting another architecture milestone. `ExecutionPlanner`, runtime integration, device control, and VIS implementation remain explicitly out of scope.
 
 ## Validation
 

@@ -16,10 +16,10 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - `PredictionEngine`, reusable `TimeSeriesMerger`, and configurable `PredictionOptions`
 - Neutral situations, recommendations, execution plans/actions, capabilities, constraints, and optimization goals under `src/lib/optimization`
 - Pure `EvaluationEngine` with validated `EvaluationOptions`
+- Pure `RecommendationEngine` with validated `RecommendationOptions`
 
 ## Planned components
 
-- `RecommendationEngine`
 - `ExecutionPlanner`
 - Forecast, tariff, history, and weather provider implementations
 - Capability-aware execution adapters with explicit safety controls

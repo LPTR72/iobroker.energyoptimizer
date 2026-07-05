@@ -17,8 +17,8 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 
 ## Phase 3 — Evaluation and recommendation — in progress
 
-- `EvaluationEngine` — implemented, integration validation pending
-- `RecommendationEngine`
+- `EvaluationEngine` — implemented and validated
+- `RecommendationEngine` — implemented, integration validation pending
 - Evaluation-resolution policy
 
 ## Phase 4 — Planning — planned

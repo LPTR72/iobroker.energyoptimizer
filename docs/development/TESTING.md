@@ -9,6 +9,7 @@ Current tests cover:
 - `PredictionEngine`
 - Default, custom, and invalid `PredictionOptions`
 - `EvaluationEngine` situation detection, the default 20 W relevance boundary, custom thresholds, and `EvaluationOptions` validation
+- `RecommendationEngine` empty inputs, ranking, deterministic ordering, relevance, constraints, and input immutability
 - `TimeSeriesMerger`
 - Optimization domain models
 

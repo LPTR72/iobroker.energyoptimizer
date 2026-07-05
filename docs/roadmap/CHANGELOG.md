@@ -11,6 +11,7 @@
 - Reusable `TimeSeriesMerger`
 - Neutral situation, recommendation, execution-plan/action, capability, constraint, and optimization-goal models
 - Neutral `EvaluationEngine` with explicit validated thresholds
+- Neutral `RecommendationEngine` with deterministic ranking and relevance options
 - Scalable architecture, development, roadmap, and image documentation structure
 
 ### Documented for future development
