@@ -15,6 +15,7 @@
 - Dormant read-only simulation orchestration with conservative incomplete-source handling, validated on the ioBroker test server
 - Read-only simulation runtime integration and deterministic JSON publication
 - Structured read-only recommendation projection for adapter-state consumers
+- Dormant neutral `ExecutionPlanner` foundation with deterministic capability and constraint matching
 - Scalable architecture, development, roadmap, and image documentation structure
 
 ### Documented for future development

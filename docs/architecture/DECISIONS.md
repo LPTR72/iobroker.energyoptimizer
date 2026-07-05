@@ -11,6 +11,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0007: Recommendation engine](ADR/ADR-0007-recommendation-engine.md)
 - [ADR-0008: Read-only simulation runtime](ADR/ADR-0008-read-only-simulation-runtime.md)
 - [ADR-0009: Read-only runtime publication](ADR/ADR-0009-read-only-runtime-publication.md)
+- [ADR-0010: Neutral ExecutionPlanner foundation](ADR/ADR-0010-neutral-execution-planner.md)
 
 The summaries below provide a readable overview.
 
@@ -47,6 +48,10 @@ Domain work does not alter state IDs, config names, polling, logging, calculatio
 ## Read-only runtime publication
 
 After polling, the simulation pipeline may publish diagnostic JSON and structured recommendation fields only to adapter-owned states. Missing inputs remain explicit, non-ready results clear the projection, and no recommendation is scheduled or executed.
+
+## Planning is dormant and conservative
+
+`ExecutionPlanner` maps only unambiguous recommendation/capability pairs to neutral actions. Missing capabilities, constraints, and abstract advice produce blocked plans instead of guessed behavior. Planning remains disconnected from runtime and execution.
 
 ## Lightweight tests
 

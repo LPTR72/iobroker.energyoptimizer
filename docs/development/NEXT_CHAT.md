@@ -1,6 +1,6 @@
 # NEXT_CHAT
 
-Stand: 05.07.2026 20:05 Uhr
+Stand: 05.07.2026 21:04 Uhr
 
 ## Session startup
 
@@ -13,42 +13,41 @@ Repository documentation remains the canonical project documentation.
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest validated milestone: Read-only Recommendation Projection.
-- Validated commit: `88180c8` (`Add read-only recommendation projection`).
-- The read-only simulation pipeline runs after successful polling and publishes an adapter-owned diagnostic snapshot.
-- Structured `recommendation.*` states expose availability, count, type, priority, reason, and validity of the best recommendation.
-- Missing or incomplete inputs remain visible as warnings and never create invented recommendations.
-- No device, consumer, or battery control exists. The execution layer remains disabled.
+- Latest fully validated feature milestone: Read-only Recommendation Projection.
+- Validated feature commit: `88180c8` (`Add read-only recommendation projection`); later branch commits contain repository hygiene work.
+- Current local candidate: Neutral ExecutionPlanner Foundation.
+- `ExecutionPlanner` deterministically creates `noop`, `blocked`, or `dormant` neutral plans from recommendations, capabilities, and constraints.
+- It maps only unambiguous actions and never guesses behavior for abstract recommendations.
+- The planner is not connected to polling, publication, scheduling, ioBroker states, or devices.
+- The existing simulation and recommendation publication remains read-only and functionally unchanged.
 
 ## Validation status
 
-- Local build successful; 66/66 tests passed; `git diff --check` successful.
-- Commit and push to GitHub successful.
-- The Raspberry Pi pulled the pushed commit; `npm install`, build, 66/66 tests, and `npm pack` succeeded.
-- ioBroker package installation succeeded.
-- Recommendation objects, initial values, and runtime updates were verified.
-- `health.configuredSources` and `health.lastPollingTimestamp` were verified.
-- No unexpected adapter warnings or errors were observed.
+- Local TypeScript build successful.
+- Focused ExecutionPlanner tests: 6/6 passed.
+- Complete test suite: 72/72 passed.
+- Final `git diff --check` and working-tree review remain part of the current handoff.
+- Commit, push, Raspberry Pi build/package, and ioBroker regression validation have not yet occurred.
 
-## Next milestone
+## Next recommended step
 
-### Neutral ExecutionPlanner foundation
+Review the local ExecutionPlanner candidate, complete local diff validation, then commit and push only after explicit approval. Pull and validate that exact revision on the Raspberry Pi and ioBroker test installation before starting another architecture milestone.
 
-Design and implement a pure, dormant `ExecutionPlanner` that converts recommendations into neutral execution plans using capabilities and constraints.
-
-This milestone has not started and requires explicit user approval. It must not integrate with polling, write device states, schedule actions, or introduce device control.
+No runtime integration, plan publication, scheduling, execution provider, or device control is approved.
 
 ## Open risks
 
-- Publication JSON size can grow with larger forecasts or recommendation sets.
-- Simulation uses a cached snapshot after existing mirror reads, so source values may change between read phases.
-- Execution planning needs explicit capability, constraint, safety, conflict, and expiry semantics before any runtime integration can be considered.
+- Abstract recommendations intentionally remain blocked until explicit action-selection policy exists.
+- Power, energy, duration, state-of-charge, conflict, and expiry rules need further design.
+- A future runtime boundary requires separate safety architecture and explicit user approval.
+- The local candidate is not a completed milestone under the project Definition of Done until repository and ioBroker validation succeed.
 
 ## References
 
 - [Architecture](../architecture/ARCHITECTURE.md)
 - [Pipeline](../architecture/PIPELINE.md)
-- [Architecture decisions](../architecture/DECISIONS.md)
+- [Domain model](../architecture/DOMAIN_MODEL.md)
+- [ADR-0010](../architecture/ADR/ADR-0010-neutral-execution-planner.md)
 - [Roadmap](../roadmap/ROADMAP.md)
 - [Project status](../roadmap/PROJECT_STATUS.md)
 - [Development workflow](WORKFLOW.md)

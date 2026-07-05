@@ -50,6 +50,7 @@ const goal: OptimizationGoal = {
 };
 
 const plan: ExecutionPlan = {
+    id: "plan:900:charge_storage:storage.home",
     generatedAt: 900,
     status: "ready",
     actions: [{ type: "charge_storage", targetAssetId: capability.assetId, powerW: 1_500, horizon }],

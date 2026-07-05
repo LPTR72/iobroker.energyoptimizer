@@ -17,12 +17,12 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - Neutral situations, recommendations, execution plans/actions, capabilities, constraints, and optimization goals under `src/lib/optimization`
 - Pure `EvaluationEngine` with validated `EvaluationOptions`
 - Pure `RecommendationEngine` with validated `RecommendationOptions`
+- Pure dormant `ExecutionPlanner` with conservative capability and constraint matching
 - Read-only `SimulationRuntime` integration after successful polling, with source-completeness reporting
 - Deterministic `SimulationPublication` snapshot and structured read-only recommendation projection
 
 ## Planned components
 
-- `ExecutionPlanner`
 - Forecast, tariff, history, and weather provider implementations
 - Capability-aware execution adapters with explicit safety controls
 
@@ -42,4 +42,4 @@ Legacy native source fields, public state IDs, fixed-tariff calculations, pollin
 
 An older pipeline placeholder remains under `src/lib/analysis/AnalysisEngine.ts` and related pipeline directories. It is intentionally untouched until an explicit migration is designed; the current neutral engines live at `src/lib/AnalysisEngine.ts` and `src/lib/PredictionEngine.ts`.
 
-`SimulationRuntime` is called after successful polling and publishes only adapter-owned read-only states. `simulation.publication.json` remains the complete diagnostic snapshot, while structured `recommendation.*` states expose the best recommendation for simple consumers. No execution plan is scheduled and no device or foreign state is written.
+`SimulationRuntime` is called after successful polling and publishes only adapter-owned read-only states. `simulation.publication.json` remains the complete diagnostic snapshot, while structured `recommendation.*` states expose the best recommendation for simple consumers. `ExecutionPlanner` is not connected to this path. No execution plan is scheduled and no device or foreign state is written.

@@ -11,5 +11,6 @@ Architecture Decision Records (ADRs) capture important technical choices and the
 - [ADR-0007: Recommendation engine](ADR-0007-recommendation-engine.md)
 - [ADR-0008: Read-only simulation runtime](ADR-0008-read-only-simulation-runtime.md)
 - [ADR-0009: Read-only runtime publication](ADR-0009-read-only-runtime-publication.md)
+- [ADR-0010: Neutral ExecutionPlanner foundation](ADR-0010-neutral-execution-planner.md)
 
 New ADRs should be numbered sequentially and contain Status, Context, Decision, and Consequences sections.

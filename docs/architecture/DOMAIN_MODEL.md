@@ -11,12 +11,12 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **EnergySituation**: an evaluated condition such as PV surplus, grid import/export, battery level, price period, or forecast uncertainty, produced by `EvaluationEngine`.
 - **RecommendationOptions**: the minimum enabled-goal priority relevant to recommendation generation.
 - **Recommendation**: ranked device-independent advice with a structured reason, horizon, and related situations/assets, produced by `RecommendationEngine`.
-- **ExecutionPlan**: a status-bearing collection of neutral execution actions and warnings; plan generation remains planned.
+- **ExecutionPlan**: an identified, status-bearing collection of neutral execution actions, source intent, and warnings. Dormant plans are produced by `ExecutionPlanner` but never scheduled or executed.
 - **ExecutionAction**: a neutral intended operation such as charging storage, switching or scheduling a consumer, or limiting feed-in.
 - **OptimizationCapability**: declares what an asset can do and its power, energy, duration, or state-of-charge bounds.
 - **OptimizationConstraint**: an enabled boundary over time, power, energy, state of charge, capability, cycling, or manual override.
 - **OptimizationGoal**: an enabled, prioritized objective such as self-consumption, cost, comfort, battery protection, or feed-in compliance.
 
-Models describe facts and intent. Providers acquire data; engines make deterministic transformations; execution adapters perform approved side effects.
+Models describe facts and intent. Providers acquire data; engines make deterministic transformations; future execution adapters alone may perform separately approved side effects.
 
 See [Optimization models](OPTIMIZATION_MODELS.md) for canonical timing semantics and the planned efficiency, cost, and priority/goal models.
