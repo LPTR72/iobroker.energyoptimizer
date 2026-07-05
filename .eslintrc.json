@@ -15,5 +15,19 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "test/**/*.js"
+      ],
+      "parserOptions": {
+        "project": null,
+        "sourceType": "script"
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
   ]
 }
