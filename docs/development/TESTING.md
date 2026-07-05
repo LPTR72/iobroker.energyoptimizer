@@ -8,6 +8,7 @@ Current tests cover:
 - Forecast-provider abstraction contracts
 - `PredictionEngine`
 - Default, custom, and invalid `PredictionOptions`
+- `EvaluationEngine` situation detection, the default 20 W relevance boundary, custom thresholds, and `EvaluationOptions` validation
 - `TimeSeriesMerger`
 - Optimization domain models
 

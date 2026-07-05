@@ -46,6 +46,7 @@ Implemented foundations:
 - configurable `PredictionOptions`
 - `TimeSeriesMerger`
 - neutral optimization models
+- `EvaluationEngine` and configurable `EvaluationOptions`
 - asset health and normalized-asset counters
 
 The runtime adapter still only mirrors states and calculates fixed tariffs. The new optimization pipeline is intentionally **not** connected to polling yet.
@@ -65,6 +66,7 @@ Completed:
 - Prediction
 - Configurable prediction timing
 - Neutral optimization models
+- Evaluation
 
 Timing, efficiency, cost, and goal models are architectural commitments; they are not implemented runtime functionality. See the [project roadmap](../roadmap/ROADMAP.md) for the broader sequence.
 
@@ -78,8 +80,8 @@ Timing, efficiency, cost, and goal models are architectural commitments; they ar
 
 ## Next Steps
 
-1. Implement `EvaluationEngine` using `EnergyAnalysis`, `EnergyPrediction`, and `EnergySituation`.
-2. Implement `RecommendationEngine` afterwards.
+1. Complete repository and ioBroker integration validation for the `EvaluationEngine` milestone.
+2. Implement `RecommendationEngine` only after that validation succeeds.
 3. Keep execution planning and runtime integration out of scope until explicitly requested.
 
 ## Validation

@@ -7,6 +7,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0003: Analysis engine](ADR/ADR-0003-analysis-engine.md)
 - [ADR-0004: Forecast abstraction](ADR/ADR-0004-forecast-abstraction.md)
 - [ADR-0005: Prediction engine](ADR/ADR-0005-prediction-engine.md)
+- [ADR-0006: Evaluation engine](ADR/ADR-0006-evaluation-engine.md)
 
 The summaries below provide a readable overview.
 
@@ -29,6 +30,10 @@ Time alignment, explicit resolution and horizon options, fallbacks, and predicti
 ## Planned recommendations are not execution
 
 Recommendations express device-independent intent. A separate `ExecutionPlanner` will match intent against capabilities and constraints. A future execution layer alone may perform side effects; the architecture avoids a monolithic `OptimizerEngine` that mixes reasoning and control.
+
+## Evaluation produces neutral situations
+
+`EvaluationEngine` consumes analysis and prediction, applies explicit validated thresholds, and produces `EnergySituation` values. It does not recommend, plan, execute, or access runtime infrastructure.
 
 ## Behavior stability during domain modeling
 

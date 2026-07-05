@@ -11,11 +11,12 @@
 - Forecast-provider abstraction and `EnergyForecast`
 - `PredictionEngine`, configurable `PredictionOptions`, `EnergyPrediction`, and `TimeSeriesMerger`
 - Neutral `EnergySituation`, `Recommendation`, `ExecutionPlan`, `ExecutionAction`, `OptimizationCapability`, `OptimizationConstraint`, and `OptimizationGoal` models
+- Neutral `EvaluationEngine` and validated `EvaluationOptions`
 - Scalable documentation structure
 
 ## Open
 
-- `EvaluationEngine` and `RecommendationEngine`
+- `RecommendationEngine`
 - `ExecutionPlanner`, capability matching, and constraint enforcement
 - Execution layer
 - Concrete forecast, tariff, history, and weather providers
@@ -35,6 +36,6 @@ The test suite should be validated with `npm test` in an environment with npm av
 | Forecast abstraction | Medium/high |
 | Prediction | Medium/high |
 | Optimization domain models | Medium/high |
-| Evaluation | Planned |
+| Evaluation | Implemented; integration validation pending |
 | Recommendation | Planned |
 | Execution | Planned |

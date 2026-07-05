@@ -7,7 +7,8 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **EnergyForecast**: provider-neutral PV, consumption, price, and weather time series with generation and validity timestamps.
 - **PredictionOptions**: explicit prediction resolution and horizon settings, independent from runtime polling and future evaluation timing.
 - **EnergyPrediction**: resolution-aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
-- **EnergySituation**: an evaluated condition contract such as PV surplus, grid import, battery level, price period, or forecast uncertainty; production by an evaluation engine remains planned.
+- **EvaluationOptions**: explicit relevance, battery-state, and price thresholds used by neutral situation detection. Price defaults are placeholders for demonstration, not recommended tariff values.
+- **EnergySituation**: an evaluated condition such as PV surplus, grid import/export, battery level, price period, or forecast uncertainty, produced by `EvaluationEngine`.
 - **Recommendation**: device-independent advice, priority, structured reason, horizon, and related situations/assets; recommendation logic remains planned.
 - **ExecutionPlan**: a status-bearing collection of neutral execution actions and warnings; plan generation remains planned.
 - **ExecutionAction**: a neutral intended operation such as charging storage, switching or scheduling a consumer, or limiting feed-in.

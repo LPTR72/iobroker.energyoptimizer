@@ -34,14 +34,14 @@ Analyze • Predict • Optimize • Execute
 
 ## Current status
 
-Implemented domain foundations currently include generic assets and normalization, energy-system and optimizer-input factories, `AnalysisEngine` and `EnergyAnalysis`, the forecast abstraction and `EnergyForecast`, `PredictionEngine`, configurable `PredictionOptions`, `EnergyPrediction`, `TimeSeriesMerger`, and neutral optimization models for situations, recommendations, execution plans/actions, capabilities, constraints, and goals. Evaluation, recommendation, and execution-planning engines remain planned.
+Implemented domain foundations currently include generic assets and normalization, energy-system and optimizer-input factories, `AnalysisEngine` and `EnergyAnalysis`, the forecast abstraction and `EnergyForecast`, `PredictionEngine`, configurable `PredictionOptions`, `EnergyPrediction`, `TimeSeriesMerger`, neutral optimization models, and `EvaluationEngine` with validated `EvaluationOptions`. Recommendation and execution-planning engines remain planned.
 
 ```text
 EnergySystemState
   -> EnergyAnalysis
   -> EnergyForecast
   -> EnergyPrediction
-  -> EnergySituation (model implemented; evaluation planned)
+  -> EnergySituation (model and evaluation implemented; runtime integration planned)
   -> Recommendation (model implemented; engine planned)
   -> ExecutionPlan (model implemented; planner planned)
   -> ExecutionAction (model implemented; execution approval-gated)
@@ -92,7 +92,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing changes.
 
 ## Roadmap
 
-The next planned milestone is `EvaluationEngine`, followed by `RecommendationEngine`, `ExecutionPlanner`, provider integrations, and explicitly approved device execution. See the [full roadmap](docs/roadmap/ROADMAP.md).
+After repository and ioBroker integration validation of `EvaluationEngine`, the next planned milestone is `RecommendationEngine`, followed by `ExecutionPlanner`, provider integrations, and explicitly approved device execution. See the [full roadmap](docs/roadmap/ROADMAP.md).
 
 ## License
 

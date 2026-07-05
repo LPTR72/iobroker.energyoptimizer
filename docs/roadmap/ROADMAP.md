@@ -13,11 +13,11 @@
 - Prediction, configurable prediction timing, and time-series merging
 - Neutral optimization domain models
 
-Architecture foundations for separate timing concepts and future efficiency, cost, and priority semantics are documented in [Optimization models](../architecture/OPTIMIZATION_MODELS.md). Their downstream evaluation logic remains planned.
+Architecture foundations for separate timing concepts and future efficiency, cost, and priority semantics are documented in [Optimization models](../architecture/OPTIMIZATION_MODELS.md). Further model refinement and downstream recommendation logic remain planned.
 
-## Phase 3 — Evaluation and recommendation — planned
+## Phase 3 — Evaluation and recommendation — in progress
 
-- `EvaluationEngine`
+- `EvaluationEngine` — implemented, integration validation pending
 - `RecommendationEngine`
 - Evaluation-resolution policy
 
@@ -32,6 +32,12 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - Tibber provider
 - History provider
 - Weather provider
+
+## Future UI scope — planned
+
+- Optional read-only ioBroker VIS widgets for generic Energy Assets
+- Asset name, type, current power, state of charge, capacity, health/status, and optional capability indicators
+- Neutral asset bindings only; no vendor-specific fields, device control, optimization actions, or new VIS-related runtime states without a separate approved implementation task
 
 ## Phase 6 — Device execution — planned and approval-gated
 

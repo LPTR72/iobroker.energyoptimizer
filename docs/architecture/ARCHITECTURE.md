@@ -15,10 +15,10 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - `ForecastProvider` abstraction and neutral `EnergyForecast`
 - `PredictionEngine`, reusable `TimeSeriesMerger`, and configurable `PredictionOptions`
 - Neutral situations, recommendations, execution plans/actions, capabilities, constraints, and optimization goals under `src/lib/optimization`
+- Pure `EvaluationEngine` with validated `EvaluationOptions`
 
 ## Planned components
 
-- `EvaluationEngine`
 - `RecommendationEngine`
 - `ExecutionPlanner`
 - Forecast, tariff, history, and weather provider implementations

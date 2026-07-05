@@ -4,7 +4,7 @@
 2. **AnalysisEngine → EnergyAnalysis** — derives current production, consumption, balance, battery, grid, and asset-health facts.
 3. **ForecastProvider → EnergyForecast** — supplies neutral time-series forecasts without exposing provider details.
 4. **PredictionEngine → EnergyPrediction** — applies explicit prediction resolution and horizon options, fills safe fallbacks, and predicts power, price, and battery values.
-5. **EvaluationEngine → EnergySituation[]** — planned detection of meaningful conditions and their severity.
+5. **EvaluationEngine → EnergySituation[]** — detects meaningful observed and predicted conditions using explicit thresholds; runtime integration remains planned.
 6. **RecommendationEngine → Recommendation[]** — planned device-independent advice based on situations, goals, and constraints.
 7. **ExecutionPlanner → ExecutionPlan** — planned capability matching and conversion of recommendations into safe actions.
 8. **ExecutionLayer → device actions** — planned provider-specific execution, only after explicit approval and safety design.
