@@ -7,12 +7,15 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
 ## Current Status
 
 - Read-only `SimulationRuntime` completed in commit `03e4c57` (`Add read-only simulation runtime foundation`).
+- Dormant read-only `SimulationPublication` snapshot completed in commit `ae68093` (`Add dormant simulation publication snapshot`).
 - Active branch: `refactor/core-architecture`.
-- Build successful.
-- Tests: 53/53 passing.
+- Local build successful.
+- Local tests: 58/58 passing.
 - `git diff --check` successful.
-- Package installation and validation on the ioBroker test server successful.
-- `energyoptimizer.0` starts cleanly; `health.configuredSources = 2` and logs show no new adapter errors.
+- Push to GitHub successful.
+- The Raspberry Pi pulled the GitHub revision and passed build, 58/58 tests, and `npm pack`.
+- ioBroker installation and regression validation successful.
+- `health.lastPollingTimestamp` updates normally, while `optimizer.recommendation` remains `collecting data` and `simulation.ready` remains `false`.
 - ADR-0008 records the read-only simulation-runtime decision.
 
 ## Architecture Status
@@ -26,13 +29,13 @@ ConfigurationNormalizer
   → Recommendation
 ```
 
-Implemented foundations include the Generic Asset Model, factories, `AnalysisEngine`, forecast abstraction, `PredictionEngine`, `PredictionOptions`, `TimeSeriesMerger`, neutral optimization models, `EvaluationEngine`, `EvaluationOptions`, `RecommendationEngine`, `RecommendationOptions`, and the dormant read-only `SimulationRuntime`.
+Implemented foundations include the Generic Asset Model, factories, `AnalysisEngine`, forecast abstraction, `PredictionEngine`, `PredictionOptions`, `TimeSeriesMerger`, neutral optimization models, `EvaluationEngine`, `EvaluationOptions`, `RecommendationEngine`, `RecommendationOptions`, the dormant read-only `SimulationRuntime`, and its deterministic `SimulationPublication` snapshot.
 
 All architecture components remain deterministic, runtime-independent, and fully unit-tested.
 
 ## Runtime Status
 
-The production adapter runtime remains intentionally unchanged. `SimulationRuntime` is not connected to `main.ts`, polling, or ioBroker states:
+The production adapter runtime remains intentionally unchanged. `SimulationRuntime` and `SimulationPublication` are not connected to `main.ts`, polling, or ioBroker states:
 
 - No scheduling.
 - No execution.
@@ -46,26 +49,16 @@ Simulation mode remains the default operating mode. The optimizer must first exp
 
 ## Next Milestone
 
-### Prepare read-only adapter integration
+### Publish the first read-only debug state
 
-Prepare the separately review-gated adapter connection for the validated `SimulationRuntime`. The integration must remain explanatory and read-only.
+Make `simulation.publication.json` visible as the first read-only debug state.
 
 Goals:
 
-- Define and review the public recommendation-state contract and publication lifecycle.
-- Connect the existing architecture to the adapter runtime only after that contract is accepted.
-- Read real ioBroker source states.
-- Execute the read-only pipeline:
-
-  ```text
-  ConfigurationNormalizer
-    → Prediction
-    → Evaluation
-    → Recommendation
-  ```
-
-- Publish recommendation results into ioBroker states only.
-- Make no runtime behavior changes outside the new recommendation states.
+- Publish only the existing deterministic snapshot JSON.
+- Keep the state read-only and intended for debugging and explanation.
+- Change `main.ts`, polling, and state definitions only after separate explicit approval.
+- Preserve all existing polling, mirroring, tariff, health, and shutdown behavior.
 
 The completed simulation foundation reads a consistent source snapshot, runs the neutral pipeline in memory, and suppresses recommendations when configured sources are incomplete. The current implementation changes no ioBroker states.
 
@@ -74,33 +67,52 @@ Explicitly out of scope:
 - Device switching or control.
 - `ExecutionPlanner`.
 - Scheduling.
+- Additional recommendation states.
 - VIS implementation.
 
-Expected visible states include examples such as:
+The future read-only pipeline remains:
 
-- `recommendations.count`
-- `recommendations.best.action`
-- `recommendations.best.score`
-- `recommendations.best.reason`
-- `recommendations.json`
+  ```text
+  ConfigurationNormalizer
+    → Prediction
+    → Evaluation
+    → Recommendation
+  ```
+
 
 ## Validation Workflow
 
-For every relevant architecture milestone:
+For every relevant implementation milestone, validate locally before commit:
 
 ```bash
 npm run build
 npm test
 git diff --check
+```
+
+Then commit and push. On the Raspberry Pi, pull the pushed GitHub revision and run:
+
+```bash
+git pull --ff-only
+npm install
+npm run build
+npm test
 npm pack
 ```
 
-Install the package on the ioBroker test system and verify:
+Install that Raspberry-built package in ioBroker and perform the regression checks. This guarantees that validation covers the revision actually pushed to GitHub and avoids confusion with stale local `.tgz` files.
+
+Keep shell contexts visibly distinct:
+
+- Windows development prompt: `Lars Petrovcic@DESKTOP...`
+- Raspberry test prompt: `pi@IoBroker...`
+
+Verify:
 
 - The adapter starts cleanly.
 - No unexpected log errors occur.
 - Runtime behavior is unchanged except for the intended milestone.
-- Health states remain valid.
+- Health states remain valid and `health.lastPollingTimestamp` updates.
 
 ## References
 

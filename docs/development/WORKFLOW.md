@@ -40,9 +40,17 @@ Architecture Design
 3. Verify that no unrelated runtime behavior moved.
 4. Run `npm run build`, `npm test`, `git diff --check`, and `git status` locally.
 5. Create a small, descriptive Git commit and push it to GitHub.
-6. Pull the branch on the ioBroker test server.
-7. Install or update the adapter there and validate object creation, polling, logs, mirrored values, costs, shutdown behavior, and relevant new functionality.
-8. Promote only a reviewed and validated revision to production.
+6. Pull that pushed revision on the Raspberry Pi test system.
+7. Run `npm install`, `npm run build`, `npm test`, and `npm pack` on the Raspberry Pi.
+8. Install the Raspberry-built package in ioBroker and validate object creation, polling, logs, mirrored values, costs, shutdown behavior, and relevant new functionality.
+9. Promote only a reviewed and validated revision to production.
+
+This order guarantees that integration testing covers the revision actually pushed to GitHub. Building the package on the Raspberry Pi after `git pull` also prevents accidental reuse of an outdated local `.tgz` file.
+
+Keep command context explicit when documenting or sharing terminal output:
+
+- Windows development commands use a prompt such as `Lars Petrovcic@DESKTOP...`.
+- Raspberry validation commands use a prompt such as `pi@IoBroker...`.
 
 ## ioBroker validation checkpoint
 
@@ -52,17 +60,17 @@ Minor documentation, typo, comment, or cosmetic README changes do not require a 
 
 ### Test-server checklist
 
-1. Pull the reviewed branch on the ioBroker test server with `git pull`.
-2. Run `npm install` if dependencies or the lockfile changed.
+1. Pull the reviewed and pushed branch on the Raspberry Pi with `git pull --ff-only`.
+2. Run `npm install` on the Raspberry Pi.
 3. Run `npm run build`.
 4. Run `npm test`.
-5. Run `npm pack` and review the package result.
-6. Install or update the adapter with `iobroker url https://github.com/LPTR72/iobroker.energyoptimizer`.
+5. Run `npm pack` on the Raspberry Pi and review the newly created package result.
+6. Install or update the adapter from that package; do not reuse an older local `.tgz` file.
 7. Run `iobroker upload energyoptimizer`.
 8. Restart the instance with `iobroker restart energyoptimizer.0`.
 9. Check the adapter status with `iobroker status energyoptimizer.0`.
 10. Check adapter logs for errors and unexpected warnings.
-11. Check connection, asset-health, and normalized-asset health states.
+11. Check connection, asset-health, normalized-asset health states, and `health.lastPollingTimestamp`.
 12. Verify polling, mirrored values, cost calculations, and clean shutdown behavior.
 
 Domain-only work should remain dormant in production until an explicit integration step is designed. Server testing confirms that structural changes did not disturb the existing adapter.
@@ -73,10 +81,11 @@ A relevant architecture or runtime milestone is complete only when all of the fo
 
 1. `npm run build`, `npm test`, and `git diff --check` succeed.
 2. The focused change is committed and pushed.
-3. `npm pack` succeeds and the resulting package is available to the test system.
-4. The package is installed on the ioBroker test server.
-5. Intended states and health values are verified.
-6. Logs contain no new adapter errors.
-7. `NEXT_CHAT.md` records the validated state and identifies the next milestone.
+3. The Raspberry Pi has pulled the pushed GitHub revision.
+4. `npm install`, build, tests, and `npm pack` succeed on the Raspberry Pi.
+5. The Raspberry-built package is installed on the ioBroker test server.
+6. Intended states and health values are verified.
+7. Logs contain no new adapter errors.
+8. `NEXT_CHAT.md` records the validated state and identifies the next milestone.
 
 Do not start the next architecture milestone before this checkpoint is complete.
