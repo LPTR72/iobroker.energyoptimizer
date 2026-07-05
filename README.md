@@ -23,7 +23,7 @@ Analyze • Predict • Optimize • Execute
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
-`ioBroker.energyoptimizer` is evolving from a safe energy-data adapter into a modular platform designed to analyze, forecast, evaluate, recommend, and eventually execute energy optimization strategies. Its business logic remains independent from ioBroker, source adapters, and device vendors.
+`ioBroker.energyoptimizer` is evolving from a safe energy-data adapter into a modular platform designed to analyze, forecast, evaluate, recommend, and eventually execute energy optimization strategies. Its core models a physical energy system and remains independent from ioBroker, source adapters, protocols, and device vendors.
 
 ## Key principles
 
@@ -36,17 +36,17 @@ Analyze • Predict • Optimize • Execute
 
 ## Current status
 
-Implemented domain foundations currently include `AnalysisEngine` and `EnergyAnalysis`, the forecast abstraction and `EnergyForecast`, `PredictionEngine` and `EnergyPrediction`, and `TimeSeriesMerger`. Situation, recommendation, execution-planning, capability, constraint, and optimization-goal models remain planned alongside their corresponding engines and integrations.
+Implemented domain foundations currently include generic assets and normalization, energy-system and optimizer-input factories, `AnalysisEngine` and `EnergyAnalysis`, the forecast abstraction and `EnergyForecast`, `PredictionEngine`, configurable `PredictionOptions`, `EnergyPrediction`, `TimeSeriesMerger`, and neutral optimization models for situations, recommendations, execution plans/actions, capabilities, constraints, and goals. Evaluation, recommendation, and execution-planning engines remain planned.
 
 ```text
 EnergySystemState
   -> EnergyAnalysis
   -> EnergyForecast
   -> EnergyPrediction
-  -> EnergySituation (planned)
-  -> EnergyRecommendation (planned)
-  -> ExecutionPlan (planned)
-  -> ExecutionAction (planned)
+  -> EnergySituation (model implemented; evaluation planned)
+  -> Recommendation (model implemented; engine planned)
+  -> ExecutionPlan (model implemented; planner planned)
+  -> ExecutionAction (model implemented; execution approval-gated)
 ```
 
 The active adapter still only reads configured states, mirrors live values, and calculates fixed-tariff import costs. It does not call external APIs or control devices.
@@ -74,6 +74,7 @@ Legacy native fields remain supported: `fixedWorkPriceCt`, `fixedBasePriceMonthl
 - [Architecture](docs/architecture/ARCHITECTURE.md)
 - [Pipeline](docs/architecture/PIPELINE.md)
 - [Domain model](docs/architecture/DOMAIN_MODEL.md)
+- [Optimization models](docs/architecture/OPTIMIZATION_MODELS.md)
 - [Architecture decisions](docs/architecture/DECISIONS.md)
 - [Developer guide](docs/development/DEVELOPER_GUIDE.md)
 - [Testing](docs/development/TESTING.md)
@@ -93,7 +94,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing changes.
 
 ## Roadmap
 
-The next planned milestone is the neutral optimization domain model, followed by `EvaluationEngine`, `RecommendationEngine`, `ExecutionPlanner`, provider integrations, and explicitly approved device execution. See the [full roadmap](docs/roadmap/ROADMAP.md).
+The next planned milestone is `EvaluationEngine`, followed by `RecommendationEngine`, `ExecutionPlanner`, provider integrations, and explicitly approved device execution. See the [full roadmap](docs/roadmap/ROADMAP.md).
 
 ## License
 

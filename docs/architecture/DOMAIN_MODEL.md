@@ -5,13 +5,16 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **EnergySystemState**: current normalized grid, PV, battery, house, and heterogeneous asset snapshot. Compatibility/aggregated views remain alongside preferred asset collections.
 - **EnergyAnalysis**: derived facts about current consumption, PV production, battery flow, grid flow, surplus, deficit, self-use percentages, and asset availability.
 - **EnergyForecast**: provider-neutral PV, consumption, price, and weather time series with generation and validity timestamps.
-- **EnergyPrediction**: aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
-- **EnergySituation (planned)**: an evaluated condition such as PV surplus, grid import, battery level, price period, or forecast uncertainty.
-- **EnergyRecommendation (planned)**: device-independent advice, priority, reason, horizon, and related situations/assets.
-- **ExecutionPlan (planned)**: a generated, status-bearing collection of execution actions and warnings.
-- **ExecutionAction (planned)**: a neutral intended operation such as setting battery power, switching or scheduling a load, setting a feed-in limit, or doing nothing.
-- **DeviceCapability (planned)**: declares what an asset can do and its power or duration bounds.
-- **EnergyConstraint (planned)**: an enabled boundary such as feed-in power, battery SOC, quiet hours, cycling avoidance, or manual override.
-- **OptimizationGoal (planned)**: an enabled, prioritized objective such as self-consumption, cost, comfort, battery protection, or feed-in compliance.
+- **PredictionOptions**: explicit prediction resolution and horizon settings, independent from runtime polling and future evaluation timing.
+- **EnergyPrediction**: resolution-aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
+- **EnergySituation**: an evaluated condition contract such as PV surplus, grid import, battery level, price period, or forecast uncertainty; production by an evaluation engine remains planned.
+- **Recommendation**: device-independent advice, priority, structured reason, horizon, and related situations/assets; recommendation logic remains planned.
+- **ExecutionPlan**: a status-bearing collection of neutral execution actions and warnings; plan generation remains planned.
+- **ExecutionAction**: a neutral intended operation such as charging storage, switching or scheduling a consumer, or limiting feed-in.
+- **OptimizationCapability**: declares what an asset can do and its power, energy, duration, or state-of-charge bounds.
+- **OptimizationConstraint**: an enabled boundary over time, power, energy, state of charge, capability, cycling, or manual override.
+- **OptimizationGoal**: an enabled, prioritized objective such as self-consumption, cost, comfort, battery protection, or feed-in compliance.
 
 Models describe facts and intent. Providers acquire data; engines make deterministic transformations; execution adapters perform approved side effects.
+
+See [Optimization models](OPTIMIZATION_MODELS.md) for canonical timing semantics and the planned efficiency, cost, and priority/goal models.

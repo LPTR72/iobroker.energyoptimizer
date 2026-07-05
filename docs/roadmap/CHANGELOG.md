@@ -7,12 +7,15 @@
 - Neutral `AnalysisEngine` and energy-analysis domain model
 - Forecast-provider abstraction and neutral forecast model
 - `PredictionEngine` and prediction domain model
+- Configurable prediction resolution and horizon through `PredictionOptions`
 - Reusable `TimeSeriesMerger`
+- Neutral situation, recommendation, execution-plan/action, capability, constraint, and optimization-goal models
 - Scalable architecture, development, roadmap, and image documentation structure
 
-### Planned
+### Documented for future development
 
-- Situation, recommendation, execution, capability, constraint, and optimization-goal models
+- Separate sampling, prediction, and evaluation resolutions and prediction horizon
+- Neutral efficiency, loss, cost, degradation, opportunity-cost, and goal-priority semantics
 
 ### Preserved
 

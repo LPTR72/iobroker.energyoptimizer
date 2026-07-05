@@ -7,6 +7,7 @@ This directory is the maintained technical and project reference for ioBroker En
 - [Architecture](architecture/ARCHITECTURE.md)
 - [Pipeline](architecture/PIPELINE.md)
 - [Domain model](architecture/DOMAIN_MODEL.md)
+- [Optimization models: timing, efficiency, cost, and goals](architecture/OPTIMIZATION_MODELS.md)
 - [Architecture decisions](architecture/DECISIONS.md)
 - [Architecture Decision Records](architecture/ADR/README.md)
 

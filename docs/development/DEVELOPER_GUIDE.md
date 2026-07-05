@@ -12,7 +12,7 @@ The TypeScript project is strict. Keep modules small, explicit, deterministic, a
 
 ## Adding domain models
 
-Place neutral contracts in focused files under `src/lib`. Reuse existing domain types, prefer readonly collections, avoid infrastructure imports, and add contract or behavior tests under `test/`.
+Place neutral contracts in focused files under `src/lib`; optimization contracts belong under `src/lib/optimization`. Reuse existing domain types, prefer readonly fields and collections, avoid infrastructure imports, and add contract or behavior tests under `test/`.
 
 ## Adding engines
 
@@ -25,6 +25,8 @@ Implement the relevant neutral provider interface at the infrastructure boundary
 ## Runtime separation
 
 `main.ts` owns lifecycle, timers, and orchestration. ioBroker state access belongs in infrastructure classes such as `IoBrokerStateProvider` and `StateManager`. Core analysis, forecasting, prediction, evaluation, recommendation, and planning must remain ioBroker-independent.
+
+The core represents physical assets and energy flows. Vendor, protocol, cloud, tariff-source, and runtime details belong in integrations around that core. Use the canonical [optimization model definitions](../architecture/OPTIMIZATION_MODELS.md) when introducing timing, efficiency, cost, or goal behavior.
 
 ## Current operational contract
 

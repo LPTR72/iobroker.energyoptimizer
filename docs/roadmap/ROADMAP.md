@@ -10,13 +10,16 @@
 
 - Analysis
 - Forecast abstraction
-- Prediction and time-series merging
-- Optimization domain models — planned
+- Prediction, configurable prediction timing, and time-series merging
+- Neutral optimization domain models
+
+Architecture foundations for separate timing concepts and future efficiency, cost, and priority semantics are documented in [Optimization models](../architecture/OPTIMIZATION_MODELS.md). Their downstream evaluation logic remains planned.
 
 ## Phase 3 — Evaluation and recommendation — planned
 
 - `EvaluationEngine`
 - `RecommendationEngine`
+- Evaluation-resolution policy
 
 ## Phase 4 — Planning — planned
 
@@ -41,3 +44,5 @@
 - EVCC
 
 Additional operational work includes daily/monthly reset policies, optional base-price allocation, historical aggregation, variable tariffs, simulations, and CI improvements.
+
+Future core modeling also includes neutral asset efficiency and loss characteristics, richer import/export cost accounting, battery degradation and opportunity costs, and deterministic resolution of competing optimization goals. These are architecture commitments, not implemented features.

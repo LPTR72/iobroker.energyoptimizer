@@ -24,7 +24,7 @@ Forecast and state-provider contracts are defined before concrete providers. Thi
 
 ## Prediction before evaluation
 
-Time alignment, fallbacks, and prediction warnings belong in `PredictionEngine`; evaluation should consume a stable prediction rather than repeat provider-specific handling.
+Time alignment, explicit resolution and horizon options, fallbacks, and prediction warnings belong in `PredictionEngine`; evaluation should consume a stable prediction rather than repeat provider-specific handling. Sampling, prediction, and evaluation timing remain separate concerns.
 
 ## Planned recommendations are not execution
 

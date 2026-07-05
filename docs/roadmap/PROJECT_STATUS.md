@@ -9,14 +9,12 @@
 - Health and normalized asset counters
 - Neutral `AnalysisEngine` and `EnergyAnalysis`
 - Forecast-provider abstraction and `EnergyForecast`
-- `PredictionEngine`, `EnergyPrediction`, and `TimeSeriesMerger`
+- `PredictionEngine`, configurable `PredictionOptions`, `EnergyPrediction`, and `TimeSeriesMerger`
+- Neutral `EnergySituation`, `Recommendation`, `ExecutionPlan`, `ExecutionAction`, `OptimizationCapability`, `OptimizationConstraint`, and `OptimizationGoal` models
 - Scalable documentation structure
 
 ## Open
 
-- `EnergySituation` and `EnergyRecommendation` models
-- `ExecutionPlan` and `ExecutionAction` models
-- `DeviceCapability`, `EnergyConstraint`, and `OptimizationGoal` models
 - `EvaluationEngine` and `RecommendationEngine`
 - `ExecutionPlanner`, capability matching, and constraint enforcement
 - Execution layer
@@ -24,6 +22,7 @@
 - Explicitly approved device execution
 - Runtime integration of the new domain pipeline
 - Counter resets, richer tariffs, history, simulation, and CI
+- Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
 
 The test suite should be validated with `npm test` in an environment with npm available. The active adapter behavior remains unchanged.
 
@@ -35,6 +34,7 @@ The test suite should be validated with `npm test` in an environment with npm av
 | Core domain foundation | Medium/high |
 | Forecast abstraction | Medium/high |
 | Prediction | Medium/high |
+| Optimization domain models | Medium/high |
 | Evaluation | Planned |
 | Recommendation | Planned |
 | Execution | Planned |

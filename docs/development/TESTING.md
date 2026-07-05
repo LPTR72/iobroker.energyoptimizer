@@ -7,6 +7,7 @@ Current tests cover:
 - `AnalysisEngine`
 - Forecast-provider abstraction contracts
 - `PredictionEngine`
+- Default, custom, and invalid `PredictionOptions`
 - `TimeSeriesMerger`
 - Optimization domain models
 

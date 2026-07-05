@@ -69,5 +69,7 @@ The reference setup uses existing ioBroker numeric states for grid import/export
 - Variable tariff providers.
 - Historical aggregation and counter reset policies.
 - Adapter-neutral optimization strategies using the domain model.
+- Explicit sampling, prediction, evaluation, and horizon timing semantics.
+- Neutral efficiency, loss, cost, and goal-priority models.
 - Simulation and recommendation outputs.
 - Explicitly approved device-control providers with safety boundaries.
