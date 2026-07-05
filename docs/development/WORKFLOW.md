@@ -1,5 +1,7 @@
 # Development workflow
 
+Stand: 05.07.2026 16:27 Uhr
+
 ## Language policy
 
 Repository documentation, ADRs, the README, workflow documentation, contributor-facing comments, and Codex prompts stored in the repository must be written in English. ChatGPT conversations with the project owner remain in German.
@@ -102,6 +104,55 @@ Minor documentation, typo, comment, or cosmetic README changes do not require a 
 12. Verify polling, mirrored values, cost calculations, and clean shutdown behavior.
 
 Domain-only work should remain dormant in production until an explicit integration step is designed. Server testing confirms that structural changes did not disturb the existing adapter.
+
+## Deployment Quality Gate
+
+Before every Raspberry Pi test installation, complete these steps locally:
+
+1. Run `git status`.
+2. Run `npm run build`.
+3. Run `npm test`.
+4. Run `git diff --check`.
+5. Commit the reviewed change.
+6. Push the commit.
+
+Only then continue on the Raspberry Pi with `git pull --ff-only`, `npm install`, `npm run build`, `npm test`, `npm pack`, and adapter installation. Runtime changes are complete only after successful ioBroker validation of the pushed commit.
+
+## State Validation
+
+For every newly introduced adapter state, verify:
+
+- The object exists.
+- The state exists.
+- The initial value is correct.
+- Runtime updates are correct.
+
+Use both commands with the full object or state ID:
+
+```bash
+iobroker object get <object-id>
+iobroker state get <state-id>
+```
+
+## Read-only Phase
+
+Until an Execution Engine is explicitly introduced and approved:
+
+- Do not control devices.
+- Do not write foreign states.
+- Write only adapter-owned `energyoptimizer.0.*` states.
+- Generating recommendations is allowed.
+- Publishing simulation results is allowed.
+
+## Documentation Rules
+
+`docs/development/NEXT_CHAT.md` remains the mandatory session handoff. After every significant milestone, record the result, validation, lessons learned, open risks, and next recommended step.
+
+All internal project documents must include a compact status line in this form:
+
+```text
+Stand: DD.MM.YYYY HH:MM Uhr
+```
 
 ## Definition of milestone complete
 
