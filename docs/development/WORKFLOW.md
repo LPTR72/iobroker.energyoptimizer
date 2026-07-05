@@ -1,5 +1,31 @@
 # Development workflow
 
+## Language policy
+
+Repository documentation, ADRs, the README, workflow documentation, contributor-facing comments, and Codex prompts stored in the repository must be written in English. ChatGPT conversations with the project owner remain in German.
+
+Future repository documentation must remain in English unless the project explicitly decides otherwise.
+
+## One-time development environment setup
+
+### GitHub email configuration
+
+Configure the GitHub noreply address globally to avoid push rejection when GitHub email privacy protection is enabled:
+
+```bash
+git config --global user.name "Lars Petrovcic"
+git config --global user.email "96550014+LPTR72@users.noreply.github.com"
+```
+
+Verify the configuration:
+
+```bash
+git config --global user.name
+git config --global user.email
+```
+
+Repository-local Git configuration overrides the global configuration. The global defaults still prevent identity and email-privacy problems in newly cloned repositories.
+
 The current end-to-end development path is:
 
 ```text
@@ -52,6 +78,8 @@ Keep command context explicit when documenting or sharing terminal output:
 - Windows development commands use a prompt such as `Lars Petrovcic@DESKTOP...`.
 - Raspberry validation commands use a prompt such as `pi@IoBroker...`.
 
+Before running deployment commands, verify which terminal is active. This prevents Linux or Raspberry Pi commands from being executed accidentally in the Windows development terminal.
+
 ## ioBroker validation checkpoint
 
 Relevant architecture, domain, engine, factory, configuration, build, or runtime changes must pass validation on the ioBroker test server before work starts on the next architecture milestone. Apply the same rule to any other change where a regression could be introduced.
@@ -89,3 +117,14 @@ A relevant architecture or runtime milestone is complete only when all of the fo
 8. `NEXT_CHAT.md` records the validated state and identifies the next milestone.
 
 Do not start the next architecture milestone before this checkpoint is complete.
+
+## Mandatory session handoff
+
+Every milestone must end with an updated `docs/development/NEXT_CHAT.md`. It is the canonical handoff document for every new ChatGPT/Codex development session and must record:
+
+- The completed milestone.
+- Validation results.
+- Open risks or unresolved constraints.
+- The next recommended step.
+
+This rule also applies to small code changes when they represent a milestone. Pure typo fixes and minor documentation edits do not require a full `NEXT_CHAT.md` update unless they affect the session handoff.
