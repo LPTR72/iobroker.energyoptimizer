@@ -27,9 +27,9 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - Polling orchestration, diagnostic JSON publication, and structured recommendation states - implemented and validated on the ioBroker test server
 - No scheduling, foreign-state writes, or device control
 
-## Phase 4 - Planning - foundation implemented
+## Phase 4 - Planning - foundation done, refinement next
 
-- Neutral, dormant `ExecutionPlanner` foundation
+- Neutral, dormant `ExecutionPlanner` foundation - implemented and validated
 - Conservative matching for unambiguous actions, capabilities, manual overrides, time windows, and battery-cycling constraints
 - Further power, energy, state-of-charge, conflict, and expiry semantics remain planned
 - No runtime integration or device control without a separate approved milestone

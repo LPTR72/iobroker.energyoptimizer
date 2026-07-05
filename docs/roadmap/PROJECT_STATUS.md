@@ -27,7 +27,7 @@
 - Counter resets, richer tariffs, history, simulation, and CI
 - Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
 
-The local candidate test suite contains 72 tests. Active polling invokes the read-only simulation pipeline, but the planner is not runtime-integrated and adapter behavior remains free of scheduling, execution, and device control.
+The validated test suite contains 72 tests. Active polling invokes the read-only simulation pipeline, but the planner is not runtime-integrated and adapter behavior remains free of scheduling, execution, and device control.
 
 ## Maturity overview
 
@@ -42,5 +42,5 @@ The local candidate test suite contains 72 tests. Active polling invokes the rea
 | Recommendation | Implemented and validated through the simulation pipeline |
 | Simulation runtime | Integrated read-only and test-server validated |
 | Recommendation projection | Integrated read-only and test-server validated |
-| Execution planning | Dormant foundation implemented and locally validated |
+| Execution planning | Dormant foundation implemented and fully validated |
 | Device execution | Planned and approval-gated |
