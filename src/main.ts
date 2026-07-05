@@ -3,6 +3,7 @@ import { EnergyOptimizerConfig, getPollingIntervalSeconds, toNumber } from "./li
 import { ConfigurationNormalizer } from "./lib/ConfigurationNormalizer";
 import { IoBrokerStateProvider } from "./lib/IoBrokerStateProvider";
 import { IStateProvider, NumericLiveStateId } from "./lib/model";
+import { RecommendationProjectionMapper } from "./lib/RecommendationProjection";
 import { StateManager } from "./lib/StateManager";
 import { STATE_IDS } from "./lib/states";
 import { TariffEngine } from "./lib/TariffEngine";
@@ -25,6 +26,7 @@ class EnergyOptimizer extends utils.Adapter {
         this.simulationIntegration = new SimulationRuntimeIntegration(
             new SimulationRuntime(this.stateProvider),
             new SimulationPublicationMapper(),
+            new RecommendationProjectionMapper(),
             this.stateManager,
         );
         this.on("ready", this.onReady.bind(this));

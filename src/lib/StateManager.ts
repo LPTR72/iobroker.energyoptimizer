@@ -1,5 +1,6 @@
 import { EnergyOptimizerConfig, toNumber } from "./config";
 import { NumericLiveStateId } from "./model";
+import type { RecommendationProjection } from "./RecommendationProjection";
 import type { SimulationPublicationSnapshot } from "./SimulationPublication";
 import { BooleanStateId, CostStateId, STATE_IDS, StringStateId, numericStates } from "./states";
 
@@ -44,6 +45,7 @@ export class StateManager {
 
         await this.createBooleanState(STATE_IDS.info.connection, "Adapter connection state", "indicator.connected", false);
         await this.createBooleanState(STATE_IDS.simulation.ready, "Simulation data readiness", "indicator", false);
+        await this.createBooleanState(STATE_IDS.recommendation.available, "Recommendation available", "indicator", false);
         await this.createStringState(
             STATE_IDS.simulation.publicationJson,
             "Simulation publication snapshot",
@@ -51,6 +53,9 @@ export class StateManager {
             INITIAL_SIMULATION_PUBLICATION_JSON,
         );
         await this.createStringState(STATE_IDS.optimizer.recommendation, "Optimizer recommendation", "text", "");
+        await this.createStringState(STATE_IDS.recommendation.bestType, "Best recommendation type", "text", "");
+        await this.createStringState(STATE_IDS.recommendation.bestPriority, "Best recommendation priority", "text", "");
+        await this.createStringState(STATE_IDS.recommendation.bestReason, "Best recommendation reason", "text", "");
     }
 
     public async initializeRuntimeStates(config: EnergyOptimizerConfig): Promise<void> {
@@ -59,6 +64,13 @@ export class StateManager {
 
         await this.adapter.setStateAsync(STATE_IDS.info.connection, true, true);
         await this.adapter.setStateAsync(STATE_IDS.simulation.ready, false, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.available, false, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.count, 0, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestType, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestPriority, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestReason, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidFrom, 0, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidTo, 0, true);
         await this.adapter.setStateAsync(
             STATE_IDS.simulation.publicationJson,
             INITIAL_SIMULATION_PUBLICATION_JSON,
@@ -73,12 +85,29 @@ export class StateManager {
         await this.adapter.setStateAsync(stateId, value, true);
     }
 
-    public async writeSimulationPublication(snapshot: SimulationPublicationSnapshot): Promise<void> {
+    public async writeSimulationPublication(
+        snapshot: SimulationPublicationSnapshot,
+        recommendation: RecommendationProjection,
+    ): Promise<void> {
         await this.adapter.setStateAsync(STATE_IDS.simulation.publicationJson, snapshot.json, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.count, recommendation.count, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestType, recommendation.bestType, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestPriority, recommendation.bestPriority, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestReason, recommendation.bestReason, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidFrom, recommendation.bestValidFrom, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidTo, recommendation.bestValidTo, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.available, recommendation.available, true);
         await this.adapter.setStateAsync(STATE_IDS.simulation.ready, snapshot.ready, true);
     }
 
     public async markSimulationUnavailable(): Promise<void> {
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.count, 0, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestType, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestPriority, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestReason, "", true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidFrom, 0, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.bestValidTo, 0, true);
+        await this.adapter.setStateAsync(STATE_IDS.recommendation.available, false, true);
         await this.adapter.setStateAsync(STATE_IDS.simulation.ready, false, true);
     }
 

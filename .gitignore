@@ -4,3 +4,10 @@ coverage/
 *.tgz
 *.log
 .env
+
+# Local private context; keep only the neutral template versioned.
+.local/
+!.local/
+.local/*
+!.local/PROJECT_CONTEXT.template.md
+docs/private/

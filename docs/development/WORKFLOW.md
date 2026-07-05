@@ -1,12 +1,23 @@
 # Development workflow
 
-Stand: 05.07.2026 16:27 Uhr
+Stand: 05.07.2026 16:45 Uhr
 
 ## Language policy
 
 Repository documentation, ADRs, the README, workflow documentation, contributor-facing comments, and Codex prompts stored in the repository must be written in English. ChatGPT conversations with the project owner remain in German.
 
 Future repository documentation must remain in English unless the project explicitly decides otherwise.
+
+## Session startup
+
+Recommended opening sentence for every new session:
+
+> Wir arbeiten weiter am Projekt ioBroker.energyoptimizer. Bitte verwende docs/development/NEXT_CHAT.md als kanonischen Einstiegspunkt und folge den dort beschriebenen Session-Startup-Regeln.
+
+- New sessions start with exactly this entry point.
+- Start every new ChatGPT or Codex session with `docs/development/NEXT_CHAT.md`.
+- If available, immediately continue with `.local/PROJECT_CONTEXT.md`.
+- Never copy personal information from the local context into repository documentation.
 
 ## One-time development environment setup
 
@@ -15,8 +26,8 @@ Future repository documentation must remain in English unless the project explic
 Configure the GitHub noreply address globally to avoid push rejection when GitHub email privacy protection is enabled:
 
 ```bash
-git config --global user.name "Lars Petrovcic"
-git config --global user.email "96550014+LPTR72@users.noreply.github.com"
+git config --global user.name "<git-user-name>"
+git config --global user.email "<github-id>+<github-user>@users.noreply.github.com"
 ```
 
 Verify the configuration:
@@ -77,8 +88,8 @@ This order guarantees that integration testing covers the revision actually push
 
 Keep command context explicit when documenting or sharing terminal output:
 
-- Windows development commands use a prompt such as `Lars Petrovcic@DESKTOP...`.
-- Raspberry validation commands use a prompt such as `pi@IoBroker...`.
+- Windows development commands use the placeholder `<windows-dev-shell>`.
+- Raspberry validation commands use the placeholder `<raspberry-test-shell>`.
 
 Before running deployment commands, verify which terminal is active. This prevents Linux or Raspberry Pi commands from being executed accidentally in the Windows development terminal.
 
@@ -154,7 +165,37 @@ All internal project documents must include a compact status line in this form:
 Stand: DD.MM.YYYY HH:MM Uhr
 ```
 
-## Definition of milestone complete
+### Privacy Rule
+
+Repository documentation must never contain:
+
+- Personal names.
+- Usernames and Windows account names.
+- Absolute local file paths.
+- Email addresses.
+- Machine-specific identifiers and prompt examples.
+
+Use neutral placeholders such as `<project-root>`, `<repository-root>`, `<git-user-name>`, `<windows-dev-shell>`, `<raspberry-test-shell>`, and `<ioBroker-host>` instead.
+
+Private and local environment details belong only in `.local/PROJECT_CONTEXT.md`, which must never be committed. The committed neutral template is `.local/PROJECT_CONTEXT.template.md`; repository documentation must continue to use neutral placeholders.
+
+## Implementation Guard
+
+When the user requests only documentation, planning, architecture discussion, reviews, handoff work, `NEXT_CHAT.md`, or `WORKFLOW.md`, no implementation milestone may begin.
+
+Code changes require explicit user approval. This rule is mandatory.
+
+## Lessons Learned
+
+- Runtime changes are complete only after successful Raspberry Pi and ioBroker validation.
+- Before Raspberry Pi validation, confirm that the exact commit has been pushed and pulled.
+- Local builds never replace integration validation.
+- New adapter states require both object and state-value checks.
+- Read-only work writes only adapter-owned `energyoptimizer.0.*` states.
+- Publication JSON must remain valid even when source data is incomplete.
+- Missing sources produce warnings, never invented recommendations.
+
+## Definition of Done
 
 A relevant architecture or runtime milestone is complete only when all of the following are done:
 
