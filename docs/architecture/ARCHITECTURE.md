@@ -17,6 +17,7 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - Neutral situations, recommendations, execution plans/actions, capabilities, constraints, and optimization goals under `src/lib/optimization`
 - Pure `EvaluationEngine` with validated `EvaluationOptions`
 - Pure `RecommendationEngine` with validated `RecommendationOptions`
+- Dormant read-only `SimulationRuntime` orchestration with source-completeness reporting
 
 ## Planned components
 
@@ -39,3 +40,5 @@ The canonical definitions for the architecture's [timing, efficiency, cost, and 
 Legacy native source fields, public state IDs, fixed-tariff calculations, polling, logging, and rounding remain compatibility contracts. Structural work must not change them without explicit approval.
 
 An older pipeline placeholder remains under `src/lib/analysis/AnalysisEngine.ts` and related pipeline directories. It is intentionally untouched until an explicit migration is designed; the current neutral engines live at `src/lib/AnalysisEngine.ts` and `src/lib/PredictionEngine.ts`.
+
+`SimulationRuntime` is intentionally not called by `main.ts`. Public recommendation states and polling integration require a separate reviewed state-contract milestone.

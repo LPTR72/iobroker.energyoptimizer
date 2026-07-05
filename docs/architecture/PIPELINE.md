@@ -18,4 +18,6 @@ Goals + Constraints + Capabilities -> ExecutionPlanner -> ExecutionLayer
 
 No new domain stage is wired into active polling until integration is explicitly planned and reviewed.
 
+The dormant `SimulationRuntime` exercises this pipeline from a consistent source-state snapshot. It returns results in memory and suppresses recommendations for incomplete configured sources; it does not publish states or alter polling.
+
 Sampling resolution, prediction resolution, future evaluation resolution, and prediction horizon are separate architecture concepts. See the [timing model](OPTIMIZATION_MODELS.md#timing-model).

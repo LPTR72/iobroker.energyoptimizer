@@ -21,6 +21,11 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - `RecommendationEngine` — implemented, integration validation pending
 - Evaluation-resolution policy
 
+## Read-only simulation runtime — in progress
+
+- Dormant orchestration path — implemented locally
+- Public recommendation-state contract and polling publication — planned and separately review-gated
+
 ## Phase 4 — Planning — planned
 
 - `ExecutionPlanner`

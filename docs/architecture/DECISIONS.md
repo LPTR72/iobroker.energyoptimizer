@@ -9,6 +9,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0005: Prediction engine](ADR/ADR-0005-prediction-engine.md)
 - [ADR-0006: Evaluation engine](ADR/ADR-0006-evaluation-engine.md)
 - [ADR-0007: Recommendation engine](ADR/ADR-0007-recommendation-engine.md)
+- [ADR-0008: Read-only simulation runtime](ADR/ADR-0008-read-only-simulation-runtime.md)
 
 The summaries below provide a readable overview.
 

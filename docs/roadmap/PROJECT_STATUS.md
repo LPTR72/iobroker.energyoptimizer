@@ -13,6 +13,7 @@
 - Neutral `EnergySituation`, `Recommendation`, `ExecutionPlan`, `ExecutionAction`, `OptimizationCapability`, `OptimizationConstraint`, and `OptimizationGoal` models
 - Neutral `EvaluationEngine` and validated `EvaluationOptions`
 - Neutral `RecommendationEngine` and validated `RecommendationOptions`
+- Dormant read-only `SimulationRuntime` with source snapshot and completeness warnings
 - Scalable documentation structure
 
 ## Open
@@ -22,6 +23,7 @@
 - Concrete forecast, tariff, history, and weather providers
 - Explicitly approved device execution
 - Runtime integration of the new domain pipeline
+- Public recommendation-state contract and read-only publication lifecycle
 - Counter resets, richer tariffs, history, simulation, and CI
 - Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
 
@@ -38,4 +40,5 @@ The test suite should be validated with `npm test` in an environment with npm av
 | Optimization domain models | Medium/high |
 | Evaluation | Implemented and validated |
 | Recommendation | Implemented; integration validation pending |
+| Simulation runtime | Foundation implemented; publication not integrated |
 | Execution | Planned |
