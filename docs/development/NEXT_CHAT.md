@@ -8,6 +8,9 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
 
 - **Active branch:** `refactor/core-architecture`
 - **Latest important commits:**
+  - `0aa855d docs: document ioBroker validation checkpoints`
+  - `efeff34 docs: restore canonical project logo`
+  - `9f7674f Make NEXT_CHAT the canonical session entry point`
   - `d6b9d9f Update architecture documentation`
   - `84aa3b9 Add npm lockfile`
   - `77781fb Add configurable prediction timing`
@@ -20,6 +23,14 @@ This document is the mandatory starting point for every new ChatGPT/Codex develo
 - **Tests:** `npm test` passing
 - **Dependencies:** `npm install` works and `package-lock.json` exists
 - **Environment:** the local developer environment is fully configured
+
+The current architecture milestone—Analysis, forecast abstraction, Prediction, configurable `PredictionOptions`, and neutral optimization domain models—has been successfully validated on the ioBroker test server.
+
+- **Repository validation:** `npm run build` and `npm test` completed successfully.
+- **ioBroker validation:** adapter installation/update, restart, polling, health states, and existing runtime behavior were verified successfully.
+- **Result:** no regressions were detected.
+
+Runtime behavior remains unchanged. The new domain pipeline is still not integrated into active polling.
 
 ## Current Architecture
 
@@ -55,17 +66,6 @@ Completed:
 - Configurable prediction timing
 - Neutral optimization models
 
-Next planned architecture work:
-
-1. Timing architecture refinement
-2. Physical energy model
-3. Efficiency model
-4. Cost model
-5. `EvaluationEngine`
-6. `RecommendationEngine`
-7. `ExecutionPlanner`
-8. Runtime integration
-
 Timing, efficiency, cost, and goal models are architectural commitments; they are not implemented runtime functionality. See the [project roadmap](../roadmap/ROADMAP.md) for the broader sequence.
 
 ## Open Design Decisions
@@ -76,9 +76,11 @@ Timing, efficiency, cost, and goal models are architectural commitments; they ar
 - Cost model: import price, feed-in tariff, degradation, and opportunity costs
 - Evaluation strategy: situation rules, confidence, severity, cadence, and deterministic handling of incomplete data
 
-## Immediate Next Task
+## Next Steps
 
-1. Design the complete timing architecture before implementing the `EvaluationEngine`.
+1. Implement `EvaluationEngine` using `EnergyAnalysis`, `EnergyPrediction`, and `EnergySituation`.
+2. Implement `RecommendationEngine` afterwards.
+3. Keep execution planning and runtime integration out of scope until explicitly requested.
 
 ## Validation
 
@@ -89,6 +91,8 @@ npm test
 git diff --check
 git status
 ```
+
+Every significant architecture milestone must complete both repository validation and ioBroker integration validation before development continues with the next milestone. See the [development workflow](WORKFLOW.md) for the full checkpoint.
 
 ## Session Workflow
 
