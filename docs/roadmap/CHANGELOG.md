@@ -13,6 +13,8 @@
 - Neutral `EvaluationEngine` with explicit validated thresholds
 - Neutral `RecommendationEngine` with deterministic ranking and relevance options
 - Dormant read-only simulation orchestration with conservative incomplete-source handling, validated on the ioBroker test server
+- Read-only simulation runtime integration and deterministic JSON publication
+- Structured read-only recommendation projection for adapter-state consumers
 - Scalable architecture, development, roadmap, and image documentation structure
 
 ### Documented for future development

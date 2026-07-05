@@ -1,6 +1,6 @@
 # NEXT_CHAT
 
-Stand: 05.07.2026 19:08 Uhr
+Stand: 05.07.2026 20:05 Uhr
 
 ## Session startup
 
@@ -13,62 +13,41 @@ Repository documentation remains the canonical project documentation.
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest validated milestone: Read-only Simulation Runtime Integration.
-- Validated commit: `0bf038f` (`Integrate read-only simulation runtime publication`).
-- `SimulationRuntime` runs after successful polling and writes only adapter-owned read-only states.
-- `simulation.publication.json` contains valid diagnostic JSON; `simulation.ready` reflects publication readiness.
-- Missing sources produce warnings and no invented recommendations.
-- The Execution Engine remains disabled. No device, consumer, or battery control exists.
-- Current local candidate: Read-only Recommendation Projection implemented and awaiting review, commit, push, and Raspberry/ioBroker validation.
-- Seven adapter-owned `recommendation.*` states expose availability, count, and the best recommendation without JSON parsing.
-- A non-ready or failed simulation clears the projection, preventing stale or invented recommendations.
+- Latest validated milestone: Read-only Recommendation Projection.
+- Validated commit: `88180c8` (`Add read-only recommendation projection`).
+- The read-only simulation pipeline runs after successful polling and publishes an adapter-owned diagnostic snapshot.
+- Structured `recommendation.*` states expose availability, count, type, priority, reason, and validity of the best recommendation.
+- Missing or incomplete inputs remain visible as warnings and never create invented recommendations.
+- No device, consumer, or battery control exists. The execution layer remains disabled.
 
 ## Validation status
 
-- Validated commit `0bf038f`: local build, 63/63 tests, and `git diff --check` successful.
-- Local candidate build successful.
-- Local candidate tests: 66/66 passing.
-- Local candidate `git diff --check` successful.
-- Validated commit `0bf038f`: commit and push successful.
-- Validated commit `0bf038f`: Raspberry Pi `git pull`, `npm install`, build, tests, and `npm pack` successful.
-- Validated commit `0bf038f`: ioBroker installation and regression validation successful.
-- `simulation.ready=true`, `simulation.publication.json` contains valid JSON, and `health.lastPollingTimestamp` updates normally.
-- No unexpected warnings or errors were observed.
+- Local build successful; 66/66 tests passed; `git diff --check` successful.
+- Commit and push to GitHub successful.
+- The Raspberry Pi pulled the pushed commit; `npm install`, build, 66/66 tests, and `npm pack` succeeded.
+- ioBroker package installation succeeded.
+- Recommendation objects, initial values, and runtime updates were verified.
+- `health.configuredSources` and `health.lastPollingTimestamp` were verified.
+- No unexpected adapter warnings or errors were observed.
 
 ## Next milestone
 
-### Validate Read-only Recommendation Projection
+### Neutral ExecutionPlanner foundation
 
-Review, commit, and push the local candidate, then validate the exact GitHub revision on the Raspberry Pi and ioBroker test system.
+Design and implement a pure, dormant `ExecutionPlanner` that converts recommendations into neutral execution plans using capabilities and constraints.
 
-Validation goal: confirm that all structured recommendation objects and states exist, initialize correctly, update from the validated publication snapshot, and remain empty when the simulation is not ready. `simulation.publication.json` remains the complete diagnostic snapshot.
-
-Planned states:
-
-- `recommendation.available`
-- `recommendation.count`
-- `recommendation.best.type`
-- `recommendation.best.priority`
-- `recommendation.best.reason`
-- `recommendation.best.validFrom`
-- `recommendation.best.validTo`
-
-No device control, switching logic, VIS/UI work, or foreign-state writes are in scope.
+This milestone has not started and requires explicit user approval. It must not integrate with polling, write device states, schedule actions, or introduce device control.
 
 ## Open risks
 
-- Some architecture and roadmap documents still describe `SimulationRuntime` as dormant; align them in a separately approved documentation task.
-- Publication JSON size may grow with larger forecasts or recommendation sets.
-- Simulation uses a cached snapshot taken after existing mirror reads, so values can change between the two read phases.
-- Recommendation states have passed local tests but still need review and full Raspberry/ioBroker validation.
+- Publication JSON size can grow with larger forecasts or recommendation sets.
+- Simulation uses a cached snapshot after existing mirror reads, so source values may change between read phases.
+- Execution planning needs explicit capability, constraint, safety, conflict, and expiry semantics before any runtime integration can be considered.
 
 ## References
 
-- [Documentation index](../README.md)
 - [Architecture](../architecture/ARCHITECTURE.md)
 - [Pipeline](../architecture/PIPELINE.md)
-- [Domain model](../architecture/DOMAIN_MODEL.md)
-- [Optimization models](../architecture/OPTIMIZATION_MODELS.md)
 - [Architecture decisions](../architecture/DECISIONS.md)
 - [Roadmap](../roadmap/ROADMAP.md)
 - [Project status](../roadmap/PROJECT_STATUS.md)

@@ -10,6 +10,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0006: Evaluation engine](ADR/ADR-0006-evaluation-engine.md)
 - [ADR-0007: Recommendation engine](ADR/ADR-0007-recommendation-engine.md)
 - [ADR-0008: Read-only simulation runtime](ADR/ADR-0008-read-only-simulation-runtime.md)
+- [ADR-0009: Read-only runtime publication](ADR/ADR-0009-read-only-runtime-publication.md)
 
 The summaries below provide a readable overview.
 
@@ -42,6 +43,10 @@ Recommendations express device-independent intent. A separate `ExecutionPlanner`
 ## Behavior stability during domain modeling
 
 Domain work does not alter state IDs, config names, polling, logging, calculations, rounding, or active adapter behavior. Behavior changes require explicit approval.
+
+## Read-only runtime publication
+
+After polling, the simulation pipeline may publish diagnostic JSON and structured recommendation fields only to adapter-owned states. Missing inputs remain explicit, non-ready results clear the projection, and no recommendation is scheduled or executed.
 
 ## Lightweight tests
 

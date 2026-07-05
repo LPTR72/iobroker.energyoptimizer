@@ -1,222 +1,182 @@
 # Development workflow
 
-Stand: 05.07.2026 16:45 Uhr
+Stand: 05.07.2026 20:05 Uhr
 
 ## Language policy
 
-Repository documentation, ADRs, the README, workflow documentation, contributor-facing comments, and Codex prompts stored in the repository must be written in English. ChatGPT conversations with the project owner remain in German.
-
-Future repository documentation must remain in English unless the project explicitly decides otherwise.
+Repository documentation, ADRs, README content, contributor-facing comments, and stored prompts must be written in English. Conversations with the project owner remain in German. English remains the repository language unless explicitly changed by a project decision.
 
 ## Session startup
 
-Recommended opening sentence for every new session:
+Start every new session with exactly this entry point:
 
 > Wir arbeiten weiter am Projekt ioBroker.energyoptimizer. Bitte verwende docs/development/NEXT_CHAT.md als kanonischen Einstiegspunkt und folge den dort beschriebenen Session-Startup-Regeln.
 
-- New sessions start with exactly this entry point.
-- Start every new ChatGPT or Codex session with `docs/development/NEXT_CHAT.md`.
-- If available, immediately continue with `.local/PROJECT_CONTEXT.md`.
-- Never copy personal information from the local context into repository documentation.
+Read `docs/development/NEXT_CHAT.md` first. If available, continue immediately with `.local/PROJECT_CONTEXT.md`. Never copy private information from the local context into committed documentation.
 
-## One-time development environment setup
+## Local development environment
 
-### GitHub email configuration
+Private paths, hosts, shell prompts, credentials, and environment notes belong only in the ignored `.local/PROJECT_CONTEXT.md`. The committed `.local/PROJECT_CONTEXT.template.md` documents its neutral structure.
 
-Configure the GitHub noreply address globally to avoid push rejection when GitHub email privacy protection is enabled:
+To prevent GitHub email-privacy push rejections, configure neutral account-specific values globally:
 
 ```bash
 git config --global user.name "<git-user-name>"
 git config --global user.email "<github-id>+<github-user>@users.noreply.github.com"
-```
-
-Verify the configuration:
-
-```bash
 git config --global user.name
 git config --global user.email
 ```
 
-Repository-local Git configuration overrides the global configuration. The global defaults still prevent identity and email-privacy problems in newly cloned repositories.
+Repository-local Git configuration overrides these global defaults.
 
-The current end-to-end development path is:
+## Implementation guard
 
-```text
-ChatGPT
-  ↓
-Codex
-  ↓
-Git
-  ↓
-GitHub
-  ↓
-ioBroker Test Server
-  ↓
-Validation
-  ↓
-Production
-```
+Documentation, planning, architecture discussion, review, handoff, `NEXT_CHAT.md`, or `WORKFLOW.md` requests do not authorize a new implementation milestone. Code changes require explicit user approval.
 
-ChatGPT supports architecture and scope discussions. Codex performs repository work and local validation. Git preserves focused project history, GitHub is the shared upstream, and the ioBroker test server validates integration behavior before production. Human review and explicit approval remain required at every boundary, especially before runtime integration or device control.
+## Binding milestone workflow
 
-Within that end-to-end path, each focused change follows the established activity loop:
+Use this single workflow for every implementation milestone:
 
 ```text
-Architecture Design
-  -> Implementation
-  -> Review
-  -> Testing
-  -> Documentation Update
-  -> Commit
-  -> GitHub
-  -> Integration Testing
+Implementation
+  -> local build, tests, diff check, and review
+  -> commit
+  -> push to GitHub
+  -> Raspberry Pi git pull
+  -> Raspberry Pi install, build, tests, and package
+  -> ioBroker installation
+  -> feature, state, health, and log validation
+  -> NEXT_CHAT.md handoff
 ```
 
-## Practical flow
+Do not skip ahead, validate an unpushed working tree, or deploy an old local tarball. The Raspberry Pi must build the package from the exact GitHub commit pulled for validation.
 
-1. Discuss architecture and scope, including explicit behavior boundaries.
-2. Implement and review a focused change on a feature branch.
-3. Verify that no unrelated runtime behavior moved.
-4. Run `npm run build`, `npm test`, `git diff --check`, and `git status` locally.
-5. Create a small, descriptive Git commit and push it to GitHub.
-6. Pull that pushed revision on the Raspberry Pi test system.
-7. Run `npm install`, `npm run build`, `npm test`, and `npm pack` on the Raspberry Pi.
-8. Install the Raspberry-built package in ioBroker and validate object creation, polling, logs, mirrored values, costs, shutdown behavior, and relevant new functionality.
-9. Promote only a reviewed and validated revision to production.
+Keep terminal context explicit: `<windows-dev-shell>` identifies the development terminal and `<raspberry-test-shell>` identifies the test-system terminal. Verify the active terminal before running deployment commands.
 
-This order guarantees that integration testing covers the revision actually pushed to GitHub. Building the package on the Raspberry Pi after `git pull` also prevents accidental reuse of an outdated local `.tgz` file.
+## Local quality gate
 
-Keep command context explicit when documenting or sharing terminal output:
+Before implementation, establish a clean baseline. After implementation and before commit, run:
 
-- Windows development commands use the placeholder `<windows-dev-shell>`.
-- Raspberry validation commands use the placeholder `<raspberry-test-shell>`.
+```bash
+node --version
+npm --version
+npm install  # fresh clone or missing/changed dependencies only
+npm run build
+npm test
+git diff --check
+git status
+git diff --stat
+git diff
+```
 
-Before running deployment commands, verify which terminal is active. This prevents Linux or Raspberry Pi commands from being executed accidentally in the Windows development terminal.
+Review the intended files, then commit and push. If files are staged, inspect `git diff --cached --stat` and `git diff --cached` before committing.
 
-## ioBroker validation checkpoint
+## Deployment quality gate
 
-Relevant architecture, domain, engine, factory, configuration, build, or runtime changes must pass validation on the ioBroker test server before work starts on the next architecture milestone. Apply the same rule to any other change where a regression could be introduced.
+Only after the reviewed commit is pushed may validation continue on the Raspberry Pi:
 
-Minor documentation, typo, comment, or cosmetic README changes do not require a full ioBroker deployment. When in doubt, use the full validation path. Early validation keeps the change delta small and makes regressions easier to find.
+```bash
+git pull --ff-only
+npm install
+npm run build
+npm test
+npm pack
+```
 
-### Test-server checklist
+Then install the newly created package and validate ioBroker:
 
-1. Pull the reviewed and pushed branch on the Raspberry Pi with `git pull --ff-only`.
-2. Run `npm install` on the Raspberry Pi.
-3. Run `npm run build`.
-4. Run `npm test`.
-5. Run `npm pack` on the Raspberry Pi and review the newly created package result.
-6. Install or update the adapter from that package; do not reuse an older local `.tgz` file.
-7. Run `iobroker upload energyoptimizer`.
-8. Restart the instance with `iobroker restart energyoptimizer.0`.
-9. Check the adapter status with `iobroker status energyoptimizer.0`.
-10. Check adapter logs for errors and unexpected warnings.
-11. Check connection, asset-health, normalized-asset health states, and `health.lastPollingTimestamp`.
-12. Verify polling, mirrored values, cost calculations, and clean shutdown behavior.
+```bash
+iobroker url <package-path>
+iobroker upload energyoptimizer
+iobroker restart energyoptimizer.0
+iobroker status energyoptimizer.0
+```
 
-Domain-only work should remain dormant in production until an explicit integration step is designed. Server testing confirms that structural changes did not disturb the existing adapter.
+Complete the following checklist:
 
-## Deployment Quality Gate
+- Adapter starts and remains healthy.
+- Logs contain no new errors or unexpected warnings.
+- `health.configuredSources` is correct.
+- `health.lastPollingTimestamp` updates.
+- Polling, mirrored values, tariff costs, and shutdown behavior remain correct.
+- Every changed feature behaves as specified.
+- No foreign state is written during the read-only phase.
 
-Before every Raspberry Pi test installation, complete these steps locally:
+Runtime, state-handling, provider, integration, or production-code changes are incomplete until this ioBroker validation passes. Documentation-only, typo, comment, and cosmetic changes are exempt unless they can affect runtime or packaging.
 
-1. Run `git status`.
-2. Run `npm run build`.
-3. Run `npm test`.
-4. Run `git diff --check`.
-5. Commit the reviewed change.
-6. Push the commit.
+## State validation
 
-Only then continue on the Raspberry Pi with `git pull --ff-only`, `npm install`, `npm run build`, `npm test`, `npm pack`, and adapter installation. Runtime changes are complete only after successful ioBroker validation of the pushed commit.
+For every new adapter state, verify all four aspects:
 
-## State Validation
+- Object exists.
+- State exists.
+- Initial value is correct.
+- Runtime update is correct.
 
-For every newly introduced adapter state, verify:
-
-- The object exists.
-- The state exists.
-- The initial value is correct.
-- Runtime updates are correct.
-
-Use both commands with the full object or state ID:
+Use the full IDs:
 
 ```bash
 iobroker object get <object-id>
 iobroker state get <state-id>
 ```
 
-## Read-only Phase
+JSON publication states must always contain valid JSON. Incomplete sources produce explicit warnings and no invented recommendations.
 
-Until an Execution Engine is explicitly introduced and approved:
+## Read-only phase
+
+Until a separately approved execution layer exists:
 
 - Do not control devices.
 - Do not write foreign states.
 - Write only adapter-owned `energyoptimizer.0.*` states.
-- Generating recommendations is allowed.
-- Publishing simulation results is allowed.
+- Analysis, prediction, evaluation, recommendations, and simulation publication are allowed.
+- Execution planning, if implemented as a domain milestone, remains dormant and side-effect free.
 
-## Documentation Rules
+## Decision log
 
-`docs/development/NEXT_CHAT.md` remains the mandatory session handoff. After every significant milestone, record the result, validation, lessons learned, open risks, and next recommended step.
+- `docs/development/NEXT_CHAT.md` is the canonical session handoff.
+- GitHub is the handoff boundary between local development and Raspberry Pi validation.
+- The Raspberry Pi packages only the revision pulled from GitHub.
+- ioBroker integration validation is mandatory for production-code milestones.
+- Runtime publication remains read-only until device execution receives separate architecture and user approval.
+- Repository documentation uses neutral placeholders; private environment details remain local.
 
-All internal project documents must include a compact status line in this form:
+## Lessons learned
+
+- A successful local build never replaces ioBroker validation.
+- Testing the pushed commit keeps the tested change delta unambiguous.
+- Rebuilding on the Raspberry Pi prevents accidental use of stale `.tgz` packages.
+- New states must be checked as both objects and values.
+- A state definition alone does not guarantee object creation or runtime publication.
+- Read-only means writing only adapter-owned states, never source or device states.
+- Missing sources must remain observable without producing fictional advice.
+- Documentation and process improvements discovered during a milestone should be collected and applied before closing its handoff.
+
+## Documentation rules
+
+All internal project documents use a compact status line:
 
 ```text
 Stand: DD.MM.YYYY HH:MM Uhr
 ```
 
-### Privacy Rule
+Every milestone ends with an updated `docs/development/NEXT_CHAT.md` recording the result, validation, open risks, and next recommended step. Pure typo or minor documentation edits need no full handoff update unless they affect the handoff.
 
-Repository documentation must never contain:
+### Privacy rule
 
-- Personal names.
-- Usernames and Windows account names.
-- Absolute local file paths.
-- Email addresses.
-- Machine-specific identifiers and prompt examples.
+Committed documentation must never contain personal names, account names, email addresses, absolute local paths, credentials, machine identifiers, or machine-specific prompt examples. Use neutral placeholders such as `<repository-root>`, `<git-user-name>`, `<windows-dev-shell>`, `<raspberry-test-shell>`, and `<ioBroker-host>`.
 
-Use neutral placeholders such as `<project-root>`, `<repository-root>`, `<git-user-name>`, `<windows-dev-shell>`, `<raspberry-test-shell>`, and `<ioBroker-host>` instead.
+## Definition of done
 
-Private and local environment details belong only in `.local/PROJECT_CONTEXT.md`, which must never be committed. The committed neutral template is `.local/PROJECT_CONTEXT.template.md`; repository documentation must continue to use neutral placeholders.
+An implementation milestone is complete only when:
 
-## Implementation Guard
-
-When the user requests only documentation, planning, architecture discussion, reviews, handoff work, `NEXT_CHAT.md`, or `WORKFLOW.md`, no implementation milestone may begin.
-
-Code changes require explicit user approval. This rule is mandatory.
-
-## Lessons Learned
-
-- Runtime changes are complete only after successful Raspberry Pi and ioBroker validation.
-- Before Raspberry Pi validation, confirm that the exact commit has been pushed and pulled.
-- Local builds never replace integration validation.
-- New adapter states require both object and state-value checks.
-- Read-only work writes only adapter-owned `energyoptimizer.0.*` states.
-- Publication JSON must remain valid even when source data is incomplete.
-- Missing sources produce warnings, never invented recommendations.
-
-## Definition of Done
-
-A relevant architecture or runtime milestone is complete only when all of the following are done:
-
-1. `npm run build`, `npm test`, and `git diff --check` succeed.
+1. Local build, tests, `git diff --check`, status, and review succeed.
 2. The focused change is committed and pushed.
-3. The Raspberry Pi has pulled the pushed GitHub revision.
-4. `npm install`, build, tests, and `npm pack` succeed on the Raspberry Pi.
-5. The Raspberry-built package is installed on the ioBroker test server.
-6. Intended states and health values are verified.
-7. Logs contain no new adapter errors.
-8. `NEXT_CHAT.md` records the validated state and identifies the next milestone.
+3. The Raspberry Pi pulls that exact commit.
+4. Raspberry Pi install, build, tests, and `npm pack` succeed.
+5. The Raspberry-built package is installed in ioBroker.
+6. Feature, state, health, regression, and log checks succeed.
+7. No unresolved runtime regression remains.
+8. `NEXT_CHAT.md` records the completed milestone and next step.
 
-Do not start the next architecture milestone before this checkpoint is complete.
-
-## Mandatory session handoff
-
-Every milestone must end with an updated `docs/development/NEXT_CHAT.md`. It is the canonical handoff document for every new ChatGPT/Codex development session and must record:
-
-- The completed milestone.
-- Validation results.
-- Open risks or unresolved constraints.
-- The next recommended step.
-
-This rule also applies to small code changes when they represent a milestone. Pure typo fixes and minor documentation edits do not require a full `NEXT_CHAT.md` update unless they affect the session handoff.
+Do not begin the next milestone before this definition is satisfied.

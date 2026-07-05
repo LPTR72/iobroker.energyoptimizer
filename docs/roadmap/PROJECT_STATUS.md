@@ -13,7 +13,8 @@
 - Neutral `EnergySituation`, `Recommendation`, `ExecutionPlan`, `ExecutionAction`, `OptimizationCapability`, `OptimizationConstraint`, and `OptimizationGoal` models
 - Neutral `EvaluationEngine` and validated `EvaluationOptions`
 - Neutral `RecommendationEngine` and validated `RecommendationOptions`
-- Validated dormant read-only `SimulationRuntime` with source snapshot and completeness warnings
+- Validated read-only `SimulationRuntime` integration with source snapshot and completeness warnings
+- Deterministic simulation publication JSON and structured read-only recommendation projection
 - Scalable documentation structure
 
 ## Open
@@ -22,12 +23,10 @@
 - Execution layer
 - Concrete forecast, tariff, history, and weather providers
 - Explicitly approved device execution
-- Runtime integration of the new domain pipeline
-- Public recommendation-state contract and read-only publication lifecycle
 - Counter resets, richer tariffs, history, simulation, and CI
 - Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
 
-The test suite should be validated with `npm test` in an environment with npm available. The active adapter behavior remains unchanged.
+The validated test suite contains 66 tests. Active polling invokes the read-only simulation pipeline, but adapter behavior remains free of scheduling, execution, and device control.
 
 ## Maturity overview
 
@@ -40,5 +39,7 @@ The test suite should be validated with `npm test` in an environment with npm av
 | Optimization domain models | Medium/high |
 | Evaluation | Implemented and validated |
 | Recommendation | Implemented and validated through the simulation pipeline |
-| Simulation runtime | Foundation implemented and test-server validated; publication not integrated |
-| Execution | Planned |
+| Simulation runtime | Integrated read-only and test-server validated |
+| Recommendation projection | Integrated read-only and test-server validated |
+| Execution planning | Next architecture milestone; not started |
+| Device execution | Planned and approval-gated |

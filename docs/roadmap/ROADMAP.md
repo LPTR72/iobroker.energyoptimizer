@@ -1,50 +1,52 @@
 # Roadmap
 
-## Phase 1 — Foundation — done
+## Phase 1 - Foundation - done
 
 - Adapter lifecycle, polling, state management, fixed-tariff calculation
 - State-provider abstraction and centralized state definitions
 - Generic assets, configuration normalization, factories, and health states
 
-## Phase 2 — Domain intelligence — in progress
+## Phase 2 - Domain intelligence - done
 
 - Analysis
 - Forecast abstraction
 - Prediction, configurable prediction timing, and time-series merging
 - Neutral optimization domain models
 
-Architecture foundations for separate timing concepts and future efficiency, cost, and priority semantics are documented in [Optimization models](../architecture/OPTIMIZATION_MODELS.md). Further model refinement and downstream recommendation logic remain planned.
+Architecture foundations for separate timing concepts and future efficiency, cost, and priority semantics are documented in [Optimization models](../architecture/OPTIMIZATION_MODELS.md). Further physical and economic model refinement remains planned.
 
-## Phase 3 — Evaluation and recommendation — in progress
+## Phase 3 - Evaluation and recommendation - done
 
-- `EvaluationEngine` — implemented and validated
-- `RecommendationEngine` — implemented, integration validation pending
-- Evaluation-resolution policy
+- `EvaluationEngine` - implemented and validated
+- `RecommendationEngine` - implemented and validated through the read-only runtime
+- Structured read-only recommendation projection - implemented and ioBroker-validated
+- Evaluation-resolution policy remains an architecture refinement
 
-## Read-only simulation runtime — foundation done
+## Read-only simulation runtime - done
 
-- Dormant orchestration path — implemented and validated on the ioBroker test server
-- Public recommendation-state contract and polling publication — planned and separately review-gated
+- Polling orchestration, diagnostic JSON publication, and structured recommendation states - implemented and validated on the ioBroker test server
+- No scheduling, foreign-state writes, or device control
 
-## Phase 4 — Planning — planned
+## Phase 4 - Planning - next
 
-- `ExecutionPlanner`
+- Neutral, dormant `ExecutionPlanner`
 - Capability matching and constraint enforcement
+- No runtime integration or device control without a separate approved milestone
 
-## Phase 5 — Integrations — planned
+## Phase 5 - Integrations - planned
 
 - Forecast.Solar provider
 - Tibber provider
 - History provider
 - Weather provider
 
-## Future UI scope — planned
+## Future UI scope - planned
 
 - Optional read-only ioBroker VIS widgets for generic Energy Assets
 - Asset name, type, current power, state of charge, capacity, health/status, and optional capability indicators
 - Neutral asset bindings only; no vendor-specific fields, device control, optimization actions, or new VIS-related runtime states without a separate approved implementation task
 
-## Phase 6 — Device execution — planned and approval-gated
+## Phase 6 - Device execution - planned and approval-gated
 
 - EcoFlow
 - Shelly
