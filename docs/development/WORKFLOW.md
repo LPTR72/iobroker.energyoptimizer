@@ -1,6 +1,6 @@
 # Development workflow
 
-Stand: 06.07.2026 06:52 Uhr
+Stand: 06.07.2026 07:19 Uhr
 
 ## Language policy
 
@@ -120,6 +120,7 @@ Complete the following checklist:
 - Polling, mirrored values, tariff costs, and shutdown behavior remain correct.
 - Every changed feature behaves as specified.
 - No foreign state is written during the read-only phase.
+- The mandatory before/after object-structure regression in [Testing](TESTING.md#raspberry-pi-and-iobroker-object-structure-regression) is complete and all differences are explained.
 
 Runtime, state-handling, provider, integration, or production-code changes are incomplete until this ioBroker validation passes. Documentation-only, typo, comment, and cosmetic changes are exempt unless they can affect runtime or packaging.
 

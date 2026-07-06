@@ -1,6 +1,6 @@
 # NEXT_CHAT
 
-Stand: 06.07.2026 06:52 Uhr
+Stand: 06.07.2026 07:19 Uhr
 
 ## Session startup
 
@@ -13,37 +13,32 @@ Repository documentation remains the canonical project documentation.
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest fully validated feature milestone: Neutral ExecutionPlanner Foundation.
-- Validated feature commit: `8e3ccaa` (`feat: add dormant execution planner foundation`).
-- TypeScript 6/7 Readiness analysis is complete and caused no configuration or code changes.
-- Current local candidate: extended neutral execution-planning semantics.
-- Actions now expose feasible power, energy, duration, and state-of-charge ranges without selecting device setpoints.
-- Time windows narrow action validity; expired intent, incompatible ranges, and overlapping charge/discharge intent are blocked.
-- The time-semantics review issue is fixed: actions never start before `generatedAt`, and expired opposing intent is ignored.
-- The fix passed formal re-review without new findings.
+- Latest fully validated milestone: extended neutral ExecutionPlanner semantics.
+- Validated commit: `986d722` (`feat: extend dormant execution planner semantics`).
+- Actions expose feasible power, energy, duration, and state-of-charge ranges without selecting device setpoints.
+- Actions never start before `generatedAt`; expired opposing intent does not create false conflicts.
 - The planner remains disconnected from polling, publication, scheduling, ioBroker states, and devices.
 - Existing simulation and recommendation publication remains read-only and functionally unchanged.
 
 ## Validation status
 
-- Local TypeScript build successful.
-- Focused ExecutionPlanner tests: 13/13 passed.
-- Complete test suite: 79/79 passed.
-- Local diff check and formal completion re-review successful.
-- Commit, push, Raspberry Pi build/package, and ioBroker regression validation have not occurred for this candidate.
+- Local build successful; focused tests 13/13; complete suite 79/79; diff check successful.
+- Formal completion review and time-semantics re-review approved.
+- Commit and push successful.
+- Raspberry Pi dependency installation, build, tests, and package creation successful.
+- ioBroker installation and restart successful; no adapter errors or warnings observed.
+- Health values validated: `configuredSources=1`, `validSources=1`, `missingSources=0`, and `lastPollingTimestamp` updated.
+- Full object inspection confirmed that no planner, execution, or action runtime states were introduced.
 
 ## Next recommended step
 
-Review the local execution-planning candidate and complete the full local quality gate. Commit and push only after explicit approval, then validate the exact revision on the Raspberry Pi and ioBroker test installation before starting another functional milestone.
-
-No runtime integration, plan publication, scheduling, execution provider, setpoint selection, or device control is approved.
+Select and explicitly approve the next functional milestone from the roadmap. No runtime integration, plan publication, scheduling, execution provider, setpoint selection, or device control is currently approved.
 
 ## Open risks
 
 - Limits describe allowed ranges; the planner does not evaluate a live state of charge or choose a setpoint.
-- Conflict detection currently covers overlapping opposite storage actions, not a general multi-action scheduling graph.
-- A future runtime boundary requires separate safety architecture and explicit user approval.
-- The candidate is incomplete under the Definition of Done until commit/push and Raspberry/ioBroker validation succeed.
+- Conflict detection covers overlapping opposite storage actions, not a general multi-action scheduling graph.
+- A future runtime boundary requires separate safety architecture and explicit approval.
 
 ## References
 
