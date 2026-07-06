@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixed
+
+- Fixed-tariff cost polling now retains legacy `sourceGridImportPower` precedence and falls back to the first enabled grid asset with a configured power state.
+- The resolved grid-import source is used consistently for live mirroring, cost accumulation, and polling health counts.
+
 ### Added
 
 - Neutral `AnalysisEngine` and energy-analysis domain model
@@ -27,3 +32,4 @@
 ### Preserved
 
 - Existing adapter polling, state IDs, configuration compatibility, live mirroring, fixed-tariff calculations, logging, and rounding
+- Dormant planner boundaries and read-only runtime behavior

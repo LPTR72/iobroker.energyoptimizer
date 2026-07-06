@@ -1,6 +1,6 @@
 # Development workflow
 
-Stand: 06.07.2026 07:19 Uhr
+Stand: 06.07.2026 16:51 Uhr
 
 ## Language policy
 
@@ -35,6 +35,8 @@ Before planning implementation details or editing files, analyze the current rep
 
 Implementation must be based on the current project state, including uncommitted changes that must be preserved. Earlier plans, handoffs, reviews, and cached repository views are supporting context rather than substitutes for this analysis.
 
+Current implementation, runtime, and milestone facts must be verified from the authoritative repository state before they are reported or used for decisions. Retained session context is not authoritative repository evidence.
+
 Planning, implementation, review, and validation are separate phases. Each phase must produce enough evidence for the next one, and implementation must not begin until scope, exclusions, affected areas, and the validation plan are understood.
 
 ## Binding milestone workflow
@@ -47,11 +49,11 @@ Current-state analysis
   -> implementation
   -> local build, tests, diff check, and review
   -> formal milestone completion review
-  -> commit
-  -> push to GitHub
-  -> Raspberry Pi git pull
-  -> Raspberry Pi install, build, tests, and package
-  -> ioBroker installation
+  -> commit in the local development checkout
+  -> push the reviewed branch to the authoritative remote
+  -> pull that pushed branch in the Raspberry Pi validation checkout
+  -> install dependencies, build, test, and package in that checkout
+  -> install the package built in the Raspberry Pi checkout into ioBroker
   -> feature, state, health, and log validation
   -> PROJECT_HANDOFF.md update
 ```
@@ -98,7 +100,7 @@ Apply the collected items together during that documentation update. Place each 
 
 ## Deployment quality gate
 
-Only after the reviewed commit is pushed may validation continue on the Raspberry Pi:
+Only after the reviewed commit is pushed may validation continue on the Raspberry Pi. Pull the pushed branch into the validation checkout, then build and package from that pulled state:
 
 ```bash
 git pull --ff-only
@@ -108,7 +110,7 @@ npm test
 npm pack
 ```
 
-Then install the newly created package and validate ioBroker:
+Then install the package created locally in that Raspberry Pi checkout and validate ioBroker:
 
 ```bash
 iobroker url <package-path>
@@ -129,6 +131,8 @@ Complete the following checklist:
 - The mandatory before/after object-structure regression in [Testing](TESTING.md#raspberry-pi-and-iobroker-object-structure-regression) is complete and all differences are explained.
 
 Runtime, state-handling, provider, integration, or production-code changes are incomplete until this ioBroker validation passes. Documentation-only, typo, comment, and cosmetic changes are exempt unless they can affect runtime or packaging.
+
+The standard deployment path is local commit and push, Raspberry Pi pull, Raspberry Pi build/package, and local ioBroker installation from that validation checkout. Do not substitute a separately built or transferred package for this chain.
 
 ## State validation
 
@@ -190,7 +194,7 @@ Every milestone ends with an updated `docs/development/PROJECT_HANDOFF.md` recor
 
 ### Tool-neutral documentation
 
-All version-controlled project documentation must remain independent of development assistants and conversational tooling. Tool-specific session guidance belongs only in intentionally local, ignored documentation and must never be copied into repository documents.
+All version-controlled project documentation must remain independent of development assistants and session-specific tools. Tool-specific session guidance belongs only in intentionally local, ignored documentation and must never be copied into repository documents.
 
 Repository documentation records durable project knowledge and neutral workflow expectations. Private/internal session procedures, workstation details, concrete tool assignments, and environment-specific instructions belong only in ignored local documentation. When promoting a useful local lesson, rewrite it as a neutral project rule and avoid duplicating private context.
 

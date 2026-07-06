@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 06.07.2026 07:19 Uhr
+Stand: 06.07.2026 16:51 Uhr
 
 ## Purpose
 
@@ -9,32 +9,40 @@ This tool-neutral document is the canonical project handoff. It records the curr
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest fully validated milestone: extended neutral ExecutionPlanner semantics.
-- Validated commit: `986d722` (`feat: extend dormant execution planner semantics`).
-- Actions expose feasible power, energy, duration, and state-of-charge ranges without selecting device setpoints.
-- Actions never start before `generatedAt`; expired opposing intent does not create false conflicts.
+- Latest fully validated milestone: grid-import asset fallback for fixed-tariff cost polling.
+- Validated commit: `1385a57` (`fix: use grid asset fallback for cost polling`).
+- A nonblank legacy `sourceGridImportPower` remains authoritative for backward compatibility.
+- When the legacy source is blank, polling uses the first enabled grid asset with a nonblank `powerStateId`.
+- The resolved source drives `live.grid.importPower`, fixed-tariff cost accumulation, and polling health counts.
 - The planner remains disconnected from polling, publication, scheduling, ioBroker states, and devices.
-- Existing simulation and recommendation publication remains read-only and functionally unchanged.
+- No state names, reset logic, execution behavior, or unrelated simulation behavior changed.
 
 ## Validation status
 
-- Local build successful; focused tests 13/13; complete suite 79/79; diff check successful.
-- Formal completion review and time-semantics re-review approved.
+- Local build successful; complete suite 86/86; diff check successful.
+- Formal completion review approved with no blocking issues.
 - Commit and push successful.
-- Raspberry Pi dependency installation, build, tests, and package creation successful.
-- ioBroker installation and restart successful; no adapter errors or warnings observed.
-- Health values validated: `configuredSources=1`, `validSources=1`, `missingSources=0`, and `lastPollingTimestamp` updated.
-- Full object inspection confirmed that no planner, execution, or action runtime states were introduced.
+- The Raspberry Pi pulled the pushed branch, rebuilt the package, and supplied that local build for ioBroker installation.
+- The deployed build contained `GridImportSourceResolver`; adapter upload and restart succeeded.
+- `health.lastPollingTimestamp` and `live.grid.importPower` received fresh timestamps.
+- Both cost states increased from `0.092742` EUR to `0.095004` EUR, including in the Admin object tree.
+
+## Review Outcome
+
+- Blocking issues found: 0
+- Blocking issues resolved before approval: 0
+- Final review status: Approved
 
 ## Next recommended step
 
-Select and explicitly approve the next functional milestone from the roadmap. No runtime integration, plan publication, scheduling, execution provider, setpoint selection, or device control is currently approved.
+Select and explicitly approve the next milestone from the roadmap. A future documentation-refactoring milestone should review source-of-truth verification guidance. No runtime integration, plan publication, scheduling, execution provider, setpoint selection, or device control is currently approved.
 
 ## Open risks
 
-- Limits describe allowed ranges; the planner does not evaluate a live state of charge or choose a setpoint.
-- Conflict detection covers overlapping opposite storage actions, not a general multi-action scheduling graph.
-- A future runtime boundary requires separate safety architecture and explicit approval.
+- Daily and monthly cost states do not yet reset at calendar boundaries.
+- Optional base-price allocation and richer tariff models remain future work.
+- Resolver and cost behavior have focused coverage, but there is no direct `main.ts` polling integration test yet.
+- Planner limitations and any future runtime boundary remain separate, approval-gated work.
 
 ## References
 
