@@ -29,12 +29,22 @@ Repository-local Git configuration overrides these global defaults.
 
 Documentation, planning, architecture discussion, review, handoff, `PROJECT_HANDOFF.md`, or `WORKFLOW.md` requests do not authorize a new implementation milestone. Code changes require explicit approval.
 
+## Current-state analysis
+
+Before planning implementation details or editing files, analyze the current repository state. Confirm the active branch and working tree, inspect the relevant implementation and documentation, identify existing behavior and constraints, and reconcile the requested work with the canonical handoff.
+
+Implementation must be based on the current project state, including uncommitted changes that must be preserved. Earlier plans, handoffs, reviews, and cached repository views are supporting context rather than substitutes for this analysis.
+
+Planning, implementation, review, and validation are separate phases. Each phase must produce enough evidence for the next one, and implementation must not begin until scope, exclusions, affected areas, and the validation plan are understood.
+
 ## Binding milestone workflow
 
 Use this single workflow for every implementation milestone:
 
 ```text
-Implementation
+Current-state analysis
+  -> planning and scope approval
+  -> implementation
   -> local build, tests, diff check, and review
   -> formal milestone completion review
   -> commit
@@ -52,7 +62,7 @@ Keep terminal context explicit: `<windows-dev-shell>` identifies the development
 
 ## Local quality gate
 
-Before implementation, establish a clean baseline. After implementation and before commit, run:
+Before implementation, establish and inspect the baseline; a non-clean tree must be understood and preserved rather than overwritten. After implementation and before commit, run:
 
 ```bash
 node --version
@@ -181,6 +191,8 @@ Every milestone ends with an updated `docs/development/PROJECT_HANDOFF.md` recor
 ### Tool-neutral documentation
 
 All version-controlled project documentation must remain independent of development assistants and conversational tooling. Tool-specific session guidance belongs only in intentionally local, ignored documentation and must never be copied into repository documents.
+
+Repository documentation records durable project knowledge and neutral workflow expectations. Private/internal session procedures, workstation details, concrete tool assignments, and environment-specific instructions belong only in ignored local documentation. When promoting a useful local lesson, rewrite it as a neutral project rule and avoid duplicating private context.
 
 ### Privacy rule
 
