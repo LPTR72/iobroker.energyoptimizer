@@ -5,6 +5,6 @@ coverage/
 *.log
 .env
 
-# Local private context; never commit
+# Local-only development notes
 .local/
 docs/private/
