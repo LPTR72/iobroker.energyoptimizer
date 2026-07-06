@@ -1,6 +1,7 @@
 import * as utils from "@iobroker/adapter-core";
 import { EnergyOptimizerConfig, getPollingIntervalSeconds, toNumber } from "./lib/config";
 import { ConfigurationNormalizer } from "./lib/ConfigurationNormalizer";
+import { GridImportSourceResolver } from "./lib/GridImportSourceResolver";
 import { IoBrokerStateProvider } from "./lib/IoBrokerStateProvider";
 import { IStateProvider, NumericLiveStateId } from "./lib/model";
 import { RecommendationProjectionMapper } from "./lib/RecommendationProjection";
@@ -16,6 +17,7 @@ class EnergyOptimizer extends utils.Adapter {
     private readonly stateManager: StateManager;
     private readonly stateProvider: IStateProvider;
     private readonly configurationNormalizer = new ConfigurationNormalizer();
+    private readonly gridImportSourceResolver = new GridImportSourceResolver();
     private readonly simulationIntegration: SimulationRuntimeIntegration;
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -79,9 +81,10 @@ class EnergyOptimizer extends utils.Adapter {
         const config = this.config as EnergyOptimizerConfig;
         const pollingIntervalSeconds = getPollingIntervalSeconds(config);
         const workPriceCt = toNumber(config.fixedWorkPriceCt, 0) ?? 0;
+        const gridImportSourceId = this.gridImportSourceResolver.resolve(config);
 
         const sourceIds = [
-            config.sourceGridImportPower,
+            gridImportSourceId,
             config.sourceGridExportPower,
             config.sourceHouseConsumptionPower,
             config.sourcePvPower,
@@ -89,7 +92,7 @@ class EnergyOptimizer extends utils.Adapter {
             config.sourceBatteryPower,
         ];
 
-        const importPowerW = await this.mirrorSource(config.sourceGridImportPower, STATE_IDS.live.gridImportPower);
+        const importPowerW = await this.mirrorSource(gridImportSourceId, STATE_IDS.live.gridImportPower);
         const sourceValues = [
             importPowerW,
             await this.mirrorSource(config.sourceGridExportPower, STATE_IDS.live.gridExportPower),
