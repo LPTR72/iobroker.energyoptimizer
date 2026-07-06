@@ -13,6 +13,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0009: Read-only runtime publication](ADR/ADR-0009-read-only-runtime-publication.md)
 - [ADR-0010: Neutral ExecutionPlanner foundation](ADR/ADR-0010-neutral-execution-planner.md)
 - [ADR-0011: Neutral execution-planning semantics](ADR/ADR-0011-execution-planning-semantics.md)
+- [ADR-0012: History Service](ADR/ADR-0012-history-service.md)
 
 The summaries below provide a readable overview.
 
@@ -27,6 +28,10 @@ The generic asset model is the preferred future representation for heterogeneous
 ## Abstract providers before integrations
 
 Forecast and state-provider contracts are defined before concrete providers. This prevents Forecast.Solar, tariff, weather, history, or device-specific assumptions from becoming core concepts.
+
+## History is a service, not a forecast provider
+
+The planned `History Service` is the central historical data platform for analysis, prediction, evaluation, simulation, diagnostics, future visualization, and future optimization models. It owns collection, deterministic multi-resolution aggregation, retention, data quality, and temporal context. Its internal Collector and Aggregator use the implementation-neutral History Repository behind one external service boundary. `PredictionEngine` may consume historical series and context but never stores history. See [ADR-0012](ADR/ADR-0012-history-service.md).
 
 ## Prediction before evaluation
 

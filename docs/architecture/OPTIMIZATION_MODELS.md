@@ -10,8 +10,11 @@ Energy data and optimization decisions operate at several intentionally separate
 - **Prediction resolution** is the width of each predicted interval. It is implemented through `PredictionOptions.resolutionMinutes` and determines the step size of `EnergyPrediction` time series.
 - **Evaluation resolution** is how often future `EnergySituation` values are recalculated from analysis and prediction. It remains planned and may differ from both polling and prediction resolution.
 - **Prediction horizon** is how far a prediction extends into the future. It is implemented through `PredictionOptions.horizonMinutes` and is independent from how frequently measurements or evaluations occur.
+- **Historical resolution** is the width of a persisted History Service bucket. The canonical planned chain is 1, 5, 15, and 60 minutes followed by daily buckets; only the 1-minute level receives live samples.
 
 These concepts are separate because faster sampling does not necessarily improve forecast granularity, evaluation does not need to run for every measurement, and a long planning horizon can still use coarse intervals. Keeping them independent prevents provider or runtime timing from becoming an implicit optimization rule.
+
+Historical aggregation is deterministic and metric-specific rather than a prediction concern. See [ADR-0012](ADR/ADR-0012-history-service.md).
 
 ## Efficiency model
 

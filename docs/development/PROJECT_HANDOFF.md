@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 06.07.2026 16:51 Uhr
+Stand: 06.07.2026 18:32 Uhr
 
 ## Purpose
 
@@ -9,23 +9,23 @@ This tool-neutral document is the canonical project handoff. It records the curr
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest fully validated milestone: grid-import asset fallback for fixed-tariff cost polling.
-- Validated commit: `1385a57` (`fix: use grid asset fallback for cost polling`).
-- A nonblank legacy `sourceGridImportPower` remains authoritative for backward compatibility.
-- When the legacy source is blank, polling uses the first enabled grid asset with a nonblank `powerStateId`.
-- The resolved source drives `live.grid.importPower`, fixed-tariff cost accumulation, and polling health counts.
-- The planner remains disconnected from polling, publication, scheduling, ioBroker states, and devices.
-- No state names, reset logic, execution behavior, or unrelated simulation behavior changed.
+- Latest completed milestone: History Service architecture refinement and polish.
+- ADR-0012 defines the planned History Service as the adapter's central historical data platform.
+- History Collector, History Aggregator, and the implementation-neutral History Repository remain internal responsibilities behind one service boundary.
+- Typed metrics, deterministic 1-minute-to-daily aggregation, temporal context, data quality, hierarchical retention, and repository availability are defined as planned architecture.
+- The preferred initial repository implementation uses the ioBroker SQL Adapter with MariaDB/MySQL, while future implementations remain possible.
+- `PredictionEngine` is one consumer of history and never stores historical data.
+- No production code, tests, APIs, state names, configuration formats, or runtime behavior changed.
 
 ## Validation status
 
-- Local build successful; complete suite 86/86; diff check successful.
-- Formal completion review approved with no blocking issues.
-- Commit and push successful.
-- The Raspberry Pi pulled the pushed branch, rebuilt the package, and supplied that local build for ioBroker installation.
-- The deployed build contained `GridImportSourceResolver`; adapter upload and restart succeeded.
-- `health.lastPollingTimestamp` and `live.grid.importPower` received fresh timestamps.
-- Both cost states increased from `0.092742` EUR to `0.095004` EUR, including in the Admin object tree.
+- Architecture consistency: passed.
+- ADR cross-references: passed.
+- Terminology review: passed.
+- Build: passed.
+- Tests: 86/86 passed.
+- `git diff --check`: passed.
+- No production code or tests changed.
 
 ## Review Outcome
 
@@ -35,14 +35,13 @@ This tool-neutral document is the canonical project handoff. It records the curr
 
 ## Next recommended step
 
-Select and explicitly approve the next milestone from the roadmap. A future documentation-refactoring milestone should review source-of-truth verification guidance. No runtime integration, plan publication, scheduling, execution provider, setpoint selection, or device control is currently approved.
+Select and explicitly approve the next milestone from the roadmap. No runtime integration, SQL implementation, history collection, scheduling, execution provider, or device control is approved by this documentation milestone.
 
 ## Open risks
 
-- Daily and monthly cost states do not yet reset at calendar boundaries.
-- Optional base-price allocation and richer tariff models remain future work.
-- Resolver and cost behavior have focused coverage, but there is no direct `main.ts` polling integration test yet.
-- Planner limitations and any future runtime boundary remain separate, approval-gated work.
+- History Service implementation remains planned.
+- SQL/ioBroker history-backend integration remains planned.
+- No runtime integration of the History Service has been approved.
 
 ## References
 
@@ -51,6 +50,7 @@ Select and explicitly approve the next milestone from the roadmap. A future docu
 - [Domain model](../architecture/DOMAIN_MODEL.md)
 - [ADR-0010](../architecture/ADR/ADR-0010-neutral-execution-planner.md)
 - [ADR-0011](../architecture/ADR/ADR-0011-execution-planning-semantics.md)
+- [ADR-0012](../architecture/ADR/ADR-0012-history-service.md)
 - [Roadmap](../roadmap/ROADMAP.md)
 - [Project status](../roadmap/PROJECT_STATUS.md)
 - [Development workflow](WORKFLOW.md)

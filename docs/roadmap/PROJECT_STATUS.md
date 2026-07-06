@@ -1,6 +1,6 @@
 # Project status
 
-Stand: 06.07.2026 16:51 Uhr
+Stand: 06.07.2026 18:32 Uhr
 
 ## Implemented
 
@@ -24,7 +24,8 @@ Stand: 06.07.2026 16:51 Uhr
 
 - Live-state validation, setpoint selection, broader conflict policy, scheduling, and execution safety
 - Execution layer
-- Concrete forecast, tariff, history, and weather providers
+- Concrete forecast, tariff, and weather providers
+- History Service implementation, SQL integration, typed metrics, retention, quality reporting, and temporal context
 - Explicitly approved device execution
 - Counter resets, richer tariffs, history, simulation, and CI
 - Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
@@ -33,9 +34,9 @@ The validated test suite contains 86 tests. Active polling invokes the read-only
 
 ## Latest milestone validation
 
-Commit `1385a57` passed the full completion workflow: local build, 86/86 tests, diff validation, formal review, push, Raspberry Pi rebuild/package validation, and ioBroker installation and runtime validation. With the legacy grid-import source blank, the first enabled grid asset supplied fresh `live.grid.importPower` values and restored both fixed-tariff cost accumulators. Each increased from `0.092742` EUR to `0.095004` EUR during validation.
+The History Service architecture refinement and polish completed with architecture consistency, ADR cross-reference, terminology, build, 86/86 test, and diff validation. ADR-0012 now defines the central historical data platform, its internal responsibilities, typed aggregation model, implementation-neutral repository, preferred initial SQL integration, temporal context, retention, and consumer boundaries. No production code, tests, configuration, state, or runtime behavior changed.
 
-The milestone is complete only because Raspberry Pi and ioBroker validation succeeded after the reviewed commit was pushed.
+The last production milestone remains commit `1385a57`, whose Raspberry Pi and ioBroker validation restored grid-asset-backed live import and cost accumulation.
 
 ## Milestone Insights
 
@@ -44,6 +45,7 @@ The milestone is complete only because Raspberry Pi and ioBroker validation succ
 - The integration package must be rebuilt from the exact revision pulled on the Raspberry Pi before installation.
 - Full object snapshots before and after installation make unexpected runtime object changes observable.
 - Dormant domain planning must remain absent from the runtime object tree until a separate integration milestone is approved.
+- Historical storage must remain behind an implementation-neutral repository boundary, and prediction must remain storage-free.
 
 ## Review Outcome
 
@@ -59,6 +61,7 @@ The milestone is complete only because Raspberry Pi and ioBroker validation succ
 | Core domain foundation | Medium/high |
 | Forecast abstraction | Medium/high |
 | Prediction | Medium/high |
+| History Service | Architecture accepted; implementation planned |
 | Optimization domain models | Medium/high |
 | Evaluation | Implemented and validated |
 | Recommendation | Implemented and validated through the simulation pipeline |

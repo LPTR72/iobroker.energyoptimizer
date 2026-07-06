@@ -28,6 +28,7 @@
 
 - Separate sampling, prediction, and evaluation resolutions and prediction horizon
 - Neutral efficiency, loss, cost, degradation, opportunity-cost, and goal-priority semantics
+- Dedicated central History Service architecture with typed metrics, deterministic aggregation, an implementation-neutral repository, retention, data quality, and extensible temporal context
 
 ### Preserved
 

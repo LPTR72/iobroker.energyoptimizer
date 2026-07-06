@@ -5,6 +5,10 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **EnergySystemState**: current normalized grid, PV, battery, house, and heterogeneous asset snapshot. Compatibility/aggregated views remain alongside preferred asset collections.
 - **EnergyAnalysis**: derived facts about current consumption, PV production, battery flow, grid flow, surplus, deficit, self-use percentages, and asset availability.
 - **EnergyForecast**: provider-neutral PV, consumption, price, and weather time series with generation and validity timestamps.
+- **HistoricalMetricType** *(planned)*: explicit historical semantics such as power, energy counter, state of charge, binary state, temperature, price, or generic number. Each type defines valid deterministic aggregation behavior.
+- **HistoricalBucket** *(planned)*: a typed metric aggregate for one asset and time interval, including resolution and data-quality metadata.
+- **HistoricalSeries** *(planned)*: an ordered collection of compatible historical buckets returned by the History Service.
+- **TemporalContext** *(planned)*: prediction-relevant calendar and daylight dimensions, extensible through future weather, occupancy, vacation, and other context providers.
 - **PredictionOptions**: explicit prediction resolution and horizon settings, independent from runtime polling and future evaluation timing.
 - **EnergyPrediction**: resolution-aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
 - **EvaluationOptions**: explicit relevance, battery-state, and price thresholds used by neutral situation detection. Price defaults are placeholders for demonstration, not recommended tariff values.
@@ -18,5 +22,7 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **OptimizationGoal**: an enabled, prioritized objective such as self-consumption, cost, comfort, battery protection, or feed-in compliance.
 
 Models describe facts and intent. Providers acquire data; engines make deterministic transformations; future execution adapters alone may perform separately approved side effects.
+
+The planned History Service owns historical lifecycle and persistence. Historical models remain neutral; SQL identifiers, database schemas, and ioBroker APIs do not enter the domain contracts. See [ADR-0012](ADR/ADR-0012-history-service.md).
 
 See [Optimization models](OPTIMIZATION_MODELS.md) for canonical timing semantics and the planned efficiency, cost, and priority/goal models.

@@ -40,11 +40,15 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 
 - Forecast.Solar provider
 - Tibber provider
-- History provider
+- History Service with Collector, Aggregator, and implementation-neutral Repository responsibilities
+- Preferred initial repository implementation through the ioBroker SQL Adapter with MariaDB/MySQL
+- Typed historical metrics, deterministic 1-minute-to-daily aggregation, quality metadata, hierarchical retention, and temporal context
 - Weather provider
 
 ## Future UI scope - planned
 
+- Possible configuration groups: Energy Assets, History & Storage, Context & Calendar, Forecast & Prediction, and Advanced / Diagnostics
+- Per-asset History enabled, Target resolution, and Future retention policy settings
 - Optional read-only ioBroker VIS widgets for generic Energy Assets
 - Asset name, type, current power, state of charge, capacity, health/status, and optional capability indicators
 - Neutral asset bindings only; no vendor-specific fields, device control, optimization actions, or new VIS-related runtime states without a separate approved implementation task
@@ -59,6 +63,6 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - Modbus
 - EVCC
 
-Additional operational work includes daily/monthly reset policies, optional base-price allocation, historical aggregation, variable tariffs, simulations, and CI improvements.
+Additional operational work includes daily/monthly reset policies, optional base-price allocation, History Service implementation, variable tariffs, simulations, and CI improvements.
 
 Future core modeling also includes neutral asset efficiency and loss characteristics, richer import/export cost accounting, battery degradation and opportunity costs, and deterministic resolution of competing optimization goals. These are architecture commitments, not implemented features.

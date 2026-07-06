@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-Forecasts may eventually come from multiple weather, PV, tariff, history, or manual sources. The core must not depend on a concrete provider.
+Forecasts may eventually come from multiple weather, PV, tariff, or manual sources. Historical observations and temporal context belong to the separate History Service defined by [ADR-0012](ADR-0012-history-service.md) rather than masquerading as forecasts.
 
 ## Decision
 
