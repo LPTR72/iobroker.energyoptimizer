@@ -58,6 +58,23 @@ The History Service remains an open, likely multi-step epic covering collection,
 
 This is a long-term architecture topic, not the next implementation task unless selected and explicitly approved later.
 
+## Simulation Framework - future architecture epic
+
+The Simulation Framework is a permanent long-term architecture capability. Its implementation order remains open. Possible capabilities include:
+
+- Development Simulation
+- Accelerated Time
+- Replay Mode
+- Scenario Library
+- Benchmark Scenarios
+- Demo Mode
+- Synthetic Data Generation
+- Regression Testing
+
+These capability families are not planned implementation milestones. Each requires later scope selection and approval.
+
+Demo Mode should allow new users to explore the adapter without configured hardware or historical data. A future benchmark library may include Sunny Summer Day, Cloudy Day, Winter Day, Dynamic Tariff, EV Charging, Irrigation after Dry Days, and Pool Pump Season. Benchmarks exist to compare optimization strategies objectively using explicit, versioned scenarios and metrics.
+
 ## Future UI scope - planned
 
 - Possible configuration groups: Energy Assets, History & Storage, Context & Calendar, Forecast & Prediction, and Advanced / Diagnostics

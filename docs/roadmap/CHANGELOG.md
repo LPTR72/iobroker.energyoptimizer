@@ -31,6 +31,7 @@
 - Dedicated central History Service architecture with typed metrics, deterministic aggregation, an implementation-neutral repository, retention, data quality, and extensible temporal context
 - Clarified that History Service architecture documentation is complete while functional implementation remains an open multi-step workstream
 - Pattern Recognition Engine and user-confirmed Pattern-based Virtual Energy Assets / Knowledge Model as a long-term architecture and roadmap concept
+- Simulation Framework as a permanent long-term architecture capability for replay, accelerated time, scenario benchmarks, demonstrations, synthetic data, and regression testing
 
 ### Preserved
 

@@ -41,3 +41,18 @@ Data Acquisition
 ```
 
 Every component in this additional flow is planned where not already implemented. Recognition produces generic hypotheses, not hardcoded device identities. Only user-confirmed hypotheses persist as virtual assets. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
+
+## Long-term simulation flow
+
+```text
+Data Acquisition
+  -> History Service
+  -> Pattern Recognition
+  -> Knowledge Model / Pattern-based Virtual Energy Assets
+  -> Prediction Engine
+  -> Simulation Framework
+  -> Optimizer
+  -> Recommendation
+```
+
+This is a target-architecture view rather than a fixed runtime call graph. The Simulation Framework should reuse the same production components wherever practical, and the optimizer should not need to distinguish live from simulated inputs. Exact runtime interaction and implementation order remain open. See [ADR-0014](ADR/ADR-0014-simulation-framework.md).

@@ -26,6 +26,7 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - Forecast, tariff, and weather provider implementations
 - A dedicated `History Service` as the central historical data platform, with typed metrics, deterministic aggregation, abstract persistence, retention, data quality, and temporal context
 - A generic `Pattern Recognition Engine` and user-confirmed Pattern-based Virtual Energy Assets / Knowledge Model
+- A first-class `Simulation Framework` for development, replay, validation, benchmarks, demonstrations, accelerated time, and regression testing
 - Capability-aware execution adapters with explicit safety controls
 
 ## Boundaries
@@ -40,6 +41,8 @@ The History Service remains a single external service even though it separates c
 
 Long-term pattern recognition consumes History Service data and produces device-neutral hypotheses. Only user-confirmed hypotheses may become persistent Pattern-based Virtual Energy Assets. These virtual assets enrich a future knowledge model without claiming direct device identification or enabling control. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
 
+The future Simulation Framework reuses production pipeline and domain components whenever practical. Neutral inputs and an explicit simulation clock should keep optimizers unaware of live versus simulated operation. Its exact runtime interaction and implementation order remain open. See [ADR-0014](ADR/ADR-0014-simulation-framework.md).
+
 The canonical definitions for the architecture's [timing, efficiency, cost, and priority/goal models](OPTIMIZATION_MODELS.md) are maintained separately so future engines use consistent physical and economic semantics.
 
 ## Compatibility
@@ -49,3 +52,5 @@ Legacy native source fields, public state IDs, fixed-tariff calculations, pollin
 An older pipeline placeholder remains under `src/lib/analysis/AnalysisEngine.ts` and related pipeline directories. It is intentionally untouched until an explicit migration is designed; the current neutral engines live at `src/lib/AnalysisEngine.ts` and `src/lib/PredictionEngine.ts`.
 
 `SimulationRuntime` is called after successful polling and publishes only adapter-owned read-only states. `simulation.publication.json` remains the complete diagnostic snapshot, while structured `recommendation.*` states expose the best recommendation for simple consumers. `ExecutionPlanner` is not connected to this path. No execution plan is scheduled and no device or foreign state is written.
+
+The implemented `SimulationRuntime` is a narrow runtime integration and must not be confused with the planned first-class Simulation Framework.

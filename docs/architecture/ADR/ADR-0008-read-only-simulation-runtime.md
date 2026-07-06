@@ -10,10 +10,10 @@ The neutral analysis, prediction, evaluation, and recommendation components need
 
 ## Decision
 
-Introduce a dormant, read-only `SimulationRuntime` that uses `OptimizerInputFactory` and a cached source-state snapshot, then runs analysis, a one-interval current-state projection through `PredictionEngine`, evaluation, and recommendation.
+Initially introduce a dormant, read-only `SimulationRuntime` that uses `OptimizerInputFactory` and a cached source-state snapshot, then runs analysis, a one-interval current-state projection through `PredictionEngine`, evaluation, and recommendation.
 
-The runtime reports source completeness and suppresses recommendations whenever a configured source lacks a valid numeric value. It returns explainable results to its caller but is not connected to `main.ts`, polling, `StateManager`, or ioBroker recommendation states yet.
+The runtime reports source completeness and suppresses recommendations whenever a configured source lacks a valid numeric value. This ADR deliberately left it disconnected from `main.ts`, polling, `StateManager`, and ioBroker recommendation states until a separate publication decision.
 
 ## Consequences
 
-The orchestration path is deterministic and testable with real `IStateProvider` implementations while existing adapter behavior remains unchanged. A separate reviewed milestone must define the public recommendation state contract and read-only publication lifecycle before activation.
+The orchestration path is deterministic and testable with real `IStateProvider` implementations. [ADR-0009](ADR-0009-read-only-runtime-publication.md) subsequently defined the public recommendation state contract and activated this path after polling while retaining its read-only boundary.

@@ -14,8 +14,8 @@ Use a pure `EvaluationEngine` to transform `EnergyAnalysis` and `EnergyPredictio
 
 The default cheap and high price thresholds are placeholder/demo values only. They are not recommended tariff values or physical constants; deployments must deliberately choose thresholds suitable for their region, tariff, and time period when price situations are used.
 
-The engine has no ioBroker imports, I/O, polling, recommendation logic, or side effects. It is not connected to the active adapter runtime.
+The engine has no ioBroker imports, I/O, polling, recommendation logic, or side effects. The active adapter invokes it only through the read-only orchestration boundary defined by [ADR-0009](ADR-0009-read-only-runtime-publication.md); lifecycle and infrastructure remain outside the engine.
 
 ## Consequences
 
-Situation detection is deterministic and independently testable. Threshold choices are visible and configurable, unavailable batteries do not create false low-state situations, and prediction warnings remain visible as forecast uncertainty. Recommendation logic can later consume situations without knowing how they were detected.
+Situation detection is deterministic and independently testable. Threshold choices are visible and configurable, unavailable batteries do not create false low-state situations, and prediction warnings remain visible as forecast uncertainty. `RecommendationEngine` consumes situations without knowing how they were detected.

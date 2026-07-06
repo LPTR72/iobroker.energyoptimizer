@@ -12,6 +12,9 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **PatternHypothesis** *(planned)*: a device-neutral recurring, scheduled, conditional, seasonal, daily, baseload, sequence, or anomaly pattern with evidence and confidence; it is not an asset until confirmed.
 - **Pattern-based Virtual Energy Asset** *(planned)*: a persistent, user-confirmed inference enriched with known identity, behavior, priority, and flexibility information.
 - **Energy Knowledge Model** *(planned)*: confirmed physical and virtual asset knowledge made available to future predictive and optimization consumers.
+- **SimulationScenario** *(planned)*: versioned initial state, input series, events, constraints, clock settings, and expected observations for replay, demonstration, regression, or benchmarking.
+- **SimulationClock** *(planned)*: explicit controllable time source supporting deterministic and accelerated execution.
+- **SimulationRun** *(planned)*: one scenario execution with recorded inputs, component versions, outputs, warnings, and benchmark metrics.
 - **PredictionOptions**: explicit prediction resolution and horizon settings, independent from runtime polling and future evaluation timing.
 - **EnergyPrediction**: resolution-aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
 - **EvaluationOptions**: explicit relevance, battery-state, and price thresholds used by neutral situation detection. Price defaults are placeholders for demonstration, not recommended tariff values.
@@ -29,5 +32,7 @@ Models describe facts and intent. Providers acquire data; engines make determini
 The planned History Service owns historical lifecycle and persistence. Historical models remain neutral; SQL identifiers, database schemas, and ioBroker APIs do not enter the domain contracts. See [ADR-0012](ADR/ADR-0012-history-service.md).
 
 Pattern hypotheses remain separate from persistent virtual assets. Confirmation is an explicit user decision, and neither model implies direct control. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
+
+Simulation contracts remain neutral and reusable by production components. Scenario inputs do not grant permission for runtime side effects or device control. See [ADR-0014](ADR/ADR-0014-simulation-framework.md).
 
 See [Optimization models](OPTIMIZATION_MODELS.md) for canonical timing semantics and the planned efficiency, cost, and priority/goal models.

@@ -16,4 +16,4 @@ Future prediction may also consume immutable historical series and temporal cont
 
 ## Consequences
 
-Prediction behavior is deterministic and testable, incomplete data remains visible through warnings, and future evaluation can consume a stable, resolution-aligned model without provider-specific or polling assumptions. Options require validation because invalid resolution or horizon values cannot produce a meaningful time series.
+Prediction behavior is deterministic and testable, incomplete data remains visible through warnings, and `EvaluationEngine` consumes a stable, resolution-aligned model without provider-specific or polling assumptions. Options require validation because invalid resolution or horizon values cannot produce a meaningful time series. See [ADR-0006](ADR-0006-evaluation-engine.md) for evaluation and [ADR-0009](ADR-0009-read-only-runtime-publication.md) for the active read-only orchestration path.
