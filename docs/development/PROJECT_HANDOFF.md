@@ -1,51 +1,83 @@
 # PROJECT_HANDOFF
 
-Stand: 06.07.2026 20:35 Uhr
+Stand: 06.07.2026 22:10 Uhr
 
 ## Purpose
 
-This tool-neutral document is the canonical project handoff. It records the current project status, latest completed milestone, validation results, open risks, and next recommended milestone. Local development notes may exist outside version control, but repository documentation remains canonical.
+This tool-neutral document is the canonical project handoff. It records the current project status, latest completed milestone, infrastructure status, validation summary, open risks, and next recommended functional milestone.
 
-## Current project status
+It intentionally stays short. Architecture details, historical milestones, workflow rules, and implementation decisions belong in the referenced documents rather than being duplicated here.
+
+## Current Project State
 
 - Active branch: `refactor/core-architecture`.
-- Latest completed milestone: History Service architecture/documentation refinement and polish; functional implementation remains open.
-- ADR-0012 defines the planned History Service as the adapter's central historical data platform.
-- History Collector, History Aggregator, and the implementation-neutral History Repository remain internal responsibilities behind one service boundary.
-- Typed metrics, deterministic 1-minute-to-daily aggregation, temporal context, data quality, hierarchical retention, and repository availability are defined as planned architecture.
-- The preferred initial repository implementation uses the ioBroker SQL Adapter with MariaDB/MySQL, while future implementations remain possible.
-- `PredictionEngine` is one consumer of history and never stores historical data.
-- No production code, tests, APIs, state names, configuration formats, or runtime behavior changed.
-- ADR-0013 defines Pattern-based Virtual Energy Assets as a long-term architecture topic; implementation remains unselected.
-- Current work is documentation-only: ADR-0014 adopts the Simulation Framework as a permanent long-term architecture capability with open implementation order.
+- Functional runtime remains read-only.
+- No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or simulation runtime is approved.
+- The latest functional architecture milestone refined the planned History Service and documented long-term Pattern-based Virtual Energy Assets and Simulation Framework topics.
+- The History Service remains planned architecture only; functional implementation is still open.
 
-## Validation status
+## Latest Completed Milestone
 
-- Architecture consistency: passed.
-- ADR cross-references: passed.
-- Terminology review: passed.
-- Build: passed.
-- Tests: 86/86 passed.
-- `git diff --check`: passed.
-- No production code or tests changed.
+- Milestone: GitHub Actions CI infrastructure and project handoff refactoring.
+- Scope: added and validated the repository CI workflow, then separated functional project status from infrastructure status in this handoff.
+- Result: push and pull request validation is available through GitHub Actions, while the project handoff now distinguishes current functional state, infrastructure state, validation, risks, and next milestone.
+- Runtime impact: none.
+- Production code impact: none.
+
+## Infrastructure Status
+
+- GitHub Actions CI workflow exists at `.github/workflows/ci.yml`.
+- The workflow runs on push and pull request events.
+- The workflow performs dependency installation, build, tests, and package dry run.
+- First successful GitHub Actions CI run was validated for commit `aaa2630` on branch `refactor/core-architecture`.
+- CI supplements the existing local and Raspberry Pi validation gates; it does not replace runtime validation for production-code milestones.
+
+## Validation Summary
+
+- GitHub Actions first run for commit `aaa2630`: passed.
+- Documentation refactoring scope: `docs/development/PROJECT_HANDOFF.md` and `docs/development/WORKFLOW.md` only.
+- Production code changed: no.
+- Tests changed: no.
+- Runtime behavior changed: no.
+- ioBroker validation required for this documentation-only milestone: no.
 
 ## Review Outcome
 
-- Blocking issues found: 0
-- Blocking issues resolved before approval: 0
-- Final review status: Approved
+- Blocking issues found: 0.
+- Blocking issues resolved before approval: 0.
+- Final review status: Approved.
 
-## Next recommended step
-
-Select and explicitly approve the next milestone from the roadmap. Pattern-based Virtual Energy Assets and the Simulation Framework are not the next implementation task unless explicitly selected later. No runtime integration, SQL implementation, history collection, pattern recognition, simulation framework implementation, scheduling, execution provider, or device control is approved by this documentation milestone.
-
-## Open risks
+## Open Risks
 
 - History Service implementation remains an open, likely multi-step epic/workstream.
 - SQL/ioBroker history-backend integration remains planned.
 - No runtime integration of the History Service has been approved.
 - Pattern recognition, virtual-asset persistence, user confirmation flows, and downstream optimization use remain planned and unselected.
 - Simulation Framework orchestration, scenario formats, benchmark metrics, demonstration behavior, and implementation order remain open and unselected.
+
+## Deferred Topics
+
+- Runtime integration.
+- SQL implementation.
+- History collection and aggregation.
+- Pattern recognition and virtual assets.
+- Simulation framework implementation.
+- Scheduling, execution provider, and device control.
+- Further Developer Workspace refinements that are private workflow concerns rather than repository documentation.
+
+## Next Recommended Functional Milestone
+
+Select and explicitly approve the next functional milestone from the roadmap before creating an implementation prompt.
+
+Recommended next direction: prepare the History Service implementation as a scoped, multi-step epic. Pattern-based Virtual Energy Assets and the Simulation Framework are not the next implementation task unless explicitly selected later.
+
+## Required Reading
+
+1. `docs/development/PROJECT_HANDOFF.md`.
+2. `docs/development/WORKFLOW.md`.
+3. Relevant ADRs for the selected milestone.
+4. Relevant architecture documents for the selected milestone.
+5. `docs/roadmap/ROADMAP.md` only when milestone planning or sequencing is required.
 
 ## References
 
