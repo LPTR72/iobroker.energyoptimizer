@@ -1,6 +1,6 @@
 # Development workflow
 
-Stand: 06.07.2026 16:51 Uhr
+Stand: 06.07.2026 22:10 Uhr
 
 ## Language policy
 
@@ -8,7 +8,19 @@ Repository documentation, ADRs, README content, and contributor-facing comments 
 
 ## Project handoff
 
-`docs/development/PROJECT_HANDOFF.md` is the canonical, tool-neutral project handoff. It records project status, the latest completed milestone, validation results, open risks, and the next recommended milestone. Additional local development notes may exist outside version control; never copy private information from them into committed documentation.
+`docs/development/PROJECT_HANDOFF.md` is the canonical, tool-neutral project handoff. It records the current project status, latest completed milestone, infrastructure status, validation results, open risks, and the next recommended milestone. Additional local development notes may exist outside version control; never copy private information from them into committed documentation.
+
+## Canonical document hierarchy
+
+Use the documents according to their responsibility:
+
+1. `docs/development/PROJECT_HANDOFF.md` answers where the project currently stands and what should happen next.
+2. `docs/development/WORKFLOW.md` defines neutral repository development and validation rules.
+3. Architecture documents and ADRs define the system design and accepted decisions.
+4. Roadmap and project status documents define planned direction and historical progress.
+5. Implementation files define actual runtime behavior.
+
+Do not duplicate full architecture, history, or workflow rules in the handoff. Keep the handoff short enough to support fast session startup, then follow references only when deeper context is needed.
 
 ## Local development environment
 
@@ -172,6 +184,7 @@ Until a separately approved execution layer exists:
 - ioBroker integration validation is mandatory for production-code milestones.
 - Runtime publication remains read-only until device execution receives separate architecture and user approval.
 - Repository documentation uses neutral placeholders; private environment details remain local.
+- The project handoff records current state only; detailed architecture, history, and workflow rules remain in their dedicated documents.
 
 ## Lessons learned
 
@@ -183,6 +196,7 @@ Until a separately approved execution layer exists:
 - Read-only means writing only adapter-owned states, never source or device states.
 - Missing sources must remain observable without producing fictional advice.
 - Documentation and process improvements discovered during a milestone should be collected and applied before closing its handoff.
+- A short, current-state-focused project handoff improves session startup and reduces duplicate documentation.
 
 ## Documentation rules
 
