@@ -104,4 +104,5 @@ A future configuration interface may group settings into **Energy Assets**, **Hi
 - Prediction stays deterministic and storage-free, and it can operate when history is unavailable.
 - Typed metrics prevent invalid aggregation, such as averaging cumulative energy counters.
 - Repository availability and retention become observable operational concerns without making a storage implementation part of the adapter core.
+- Functional implementation remains an open, likely multi-step workstream; accepting this architecture does not complete the History Service.
 - Runtime integration, SQL schemas, configuration fields, health states, context providers, and user-interface changes require separate approved implementation milestones.

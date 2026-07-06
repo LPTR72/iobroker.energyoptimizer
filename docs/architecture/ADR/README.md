@@ -14,5 +14,6 @@ Architecture Decision Records (ADRs) capture important technical choices and the
 - [ADR-0010: Neutral ExecutionPlanner foundation](ADR-0010-neutral-execution-planner.md)
 - [ADR-0011: Neutral execution-planning semantics](ADR-0011-execution-planning-semantics.md)
 - [ADR-0012: History Service](ADR-0012-history-service.md)
+- [ADR-0013: Pattern-based Virtual Energy Assets](ADR-0013-pattern-based-virtual-energy-assets.md)
 
 New ADRs should be numbered sequentially and contain Status, Context, Decision, and Consequences sections.

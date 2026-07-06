@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 06.07.2026 18:32 Uhr
+Stand: 06.07.2026 19:30 Uhr
 
 ## Purpose
 
@@ -9,13 +9,14 @@ This tool-neutral document is the canonical project handoff. It records the curr
 ## Current project status
 
 - Active branch: `refactor/core-architecture`.
-- Latest completed milestone: History Service architecture refinement and polish.
+- Latest completed milestone: History Service architecture/documentation refinement and polish; functional implementation remains open.
 - ADR-0012 defines the planned History Service as the adapter's central historical data platform.
 - History Collector, History Aggregator, and the implementation-neutral History Repository remain internal responsibilities behind one service boundary.
 - Typed metrics, deterministic 1-minute-to-daily aggregation, temporal context, data quality, hierarchical retention, and repository availability are defined as planned architecture.
 - The preferred initial repository implementation uses the ioBroker SQL Adapter with MariaDB/MySQL, while future implementations remain possible.
 - `PredictionEngine` is one consumer of history and never stores historical data.
 - No production code, tests, APIs, state names, configuration formats, or runtime behavior changed.
+- Current work is documentation-only: ADR-0013 introduces Pattern-based Virtual Energy Assets as a long-term architecture topic.
 
 ## Validation status
 
@@ -35,13 +36,14 @@ This tool-neutral document is the canonical project handoff. It records the curr
 
 ## Next recommended step
 
-Select and explicitly approve the next milestone from the roadmap. No runtime integration, SQL implementation, history collection, scheduling, execution provider, or device control is approved by this documentation milestone.
+Select and explicitly approve the next milestone from the roadmap. Pattern-based Virtual Energy Assets are not the next implementation task unless explicitly selected later. No runtime integration, SQL implementation, history collection, pattern recognition, scheduling, execution provider, or device control is approved by this documentation milestone.
 
 ## Open risks
 
-- History Service implementation remains planned.
+- History Service implementation remains an open, likely multi-step epic/workstream.
 - SQL/ioBroker history-backend integration remains planned.
 - No runtime integration of the History Service has been approved.
+- Pattern recognition, virtual-asset persistence, user confirmation flows, and downstream optimization use remain planned and unselected.
 
 ## References
 
@@ -51,6 +53,7 @@ Select and explicitly approve the next milestone from the roadmap. No runtime in
 - [ADR-0010](../architecture/ADR/ADR-0010-neutral-execution-planner.md)
 - [ADR-0011](../architecture/ADR/ADR-0011-execution-planning-semantics.md)
 - [ADR-0012](../architecture/ADR/ADR-0012-history-service.md)
+- [ADR-0013](../architecture/ADR/ADR-0013-pattern-based-virtual-energy-assets.md)
 - [Roadmap](../roadmap/ROADMAP.md)
 - [Project status](../roadmap/PROJECT_STATUS.md)
 - [Development workflow](WORKFLOW.md)

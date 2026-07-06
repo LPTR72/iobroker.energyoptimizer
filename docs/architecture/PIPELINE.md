@@ -27,3 +27,17 @@ This integration does not schedule actions, write foreign states, or control dev
 Sampling resolution, prediction resolution, future evaluation resolution, and prediction horizon are separate architecture concepts. See the [timing model](OPTIMIZATION_MODELS.md#timing-model).
 
 The History Service path is planned and not part of active polling. Its canonical live-to-daily aggregation chain and storage boundary are defined in [ADR-0012](ADR/ADR-0012-history-service.md).
+
+## Long-term pattern knowledge flow
+
+```text
+Data Acquisition
+  -> History Service
+  -> Pattern Recognition Engine
+  -> Pattern-based Virtual Energy Assets / Knowledge Model
+  -> Prediction Engine
+  -> Cost Model / Battery Strategy
+  -> Optimizer / Recommendation Engine
+```
+
+Every component in this additional flow is planned where not already implemented. Recognition produces generic hypotheses, not hardcoded device identities. Only user-confirmed hypotheses persist as virtual assets. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).

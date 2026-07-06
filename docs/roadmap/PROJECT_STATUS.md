@@ -1,6 +1,6 @@
 # Project status
 
-Stand: 06.07.2026 18:32 Uhr
+Stand: 06.07.2026 19:30 Uhr
 
 ## Implemented
 
@@ -25,7 +25,8 @@ Stand: 06.07.2026 18:32 Uhr
 - Live-state validation, setpoint selection, broader conflict policy, scheduling, and execution safety
 - Execution layer
 - Concrete forecast, tariff, and weather providers
-- History Service implementation, SQL integration, typed metrics, retention, quality reporting, and temporal context
+- History Service implementation epic/workstream: collection, aggregation, repository integration, typed metrics, retention, quality reporting, temporal context, health, configuration, and consumers
+- Pattern Recognition Engine and Pattern-based Virtual Energy Assets / Knowledge Model as a long-term, unselected architecture topic
 - Explicitly approved device execution
 - Counter resets, richer tariffs, history, simulation, and CI
 - Evaluation timing and neutral efficiency, cost, degradation, opportunity-cost, and goal trade-off logic
@@ -34,7 +35,9 @@ The validated test suite contains 86 tests. Active polling invokes the read-only
 
 ## Latest milestone validation
 
-The History Service architecture refinement and polish completed with architecture consistency, ADR cross-reference, terminology, build, 86/86 test, and diff validation. ADR-0012 now defines the central historical data platform, its internal responsibilities, typed aggregation model, implementation-neutral repository, preferred initial SQL integration, temporal context, retention, and consumer boundaries. No production code, tests, configuration, state, or runtime behavior changed.
+The History Service architecture/documentation refinement completed with architecture consistency, ADR cross-reference, terminology, build, 86/86 test, and diff validation. Functional History Service implementation is not complete and remains an open, likely multi-step workstream. ADR-0012 defines direction and boundaries only.
+
+The current documentation-only change adds Pattern-based Virtual Energy Assets as a long-term architecture topic. It does not select or approve implementation.
 
 The last production milestone remains commit `1385a57`, whose Raspberry Pi and ioBroker validation restored grid-asset-backed live import and cost accumulation.
 
@@ -62,6 +65,7 @@ The last production milestone remains commit `1385a57`, whose Raspberry Pi and i
 | Forecast abstraction | Medium/high |
 | Prediction | Medium/high |
 | History Service | Architecture accepted; implementation planned |
+| Pattern-based Virtual Energy Assets | Long-term architecture accepted; implementation unselected |
 | Optimization domain models | Medium/high |
 | Evaluation | Implemented and validated |
 | Recommendation | Implemented and validated through the simulation pipeline |

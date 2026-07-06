@@ -45,6 +45,19 @@ Architecture foundations for separate timing concepts and future efficiency, cos
 - Typed historical metrics, deterministic 1-minute-to-daily aggregation, quality metadata, hierarchical retention, and temporal context
 - Weather provider
 
+The History Service remains an open, likely multi-step epic covering collection, aggregation, repository integration, retention, quality, context, health, configuration, and consumer integration. The completed ADR/documentation milestone does not constitute functional implementation.
+
+## Long-term pattern knowledge - planned
+
+- Generic, device-neutral Pattern Recognition Engine over History Service data
+- Pattern hypotheses that require user confirmation before becoming persistent virtual assets
+- User enrichment with name, category, expected power, runtime, schedule, season, automation mode, conditions, priority, and flexibility
+- Conditional patterns based on weather/dry days, temperature, tariffs, PV surplus, battery thresholds, or external ioBroker states
+- Confirmed Pattern-based Virtual Energy Assets / Knowledge Model for Prediction, Cost Model, Battery Strategy, and Optimizer consumers
+- Initial classes: Cyclic, Scheduled, Conditional, Seasonal, Daily, Baseload, Sequence, and Anomaly Pattern
+
+This is a long-term architecture topic, not the next implementation task unless selected and explicitly approved later.
+
 ## Future UI scope - planned
 
 - Possible configuration groups: Energy Assets, History & Storage, Context & Calendar, Forecast & Prediction, and Advanced / Diagnostics

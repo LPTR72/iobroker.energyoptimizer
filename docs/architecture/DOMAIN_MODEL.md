@@ -9,6 +9,9 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 - **HistoricalBucket** *(planned)*: a typed metric aggregate for one asset and time interval, including resolution and data-quality metadata.
 - **HistoricalSeries** *(planned)*: an ordered collection of compatible historical buckets returned by the History Service.
 - **TemporalContext** *(planned)*: prediction-relevant calendar and daylight dimensions, extensible through future weather, occupancy, vacation, and other context providers.
+- **PatternHypothesis** *(planned)*: a device-neutral recurring, scheduled, conditional, seasonal, daily, baseload, sequence, or anomaly pattern with evidence and confidence; it is not an asset until confirmed.
+- **Pattern-based Virtual Energy Asset** *(planned)*: a persistent, user-confirmed inference enriched with known identity, behavior, priority, and flexibility information.
+- **Energy Knowledge Model** *(planned)*: confirmed physical and virtual asset knowledge made available to future predictive and optimization consumers.
 - **PredictionOptions**: explicit prediction resolution and horizon settings, independent from runtime polling and future evaluation timing.
 - **EnergyPrediction**: resolution-aligned prediction intervals with expected power balance, prices, battery state, and data-quality warnings.
 - **EvaluationOptions**: explicit relevance, battery-state, and price thresholds used by neutral situation detection. Price defaults are placeholders for demonstration, not recommended tariff values.
@@ -24,5 +27,7 @@ Domain objects are adapter-neutral data contracts. They may contain measurements
 Models describe facts and intent. Providers acquire data; engines make deterministic transformations; future execution adapters alone may perform separately approved side effects.
 
 The planned History Service owns historical lifecycle and persistence. Historical models remain neutral; SQL identifiers, database schemas, and ioBroker APIs do not enter the domain contracts. See [ADR-0012](ADR/ADR-0012-history-service.md).
+
+Pattern hypotheses remain separate from persistent virtual assets. Confirmation is an explicit user decision, and neither model implies direct control. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
 
 See [Optimization models](OPTIMIZATION_MODELS.md) for canonical timing semantics and the planned efficiency, cost, and priority/goal models.

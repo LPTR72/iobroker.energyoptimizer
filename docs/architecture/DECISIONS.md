@@ -14,6 +14,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0010: Neutral ExecutionPlanner foundation](ADR/ADR-0010-neutral-execution-planner.md)
 - [ADR-0011: Neutral execution-planning semantics](ADR/ADR-0011-execution-planning-semantics.md)
 - [ADR-0012: History Service](ADR/ADR-0012-history-service.md)
+- [ADR-0013: Pattern-based Virtual Energy Assets](ADR/ADR-0013-pattern-based-virtual-energy-assets.md)
 
 The summaries below provide a readable overview.
 
@@ -32,6 +33,10 @@ Forecast and state-provider contracts are defined before concrete providers. Thi
 ## History is a service, not a forecast provider
 
 The planned `History Service` is the central historical data platform for analysis, prediction, evaluation, simulation, diagnostics, future visualization, and future optimization models. It owns collection, deterministic multi-resolution aggregation, retention, data quality, and temporal context. Its internal Collector and Aggregator use the implementation-neutral History Repository behind one external service boundary. `PredictionEngine` may consume historical series and context but never stores history. See [ADR-0012](ADR/ADR-0012-history-service.md).
+
+## Detected patterns require confirmation
+
+The future Pattern Recognition Engine derives device-neutral hypotheses from History Service data. Detection never proves a device identity and does not create a persistent asset automatically. User-confirmed hypotheses may become Pattern-based Virtual Energy Assets in a knowledge model and support later prediction and optimization. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
 
 ## Prediction before evaluation
 

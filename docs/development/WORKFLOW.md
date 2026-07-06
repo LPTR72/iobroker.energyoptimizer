@@ -37,6 +37,8 @@ Implementation must be based on the current project state, including uncommitted
 
 Current implementation, runtime, and milestone facts must be verified from the authoritative repository state before they are reported or used for decisions. Retained session context is not authoritative repository evidence.
 
+Repository documentation is the canonical source of truth for project state. Startup prompts define how to find and verify that state; they must not permanently encode milestone-completion assumptions that can become stale.
+
 Planning, implementation, review, and validation are separate phases. Each phase must produce enough evidence for the next one, and implementation must not begin until scope, exclusions, affected areas, and the validation plan are understood.
 
 ## Binding milestone workflow
