@@ -8,6 +8,18 @@ export type ExecutionActionType =
     | "limit_feed_in"
     | "schedule_consumer";
 
+export interface ExecutionActionLimits {
+    readonly minPowerW?: number;
+    readonly maxPowerW?: number;
+    readonly powerStepW?: number;
+    readonly minEnergyWh?: number;
+    readonly maxEnergyWh?: number;
+    readonly minDurationMinutes?: number;
+    readonly maxDurationMinutes?: number;
+    readonly minStateOfChargePercent?: number;
+    readonly maxStateOfChargePercent?: number;
+}
+
 export interface ExecutionAction {
     readonly type: ExecutionActionType;
     readonly targetAssetId: string;
@@ -15,5 +27,6 @@ export interface ExecutionAction {
     readonly powerW?: number;
     readonly energyWh?: number;
     readonly durationMinutes?: number;
+    readonly limits?: Readonly<ExecutionActionLimits>;
     readonly reason?: string;
 }

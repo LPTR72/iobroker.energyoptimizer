@@ -17,7 +17,7 @@ The project follows Clean Architecture: stable domain models and deterministic e
 - Neutral situations, recommendations, execution plans/actions, capabilities, constraints, and optimization goals under `src/lib/optimization`
 - Pure `EvaluationEngine` with validated `EvaluationOptions`
 - Pure `RecommendationEngine` with validated `RecommendationOptions`
-- Pure dormant `ExecutionPlanner` with conservative capability and constraint matching
+- Pure dormant `ExecutionPlanner` with conservative capability, physical-limit, time-window, conflict, and expiry handling
 - Read-only `SimulationRuntime` integration after successful polling, with source-completeness reporting
 - Deterministic `SimulationPublication` snapshot and structured read-only recommendation projection
 

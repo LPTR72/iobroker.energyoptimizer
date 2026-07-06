@@ -12,6 +12,7 @@ Detailed records are maintained in the [ADR index](ADR/README.md):
 - [ADR-0008: Read-only simulation runtime](ADR/ADR-0008-read-only-simulation-runtime.md)
 - [ADR-0009: Read-only runtime publication](ADR/ADR-0009-read-only-runtime-publication.md)
 - [ADR-0010: Neutral ExecutionPlanner foundation](ADR/ADR-0010-neutral-execution-planner.md)
+- [ADR-0011: Neutral execution-planning semantics](ADR/ADR-0011-execution-planning-semantics.md)
 
 The summaries below provide a readable overview.
 
@@ -52,6 +53,8 @@ After polling, the simulation pipeline may publish diagnostic JSON and structure
 ## Planning is dormant and conservative
 
 `ExecutionPlanner` maps only unambiguous recommendation/capability pairs to neutral actions. Missing capabilities, constraints, and abstract advice produce blocked plans instead of guessed behavior. Planning remains disconnected from runtime and execution.
+
+Physical and temporal restrictions are represented as feasible action limits rather than selected device setpoints. Empty ranges, expired intent, and overlapping opposite storage actions block the plan.
 
 ## Lightweight tests
 

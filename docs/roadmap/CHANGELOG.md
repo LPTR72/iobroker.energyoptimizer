@@ -16,6 +16,7 @@
 - Read-only simulation runtime integration and deterministic JSON publication
 - Structured read-only recommendation projection for adapter-state consumers
 - Dormant neutral `ExecutionPlanner` foundation with deterministic capability and constraint matching
+- Neutral action limits, time-window intersection, expiry handling, and opposite storage-action conflict detection
 - Scalable architecture, development, roadmap, and image documentation structure
 
 ### Documented for future development

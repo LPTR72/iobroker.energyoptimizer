@@ -5,6 +5,7 @@ export type OptimizationConstraintType =
     | "time_window"
     | "power_limit"
     | "energy_limit"
+    | "duration_limit"
     | "state_of_charge_limit"
     | "required_capability"
     | "avoid_battery_cycling"
@@ -19,6 +20,8 @@ export interface OptimizationConstraint {
     readonly maxPowerW?: number;
     readonly minEnergyWh?: number;
     readonly maxEnergyWh?: number;
+    readonly minDurationMinutes?: number;
+    readonly maxDurationMinutes?: number;
     readonly minStateOfChargePercent?: number;
     readonly maxStateOfChargePercent?: number;
     readonly requiredCapability?: OptimizationCapabilityType;

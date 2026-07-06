@@ -1,22 +1,22 @@
 # Development workflow
 
-Stand: 05.07.2026 20:05 Uhr
+Stand: 06.07.2026 06:52 Uhr
 
 ## Language policy
 
-Repository documentation, ADRs, README content, contributor-facing comments, and stored prompts must be written in English. Conversations with the project owner remain in German. English remains the repository language unless explicitly changed by a project decision.
+Repository documentation, ADRs, README content, and contributor-facing comments must be written in English. English remains the repository language unless explicitly changed by a project decision.
 
 ## Session startup
 
-Start every new session with exactly this entry point:
+Start every new development session with exactly this entry point:
 
-> Wir arbeiten weiter am Projekt ioBroker.energyoptimizer. Bitte verwende docs/development/NEXT_CHAT.md als kanonischen Einstiegspunkt und folge den dort beschriebenen Session-Startup-Regeln.
+> Continue work on ioBroker.energyoptimizer. Use docs/development/NEXT_CHAT.md as the canonical entry point and follow its session-startup rules.
 
 Read `docs/development/NEXT_CHAT.md` first. If available, continue immediately with `.local/PROJECT_CONTEXT.md`. Never copy private information from the local context into committed documentation.
 
 ## Local development environment
 
-Private paths, hosts, shell prompts, credentials, and environment notes belong only in the ignored `.local/PROJECT_CONTEXT.md`. The committed `.local/PROJECT_CONTEXT.template.md` documents its neutral structure.
+Private paths, hosts, terminal identifiers, credentials, and environment notes belong only in the ignored `.local/PROJECT_CONTEXT.md`. The committed `.local/PROJECT_CONTEXT.template.md` documents its neutral structure.
 
 To prevent GitHub email-privacy push rejections, configure neutral account-specific values globally:
 
@@ -40,6 +40,7 @@ Use this single workflow for every implementation milestone:
 ```text
 Implementation
   -> local build, tests, diff check, and review
+  -> formal milestone completion review
   -> commit
   -> push to GitHub
   -> Raspberry Pi git pull
@@ -70,6 +71,24 @@ git diff
 ```
 
 Review the intended files, then commit and push. If files are staged, inspect `git diff --cached --stat` and `git diff --cached` before committing.
+
+## Milestone Completion Gate
+
+Successful local validation alone does not complete a milestone. Before creating a commit, perform a formal completion review covering:
+
+- Architecture and design consistency.
+- Documentation consistency.
+- Risks, limitations, and deferred work.
+- Lessons learned.
+- Collected workflow and documentation improvements.
+
+Only a successful completion review permits the commit. After commit and push, Raspberry Pi and ioBroker validation remains mandatory. A milestone is complete only after that validation succeeds, and the next functional milestone must not begin earlier.
+
+## Milestone Insights
+
+Collect improvement ideas, lessons learned, workflow refinements, and documentation improvements throughout implementation without interrupting focused development work. Before the planned end-of-milestone documentation update, prepare a structured **Milestone Insights** list and use it as the review checklist.
+
+Apply the collected items together during that documentation update. Place each durable insight in its proper architecture, domain, testing, roadmap, or workflow document rather than duplicating it in the session handoff.
 
 ## Deployment quality gate
 
@@ -162,21 +181,26 @@ Stand: DD.MM.YYYY HH:MM Uhr
 
 Every milestone ends with an updated `docs/development/NEXT_CHAT.md` recording the result, validation, open risks, and next recommended step. Pure typo or minor documentation edits need no full handoff update unless they affect the handoff.
 
+### Tool-neutral documentation
+
+All version-controlled project documentation must remain independent of development assistants and conversational tooling. Tool-specific session guidance belongs only in intentionally local, ignored documentation and must never be copied into repository documents.
+
 ### Privacy rule
 
-Committed documentation must never contain personal names, account names, email addresses, absolute local paths, credentials, machine identifiers, or machine-specific prompt examples. Use neutral placeholders such as `<repository-root>`, `<git-user-name>`, `<windows-dev-shell>`, `<raspberry-test-shell>`, and `<ioBroker-host>`.
+Committed documentation must never contain personal names, account names, email addresses, absolute local paths, credentials, machine identifiers, or machine-specific terminal examples. Use neutral placeholders such as `<repository-root>`, `<git-user-name>`, `<windows-dev-shell>`, `<raspberry-test-shell>`, and `<ioBroker-host>`.
 
 ## Definition of done
 
 An implementation milestone is complete only when:
 
 1. Local build, tests, `git diff --check`, status, and review succeed.
-2. The focused change is committed and pushed.
-3. The Raspberry Pi pulls that exact commit.
-4. Raspberry Pi install, build, tests, and `npm pack` succeed.
-5. The Raspberry-built package is installed in ioBroker.
-6. Feature, state, health, regression, and log checks succeed.
-7. No unresolved runtime regression remains.
-8. `NEXT_CHAT.md` records the completed milestone and next step.
+2. The formal milestone completion review succeeds.
+3. The focused change is committed and pushed.
+4. The Raspberry Pi pulls that exact commit.
+5. Raspberry Pi install, build, tests, and `npm pack` succeed.
+6. The Raspberry-built package is installed in ioBroker.
+7. Feature, state, health, regression, and log checks succeed.
+8. No unresolved runtime regression remains.
+9. `NEXT_CHAT.md` records the completed milestone and next step.
 
 Do not begin the next milestone before this definition is satisfied.

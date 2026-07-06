@@ -36,11 +36,13 @@ test("creates a dormant neutral plan for an unambiguous recommendation", () => {
     assert.equal(result.id, "plan:900:charge_storage:storage.home");
     assert.equal(result.status, "dormant");
     assert.equal(result.sourceRecommendationType, "charge_storage");
+    assert.equal(result.validUntil, 2_000);
     assert.deepEqual(result.actions, [
         {
             type: "charge_storage",
             targetAssetId: "storage.home",
             horizon: { from: 1_000, to: 2_000 },
+            limits: { maxPowerW: 2_000 },
             reason: "Store expected surplus.",
         },
     ]);
@@ -87,4 +89,146 @@ test("does not mutate recommendations, capabilities, or constraints", () => {
 
 test("rejects an invalid generation timestamp", () => {
     assert.throws(() => planner.plan([], [], [], -1), /generatedAt must be a finite, non-negative timestamp/);
+});
+
+test("intersects capability and constraint limits without selecting a device setpoint", () => {
+    const result = planner.plan(
+        [recommendation()],
+        [
+            {
+                assetId: "storage.home",
+                type: "charge_storage",
+                minPowerW: 100,
+                maxPowerW: 2_500,
+                powerStepW: 50,
+                maxEnergyWh: 5_000,
+                minDurationMinutes: 10,
+                maxDurationMinutes: 180,
+                minStateOfChargePercent: 10,
+                maxStateOfChargePercent: 95,
+            },
+        ],
+        [
+            { type: "power_limit", enabled: true, minPowerW: 200, maxPowerW: 2_000 },
+            { type: "energy_limit", enabled: true, minEnergyWh: 500, maxEnergyWh: 4_000 },
+            { type: "duration_limit", enabled: true, minDurationMinutes: 20, maxDurationMinutes: 120 },
+            {
+                type: "state_of_charge_limit",
+                enabled: true,
+                minStateOfChargePercent: 20,
+                maxStateOfChargePercent: 90,
+            },
+        ],
+        900,
+    );
+
+    assert.equal(result.status, "dormant");
+    assert.deepEqual(result.actions[0].limits, {
+        minPowerW: 200,
+        maxPowerW: 2_000,
+        powerStepW: 50,
+        minEnergyWh: 500,
+        maxEnergyWh: 4_000,
+        minDurationMinutes: 20,
+        maxDurationMinutes: 120,
+        minStateOfChargePercent: 20,
+        maxStateOfChargePercent: 90,
+    });
+    assert.equal(result.actions[0].powerW, undefined);
+});
+
+test("blocks plans with incompatible physical limits", () => {
+    const result = planner.plan(
+        [recommendation()],
+        [{ assetId: "storage.home", type: "charge_storage", minPowerW: 500, maxPowerW: 2_000 }],
+        [{ type: "power_limit", enabled: true, maxPowerW: 400 }],
+        900,
+    );
+
+    assert.equal(result.status, "blocked");
+    assert.deepEqual(result.actions, []);
+    assert.match(result.warnings[0], /power limits do not define a feasible range/);
+});
+
+test("clips the action horizon to allowed time windows", () => {
+    const result = planner.plan(
+        [recommendation()],
+        [{ assetId: "storage.home", type: "charge_storage" }],
+        [{ type: "time_window", enabled: true, horizon: { from: 1_200, to: 1_800 } }],
+        900,
+    );
+
+    assert.equal(result.status, "dormant");
+    assert.deepEqual(result.actions[0].horizon, { from: 1_200, to: 1_800 });
+    assert.equal(result.validUntil, 1_800);
+});
+
+test("blocks expired recommendations", () => {
+    const result = planner.plan(
+        [recommendation({ horizon: { from: 1_000, to: 2_000 } })],
+        [{ assetId: "storage.home", type: "charge_storage" }],
+        [],
+        2_000,
+    );
+
+    assert.equal(result.status, "blocked");
+    assert.match(result.warnings[0], /expired/);
+});
+
+test("clips a partially elapsed recommendation to the generation time", () => {
+    const result = planner.plan(
+        [recommendation({ horizon: { from: 500, to: 2_000 } })],
+        [{ assetId: "storage.home", type: "charge_storage" }],
+        [],
+        1_000,
+    );
+
+    assert.equal(result.status, "dormant");
+    assert.deepEqual(result.actions[0].horizon, { from: 1_000, to: 2_000 });
+    assert.equal(result.validUntil, 2_000);
+});
+
+test("ignores an expired opposing storage recommendation during conflict checks", () => {
+    const result = planner.plan(
+        [
+            recommendation({ horizon: { from: 500, to: 2_000 } }),
+            recommendation({
+                type: "discharge_storage",
+                horizon: { from: 500, to: 900 },
+                reason: { code: "grid_import", description: "Discharge during import." },
+            }),
+        ],
+        [
+            { assetId: "storage.home", type: "charge_storage" },
+            { assetId: "storage.home", type: "discharge_storage" },
+        ],
+        [],
+        1_000,
+    );
+
+    assert.equal(result.status, "dormant");
+    assert.deepEqual(result.actions[0].horizon, { from: 1_000, to: 2_000 });
+    assert.deepEqual(result.warnings, []);
+});
+
+test("blocks overlapping opposite actions for the same asset", () => {
+    const result = planner.plan(
+        [
+            recommendation(),
+            recommendation({
+                type: "discharge_storage",
+                reason: { code: "grid_import", description: "Discharge during import." },
+            }),
+        ],
+        [
+            { assetId: "storage.home", type: "charge_storage" },
+            { assetId: "storage.home", type: "discharge_storage" },
+        ],
+        [],
+        900,
+    );
+
+    assert.equal(result.status, "blocked");
+    assert.deepEqual(result.actions, []);
+    assert.match(result.warnings[0], /Conflicting recommendations/);
 });

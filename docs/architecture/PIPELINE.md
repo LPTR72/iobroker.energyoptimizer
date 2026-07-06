@@ -6,7 +6,7 @@
 4. **PredictionEngine -> EnergyPrediction** - applies explicit prediction resolution and horizon options, fills safe fallbacks, and predicts power, price, and battery values.
 5. **EvaluationEngine -> EnergySituation[]** - detects meaningful observed and predicted conditions using explicit thresholds.
 6. **RecommendationEngine -> Recommendation[]** - ranks device-independent advice from situations, goals, and recommendation-level constraints.
-7. **ExecutionPlanner -> ExecutionPlan** - dormant, deterministic capability matching and conversion of unambiguous recommendations into neutral actions.
+7. **ExecutionPlanner -> ExecutionPlan** - dormant, deterministic conversion of unambiguous recommendations into neutral actions bounded by capabilities, constraints, time, conflicts, and expiry.
 8. **ExecutionLayer -> device actions** - planned provider-specific execution, only after explicit approval and safety design.
 
 ```text

@@ -1,5 +1,5 @@
 export type { EnergySituation, EnergySituationSeverity, EnergySituationType } from "./EnergySituation";
-export type { ExecutionAction, ExecutionActionType } from "./ExecutionAction";
+export type { ExecutionAction, ExecutionActionLimits, ExecutionActionType } from "./ExecutionAction";
 export type { ExecutionPlan, ExecutionPlanStatus } from "./ExecutionPlan";
 export type { OptimizationCapability, OptimizationCapabilityType } from "./OptimizationCapability";
 export type { OptimizationConstraint, OptimizationConstraintType } from "./OptimizationConstraint";
