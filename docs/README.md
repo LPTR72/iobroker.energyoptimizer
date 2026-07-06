@@ -16,7 +16,7 @@ This directory is the maintained technical and project reference for ioBroker En
 - [Developer guide](development/DEVELOPER_GUIDE.md)
 - [Testing](development/TESTING.md)
 - [Workflow](development/WORKFLOW.md)
-- [Next-chat handoff](development/NEXT_CHAT.md)
+- [Project handoff](development/PROJECT_HANDOFF.md)
 
 ## Planning
 

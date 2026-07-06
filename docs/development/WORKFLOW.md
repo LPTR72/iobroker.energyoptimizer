@@ -6,13 +6,9 @@ Stand: 06.07.2026 07:19 Uhr
 
 Repository documentation, ADRs, README content, and contributor-facing comments must be written in English. English remains the repository language unless explicitly changed by a project decision.
 
-## Session startup
+## Project handoff
 
-Start every new development session with exactly this entry point:
-
-> Continue work on ioBroker.energyoptimizer. Use docs/development/NEXT_CHAT.md as the canonical entry point and follow its session-startup rules.
-
-Read `docs/development/NEXT_CHAT.md` first. If available, continue immediately with `.local/PROJECT_CONTEXT.md`. Never copy private information from the local context into committed documentation.
+`docs/development/PROJECT_HANDOFF.md` is the canonical, tool-neutral project handoff. It records project status, the latest completed milestone, validation results, open risks, and the next recommended milestone. Additional local development notes may exist outside version control; never copy private information from them into committed documentation.
 
 ## Local development environment
 
@@ -31,7 +27,7 @@ Repository-local Git configuration overrides these global defaults.
 
 ## Implementation guard
 
-Documentation, planning, architecture discussion, review, handoff, `NEXT_CHAT.md`, or `WORKFLOW.md` requests do not authorize a new implementation milestone. Code changes require explicit user approval.
+Documentation, planning, architecture discussion, review, handoff, `PROJECT_HANDOFF.md`, or `WORKFLOW.md` requests do not authorize a new implementation milestone. Code changes require explicit approval.
 
 ## Binding milestone workflow
 
@@ -47,7 +43,7 @@ Implementation
   -> Raspberry Pi install, build, tests, and package
   -> ioBroker installation
   -> feature, state, health, and log validation
-  -> NEXT_CHAT.md handoff
+  -> PROJECT_HANDOFF.md update
 ```
 
 Do not skip ahead, validate an unpushed working tree, or deploy an old local tarball. The Raspberry Pi must build the package from the exact GitHub commit pulled for validation.
@@ -154,7 +150,7 @@ Until a separately approved execution layer exists:
 
 ## Decision log
 
-- `docs/development/NEXT_CHAT.md` is the canonical session handoff.
+- `docs/development/PROJECT_HANDOFF.md` is the canonical project handoff.
 - GitHub is the handoff boundary between local development and Raspberry Pi validation.
 - The Raspberry Pi packages only the revision pulled from GitHub.
 - ioBroker integration validation is mandatory for production-code milestones.
@@ -180,7 +176,7 @@ All internal project documents use a compact status line:
 Stand: DD.MM.YYYY HH:MM Uhr
 ```
 
-Every milestone ends with an updated `docs/development/NEXT_CHAT.md` recording the result, validation, open risks, and next recommended step. Pure typo or minor documentation edits need no full handoff update unless they affect the handoff.
+Every milestone ends with an updated `docs/development/PROJECT_HANDOFF.md` recording the result, validation, open risks, and next recommended step. Pure typo or minor documentation edits need no full handoff update unless they affect the handoff.
 
 ### Tool-neutral documentation
 
@@ -202,6 +198,6 @@ An implementation milestone is complete only when:
 6. The Raspberry-built package is installed in ioBroker.
 7. Feature, state, health, regression, and log checks succeed.
 8. No unresolved runtime regression remains.
-9. `NEXT_CHAT.md` records the completed milestone and next step.
+9. `PROJECT_HANDOFF.md` records the completed milestone and next step.
 
 Do not begin the next milestone before this definition is satisfied.

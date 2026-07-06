@@ -1,14 +1,10 @@
-# NEXT_CHAT
+# PROJECT_HANDOFF
 
 Stand: 06.07.2026 07:19 Uhr
 
-## Session startup
+## Purpose
 
-Every new development session must begin with this document.
-
-If `.local/PROJECT_CONTEXT.md` exists, read it immediately afterwards. It contains private environment-specific information and must never be committed or copied into repository documentation.
-
-Repository documentation remains the canonical project documentation.
+This tool-neutral document is the canonical project handoff. It records the current project status, latest completed milestone, validation results, open risks, and next recommended milestone. Local development notes may exist outside version control, but repository documentation remains canonical.
 
 ## Current project status
 
