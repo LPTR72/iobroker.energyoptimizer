@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation 2.0
+  Public project presentation 2.1
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@ The current runtime is intentionally conservative: it reads configured ioBroker 
 
 > **Current status**
 >
-> The History Service domain foundation is implemented, but the milestone is not complete until architecture review, validation, documentation update, and milestone closure are finished.
+> The History Service domain foundation is implemented, but the milestone is not complete until architecture review and validation are finished.
 
 ## Implemented foundations
 
@@ -50,7 +50,7 @@ Implemented foundations include:
 - recommendation engine and recommendation options
 - read-only simulation runtime integration
 - structured read-only recommendation projection
-- dormant execution-planning domain semantics
+- dormant planning-domain semantics
 - History Service domain foundation, currently pending architecture review and milestone closure
 
 ## Current safety boundary
@@ -69,7 +69,7 @@ Not implemented in the public runtime:
 
 ## Current development focus
 
-The active milestone is the History Service domain foundation. It has been implemented but is not considered complete until architecture review, validation, documentation update, and milestone closure are finished.
+The active milestone is the History Service domain foundation. It has been implemented but is not considered complete until architecture review, validation, and milestone closure are finished.
 
 ## Maturity overview
 
@@ -80,13 +80,13 @@ The active milestone is the History Service domain foundation. It has been imple
 | Domain model foundation | Implemented and evolving |
 | Analysis, prediction, evaluation, recommendation | Implemented foundations |
 | Read-only simulation runtime | Implemented |
-| Execution planning | Dormant domain foundation only |
+| Planning models | Dormant domain foundation only |
 | History Service | Domain foundation implemented; review pending |
 | Pattern-based Virtual Energy Assets | Planned architecture concept |
 | SQL/history backend integration | Planned |
 | Pattern recognition | Planned |
-| Device execution | Planned and approval-gated |
+| Device behavior | Planned and approval-gated |
 
-## Validation model
+## Project quality
 
-Production-code milestones are expected to pass local build and tests, whitespace checks, repository review, and, where relevant, Raspberry Pi / ioBroker runtime validation before being closed.
+The project follows an architecture-first development style. Core domain logic is designed to be deterministic, testable, and independent from vendor APIs or ioBroker runtime details. Public runtime behavior is introduced in stages so new capabilities can be inspected before they affect real devices.
