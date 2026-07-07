@@ -26,6 +26,8 @@ The project is under active development.
 
 The current runtime is intentionally conservative: it reads configured ioBroker states, mirrors live energy values, calculates fixed-tariff import costs, publishes diagnostics, and exposes read-only recommendation data. It does not control devices.
 
+![Project timeline](assets/timeline.svg)
+
 > **Current status**
 >
 > The History Service domain foundation is implemented, but the milestone is not complete until architecture review, validation, documentation update, and milestone closure are finished.
