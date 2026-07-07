@@ -5,12 +5,13 @@
 <h1 align="center">ioBroker Energy Optimizer</h1>
 
 <p align="center">
-  <strong>Public project presentation</strong><br>
-  Transparent, vendor-neutral home energy optimization for ioBroker.
+  <strong>Public project presentation 2.0</strong><br>
+  Explainable, vendor-neutral home energy optimization for ioBroker.
 </p>
 
 <p align="center">
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
@@ -21,17 +22,30 @@
 
 ---
 
-## Overview
+## Why this project exists
 
-`ioBroker.energyoptimizer` is an ioBroker adapter project for transparent, vendor-neutral home energy optimization.
+`ioBroker.energyoptimizer` is not designed as a simple automation script. It is evolving into an architecture-first energy optimization platform that can understand energy behavior before it recommends or later plans actions.
 
-The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular optimization platform that can analyze current energy flows, combine them with forecasts and history, evaluate situations, recommend actions, and later execute explicitly approved plans.
+The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular platform that combines live measurements, forecasts, historical knowledge, pattern recognition, prediction, evaluation, simulation, and explicit approval boundaries.
 
 ![Optimization pipeline](assets/pipeline.svg)
 
 > **Current safety boundary**
 >
 > The current public runtime is not a device-control system. It does not switch devices, schedule loads, write to foreign states, or call external cloud APIs without a separate approved implementation step.
+
+## What makes it different
+
+| USP | Meaning |
+| --- | --- |
+| Vendor-neutral energy model | The core models physical energy behavior instead of vendor APIs. |
+| Read-only before control | Recommendations can be inspected before any future device behavior exists. |
+| History as knowledge foundation | Historical data becomes reusable context for prediction, diagnostics, simulation, and optimization. |
+| Pattern-based Virtual Energy Assets | Recurring behavior may become user-confirmed virtual assets instead of hardcoded assumptions. |
+| Explainable recommendations | Decisions should be traceable to measurements, history, predictions, and constraints. |
+| Simulation foundation | Current diagnostics prepare future replay, scenarios, benchmarks, and demo mode. |
+
+![Pattern-based Virtual Energy Assets](assets/virtual-assets.svg)
 
 ## Visual overview
 
@@ -41,7 +55,8 @@ The project starts with safe energy data handling and read-only recommendations.
 | [Architecture](assets/architecture.svg) | Shows the boundary between ioBroker runtime, integrations, and domain core. |
 | [Timeline](assets/timeline.svg) | Shows implemented foundations, current work, and future areas. |
 | [History Service](assets/history.svg) | Shows the planned historical data foundation. |
-| [Simulation](assets/simulation.svg) | Separates current read-only diagnostics from future framework work. |
+| [Virtual Energy Assets](assets/virtual-assets.svg) | Shows how patterns may become confirmed reusable knowledge. |
+| [Simulation](assets/simulation.svg) | Separates current Simulation Runtime from the planned Simulation Framework. |
 | [Future step](assets/future-step.svg) | Shows the later path beyond recommendations. |
 
 ## Presentation pages
@@ -49,20 +64,13 @@ The project starts with safe energy data handling and read-only recommendations.
 | Page | Purpose |
 | --- | --- |
 | [Project vision](PROJECT_VISION.md) | Long-term project direction and guiding principles |
+| [Key concepts](KEY_CONCEPTS.md) | The architecture ideas that make the project different |
 | [Project status](PROJECT_STATUS.md) | Current maturity, implemented foundations, and active milestone |
 | [Features](FEATURES.md) | Implemented behavior versus planned capabilities |
 | [Use cases](USE_CASES.md) | Typical user and developer scenarios |
 | [Architecture overview](ARCHITECTURE_OVERVIEW.md) | Public explanation of the architecture and boundaries |
 | [Roadmap](ROADMAP.md) | High-level development direction |
 | [FAQ](FAQ.md) | Frequently asked questions |
-
-## Core pipeline
-
-```text
-measure -> analyze -> forecast -> predict -> evaluate -> recommend -> plan -> execute
-```
-
-The project intentionally builds this pipeline from the inside out: deterministic domain models first, safe read-only runtime integration second, execution last.
 
 ## Documentation scope
 
