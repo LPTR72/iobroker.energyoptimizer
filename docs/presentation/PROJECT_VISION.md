@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation 2.0
+  Public project presentation 2.1
 </p>
 
 <p align="center">
@@ -23,21 +23,23 @@
 
 # Project Vision
 
-`ioBroker.energyoptimizer` aims to become a modular energy optimization platform for ioBroker.
+`ioBroker.energyoptimizer` aims to become a modular energy intelligence platform for the whole home energy system.
 
-The long-term goal is to help households understand, predict, and improve their energy behavior while keeping the system transparent, deterministic, and safe.
+The long-term goal is to help households understand, predict, and improve how energy is produced, stored, converted, and consumed while keeping the system transparent, deterministic, and safe.
 
 ![Optimization pipeline](assets/pipeline.svg)
 
 > **Vision in one sentence**
 >
-> Build a safe, explainable energy optimizer that understands the home energy system before it ever controls it.
+> Build a safe, explainable energy optimizer that understands the home energy system before it recommends changes.
 
 ## Core idea
 
-Home energy systems are becoming more complex. A household may combine grid import and export, photovoltaic generation, battery storage, flexible loads, variable tariffs, weather forecasts, historical behavior, and device-specific constraints.
+Home energy systems are becoming more complex. A household may combine grid import and export, photovoltaic generation, electrical storage, thermal storage, heat pumps, flexible loads, variable tariffs, weather forecasts, historical behavior, and device-specific constraints.
 
-The adapter models this as a neutral energy system instead of building logic around a specific vendor, device, protocol, or cloud service.
+The adapter models these elements as neutral energy assets instead of building logic around a specific vendor, device, protocol, or cloud service.
+
+This means the project is not limited to electricity flows only. It should also be able to reason about energy flexibility across different physical domains, such as storing surplus energy in a battery, shifting a flexible load, or increasing useful thermal storage.
 
 ## From data to knowledge
 
@@ -60,8 +62,8 @@ Live values
 - **Architecture-first:** domain logic is kept independent from ioBroker runtime APIs and integration details.
 - **History-driven:** past observations and temporal context become reusable knowledge for multiple consumers.
 - **Hypothesis before knowledge:** detected patterns remain uncertain until confirmed by the user.
-- **Read-only before control:** analysis, diagnostics, and recommendations come before any device behavior.
-- **Explicit approval gates:** runtime behavior changes require separate, deliberate implementation decisions.
+- **Read-only first:** analysis, diagnostics, and recommendations come before any later automation stage.
+- **Explicit approval gates:** later runtime stages require separate, deliberate implementation decisions.
 - **Deterministic behavior:** calculations should be predictable, testable, and explainable.
 - **Compatibility:** existing public states and legacy configuration fields remain stable unless a migration is explicitly approved.
 
@@ -70,13 +72,15 @@ Live values
 The intended optimization pipeline is:
 
 ```text
-measure -> analyze -> forecast -> predict -> evaluate -> recommend -> plan -> execute
+measure -> analyze -> forecast -> predict -> evaluate -> recommend -> plan
 ```
 
-The current project focuses on building this pipeline safely from the inside out: domain models and pure engines first, runtime integration second, device behavior last.
+The current project focuses on building this pipeline safely from the inside out: domain models and pure engines first, runtime integration second, later automation stages last.
+
+Over time, this foundation should allow the system to move from observation to useful recommendations and carefully reviewed planning.
 
 ## Why this matters
 
-A useful energy optimizer should not simply switch devices whenever surplus power appears. It needs to understand timing, forecasts, battery state, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
+A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
 
-The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script.
+The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script. Its purpose is to help the home energy system become understandable first, useful second, and extensible when the underlying behavior is clear enough to justify it.
