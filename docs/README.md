@@ -1,10 +1,10 @@
 # Documentation
 
-This directory contains the public technical and project reference for ioBroker Energy Optimizer.
+This directory is the maintained public technical and project reference for ioBroker Energy Optimizer.
 
 ## Presentation
 
-- [Public presentation](presentation/README.md)
+- [Public presentation](presentation/README.md) — visual project overview and future GitHub Pages foundation
 
 ## Architecture
 
@@ -19,12 +19,12 @@ This directory contains the public technical and project reference for ioBroker 
 
 - [Roadmap](roadmap/ROADMAP.md)
 - [Project status](roadmap/PROJECT_STATUS.md)
-- [Changelog](roadmap/CHANGELOG.md)
 - [Vision](roadmap/VISION.md)
 
 ## Other references
 
-- [Image assets](images/README.md)
 - [Contributing](../CONTRIBUTING.md)
 
-Internal development workflow documents are maintained separately and are not part of the public presentation entry path.
+## Notes
+
+Internal development workflow documents are maintained separately and are not part of the public documentation entry path.
