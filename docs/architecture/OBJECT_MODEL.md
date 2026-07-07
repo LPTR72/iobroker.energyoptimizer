@@ -1,12 +1,14 @@
 # Object Model
 
-Stand: 07.07.2026 13:00 Uhr
+Stand: 07.07.2026 13:15 Uhr
 
 ## Purpose
 
 This document defines the adapter-owned ioBroker object namespace, publication boundaries, and naming rules for current and future states. It is an architecture boundary document, not an implementation record for every future state.
 
 The object model must remain stable, vendor-neutral, read-only by default, and compatible with the current `energyoptimizer.0.*` runtime namespace.
+
+Brainstorming outcomes that define object names, namespaces, state semantics, publication boundaries, or validation expectations must be promoted into this document or another referenced architecture document before they are used for implementation planning.
 
 ## Object namespace ownership
 
@@ -111,7 +113,9 @@ Structured read-only recommendation summary for simple consumers. It exposes ava
 
 ### `simulation.*`
 
-Current read-only simulation-runtime publication. This namespace belongs to the narrow implemented runtime simulation path and must not be confused with the future first-class Simulation Framework. Future Simulation Framework states require separate scope selection and approval.
+Current read-only simulation-runtime publication. This namespace currently belongs to the narrow implemented runtime simulation path and must not be confused with the future first-class Simulation Framework.
+
+The `simulation.*` namespace is also the reserved public namespace for the future Simulation Framework. Future additions require separate scope selection and approval and must preserve compatibility with the existing `simulation.ready` and `simulation.publication.json` states.
 
 ### `info.*`
 
@@ -149,6 +153,82 @@ Future History Service runtime states, when approved, should follow these bounda
 
 Potential future compact states may include availability, backend status, last successful collection, last aggregation, retained resolution status, or warning count. Exact names are intentionally not fixed here and must be selected by the approved History Service runtime milestone.
 
+## Simulation Framework object boundaries
+
+The Simulation Framework is a future first-class architecture capability for development simulation, accelerated time, replay mode, scenario libraries, benchmark scenarios, demo mode, synthetic data generation, and regression testing. These capabilities were accepted architecturally in ADR-0014, but they are not implemented and are not approved as current runtime work.
+
+The current `simulation.ready` and `simulation.publication.json` states are part of the implemented narrow read-only `SimulationRuntime`. They remain compatibility states and must not be repurposed into control states.
+
+Future Simulation Framework object design should stay under `simulation.*` and should be split into capability-specific areas. The following target structure is reserved as a planning boundary, not an approved implementation tree:
+
+```text
+energyoptimizer.0.simulation
+├── mode
+│   ├── active
+│   ├── type
+│   └── source
+├── clock
+│   ├── now
+│   ├── speed
+│   ├── startedAt
+│   └── finishedAt
+├── scenario
+│   ├── id
+│   ├── name
+│   ├── version
+│   ├── category
+│   └── status
+├── replay
+│   ├── active
+│   ├── source
+│   ├── position
+│   └── progress
+├── benchmark
+│   ├── active
+│   ├── scenarioId
+│   ├── runId
+│   ├── score
+│   └── metrics
+│       └── json
+├── demo
+│   ├── active
+│   └── scenarioId
+├── synthetic
+│   ├── active
+│   └── profile
+├── regression
+│   ├── active
+│   ├── suite
+│   ├── passed
+│   └── result
+│       └── json
+└── publication
+    └── json
+```
+
+Simulation Framework boundary rules:
+
+- Simulation state must be clearly distinguishable from live operation.
+- Demo Mode must not imply real hardware availability.
+- Simulation, replay, benchmark, demo, synthetic, and regression states must not write foreign states or control devices.
+- The optimizer should consume neutral inputs and should not need to distinguish live from simulated data.
+- Scenario definitions, scenario libraries, benchmark metrics, scoring rules, and regression expectations must be explicit and versioned.
+- Scenario data should not be expanded into many ordinary ioBroker states when a versioned file or JSON publication is more stable.
+- Benchmark metrics and regression results may use JSON publication states when the schema is versioned and tested.
+- Accelerated time requires an explicit simulation clock; hidden wall-clock dependencies must not determine simulation behavior.
+
+Initial scenario-library names may include:
+
+- Sunny Summer Day;
+- Cloudy Day;
+- Winter Day;
+- Dynamic Tariff;
+- EV Charging;
+- Irrigation after Dry Days;
+- Pool Pump Season.
+
+Exact state IDs, writable controls, configuration surfaces, scenario file formats, benchmark metrics, UI exposure, and runtime orchestration require a separately approved Simulation Framework milestone. Until then, the tree above is a reserved target boundary only.
+
 ## JSON publication boundaries
 
 JSON states may be used for complete diagnostic snapshots when a scalar state model would be unstable or too verbose.
@@ -180,6 +260,19 @@ Use stable, physical, vendor-neutral names:
 - Do not encode vendor names, adapter names, instance numbers, rooms, or user-specific device names in public state IDs.
 - Keep public state IDs lowercase camelCase after each namespace segment.
 - Use `*.json` only for valid JSON publication states.
+
+## Documentation rule for brainstorming outcomes
+
+When a brainstorming or planning discussion produces decisions about object namespaces, public state IDs, state semantics, JSON schemas, publication boundaries, runtime boundaries, validation requirements, or compatibility expectations, the outcome must be documented before implementation starts.
+
+The documentation update should identify:
+
+- the decision;
+- the affected namespace or states;
+- whether it is implemented, reserved, or deferred;
+- explicit non-goals;
+- validation requirements;
+- migration or compatibility impact if existing states are affected.
 
 ## Validation requirements
 
