@@ -22,6 +22,10 @@
 
 # FAQ
 
+## Where are the presentation graphics?
+
+The reusable SVG graphics are stored in [`assets/`](assets/). The landing page and topic pages embed the most relevant diagrams directly.
+
 ## Is this adapter already controlling devices?
 
 No. The current runtime is read-only with respect to external devices and foreign ioBroker states. It does not switch devices, schedule loads, or execute optimization actions.
