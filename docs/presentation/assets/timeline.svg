@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420" role="img" aria-labelledby="title desc">
+<title id="title">Project timeline</title><desc id="desc">Timeline of completed, current, and planned project areas.</desc>
+<rect width="1100" height="420" rx="24" fill="#f6fbf8"/>
+<text x="44" y="54" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">Project timeline</text>
+<text x="44" y="82" font-family="Arial, sans-serif" font-size="15" fill="#4b5563">Public view of maturity: completed foundations, current review, and future capabilities.</text>
+<line x1="90" y1="210" x2="1010" y2="210" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/>
+<g font-family="Arial, sans-serif">
+  <circle cx="110" cy="210" r="18" fill="#2fbf71"/><text x="110" y="216" text-anchor="middle" font-size="18" fill="#fff">✓</text><text x="110" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Runtime</text><text x="110" y="280" text-anchor="middle" font-size="12" fill="#6b7280">polling</text>
+  <circle cx="260" cy="210" r="18" fill="#2fbf71"/><text x="260" y="216" text-anchor="middle" font-size="18" fill="#fff">✓</text><text x="260" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Analysis</text><text x="260" y="280" text-anchor="middle" font-size="12" fill="#6b7280">domain</text>
+  <circle cx="410" cy="210" r="18" fill="#2fbf71"/><text x="410" y="216" text-anchor="middle" font-size="18" fill="#fff">✓</text><text x="410" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Prediction</text><text x="410" y="280" text-anchor="middle" font-size="12" fill="#6b7280">models</text>
+  <circle cx="560" cy="210" r="18" fill="#2fbf71"/><text x="560" y="216" text-anchor="middle" font-size="18" fill="#fff">✓</text><text x="560" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Recommendation</text><text x="560" y="280" text-anchor="middle" font-size="12" fill="#6b7280">read-only</text>
+  <circle cx="710" cy="210" r="18" fill="#f59e0b"/><text x="710" y="216" text-anchor="middle" font-size="18" fill="#fff">›</text><text x="710" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">History</text><text x="710" y="280" text-anchor="middle" font-size="12" fill="#6b7280">review</text>
+  <circle cx="860" cy="210" r="18" fill="#9ca3af"/><text x="860" y="216" text-anchor="middle" font-size="18" fill="#fff">○</text><text x="860" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Simulation</text><text x="860" y="280" text-anchor="middle" font-size="12" fill="#6b7280">future</text>
+  <circle cx="1010" cy="210" r="18" fill="#9ca3af"/><text x="1010" y="216" text-anchor="middle" font-size="18" fill="#fff">○</text><text x="1010" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Devices</text><text x="1010" y="280" text-anchor="middle" font-size="12" fill="#6b7280">future</text>
+</g>
+<rect x="44" y="332" width="1012" height="48" rx="14" fill="#fff" stroke="#d1d5db"/>
+<text x="64" y="362" font-family="Arial, sans-serif" font-size="14" fill="#4b5563">Legend: green = implemented foundation, orange = active review area, gray = planned future capability.</text>
+</svg>
