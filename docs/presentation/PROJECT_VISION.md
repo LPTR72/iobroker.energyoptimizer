@@ -26,6 +26,8 @@
 
 The long-term goal is to help households understand, predict, and improve their energy behavior while keeping the system transparent, deterministic, and safe.
 
+![Optimization pipeline](assets/pipeline.svg)
+
 > **Vision in one sentence**
 >
 > Build a safe, explainable energy optimizer that understands the home energy system before it ever controls it.
