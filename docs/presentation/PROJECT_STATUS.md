@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation
+  Public project presentation 2.0
 </p>
 
 <p align="center">
   <a href="README.md">Home</a> ·
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
@@ -81,6 +82,7 @@ The active milestone is the History Service domain foundation. It has been imple
 | Read-only simulation runtime | Implemented |
 | Execution planning | Dormant domain foundation only |
 | History Service | Domain foundation implemented; review pending |
+| Pattern-based Virtual Energy Assets | Planned architecture concept |
 | SQL/history backend integration | Planned |
 | Pattern recognition | Planned |
 | Device execution | Planned and approval-gated |
