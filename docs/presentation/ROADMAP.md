@@ -24,9 +24,11 @@
 
 This roadmap summarizes the public direction at a high level. It does not replace the detailed project roadmap in [`../roadmap/ROADMAP.md`](../roadmap/ROADMAP.md).
 
+![Project timeline](assets/timeline.svg)
+
 > **Roadmap rule**
 >
-> Runtime changes, history integration, and device execution are split into explicit milestones. Planned direction does not imply current runtime behavior.
+> Runtime changes, history integration, and device behavior are split into explicit milestones. Planned direction does not imply current runtime behavior.
 
 ## Completed foundations
 
@@ -40,13 +42,15 @@ The project has established the main architectural and domain foundations:
 - analysis, forecast abstraction, prediction, evaluation, and recommendation foundations
 - read-only simulation runtime integration
 - structured read-only recommendation output
-- dormant execution-planning model semantics
+- dormant planning model semantics
 
 ## Current milestone
 
 The current milestone is the History Service domain foundation.
 
 Its purpose is to establish implementation-neutral history concepts before integrating a concrete backend or runtime collection path.
+
+![History Service](assets/history.svg)
 
 The milestone is not complete until architecture review and validation are finished.
 
@@ -94,12 +98,14 @@ A future first-class Simulation Framework may support:
 - synthetic data generation
 - regression testing
 
+![Simulation](assets/simulation.svg)
+
 This is a long-term architecture capability. Its implementation order is still open.
 
-## Long-term direction: controlled execution
+## Long-term direction: controlled device behavior
 
-Device execution is planned but approval-gated.
+Device behavior is planned but approval-gated.
 
-Before execution can be safe, the project needs reliable recommendations, planning semantics, validation, conflict handling, provider boundaries, user approval rules, and runtime safety controls.
+Before this can be safe, the project needs reliable recommendations, planning semantics, validation, conflict handling, provider boundaries, user approval rules, and runtime safety controls.
 
-Execution should be the last step of the optimization pipeline, not the first.
+The current runtime stops at read-only recommendation output.
