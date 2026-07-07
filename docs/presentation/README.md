@@ -34,13 +34,13 @@ The project starts with safe energy data handling and read-only recommendations.
 
 > **Current safety boundary**
 >
-> The current public runtime is not a device-control system. It does not switch devices, schedule loads, write to foreign states, or call external cloud APIs without a separate approved implementation step.
+> The current public runtime is not a device-control system. It does not control devices, schedule loads, modify external states, or call external services without a separate approved implementation step.
 
 ## What makes it different
 
 | USP | Meaning |
 | --- | --- |
-| Vendor-neutral energy model | The core models physical energy behavior instead of vendor APIs. |
+| Vendor-neutral energy model | The core models the physical behavior of energy systems rather than vendor-specific APIs. |
 | Read-only before control | Recommendations can be inspected before any future device behavior exists. |
 | History as knowledge foundation | Historical data becomes reusable context for prediction, diagnostics, simulation, and optimization. |
 | Pattern-based Virtual Energy Assets | Recurring behavior may become user-confirmed virtual assets instead of hardcoded assumptions. |
