@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="260" viewBox="0 0 1100 260" role="img" aria-labelledby="title desc">
+  <title id="title">Energy optimizer pipeline</title>
+  <desc id="desc">Pipeline from measure to execute, with execution marked as future and approval gated.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .box{fill:#ffffff;stroke:#d1d5db;stroke-width:2}.done{fill:#ecfdf3;stroke:#2fbf71}.future{fill:#f9fafb;stroke:#9ca3af;stroke-dasharray:7 5}.label{font:600 18px Inter,Segoe UI,Arial,sans-serif;fill:#111827}.hint{font:13px Inter,Segoe UI,Arial,sans-serif;fill:#6b7280}.line{stroke:#4b5563;stroke-width:2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1100" height="260" rx="24" fill="#f6fbf8"/>
+  <text x="44" y="52" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">Optimization pipeline</text>
+  <text x="44" y="80" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" fill="#4b5563">Domain intelligence grows from read-only measurement toward explicitly approved execution.</text>
+  <g transform="translate(40 118)">
+    <rect class="box done" x="0" y="0" width="110" height="70" rx="16"/><text class="label" x="55" y="31" text-anchor="middle">Measure</text><text class="hint" x="55" y="53" text-anchor="middle">runtime</text>
+    <line class="line" x1="116" y1="35" x2="145" y2="35"/>
+    <rect class="box done" x="150" y="0" width="110" height="70" rx="16"/><text class="label" x="205" y="31" text-anchor="middle">Analyze</text><text class="hint" x="205" y="53" text-anchor="middle">domain</text>
+    <line class="line" x1="266" y1="35" x2="295" y2="35"/>
+    <rect class="box done" x="300" y="0" width="110" height="70" rx="16"/><text class="label" x="355" y="31" text-anchor="middle">Forecast</text><text class="hint" x="355" y="53" text-anchor="middle">boundary</text>
+    <line class="line" x1="416" y1="35" x2="445" y2="35"/>
+    <rect class="box done" x="450" y="0" width="110" height="70" rx="16"/><text class="label" x="505" y="31" text-anchor="middle">Predict</text><text class="hint" x="505" y="53" text-anchor="middle">domain</text>
+    <line class="line" x1="566" y1="35" x2="595" y2="35"/>
+    <rect class="box done" x="600" y="0" width="110" height="70" rx="16"/><text class="label" x="655" y="31" text-anchor="middle">Evaluate</text><text class="hint" x="655" y="53" text-anchor="middle">domain</text>
+    <line class="line" x1="716" y1="35" x2="745" y2="35"/>
+    <rect class="box done" x="750" y="0" width="130" height="70" rx="16"/><text class="label" x="815" y="31" text-anchor="middle">Recommend</text><text class="hint" x="815" y="53" text-anchor="middle">read-only</text>
+    <line class="line" x1="886" y1="35" x2="915" y2="35"/>
+    <rect class="box future" x="920" y="0" width="80" height="70" rx="16"/><text class="label" x="960" y="31" text-anchor="middle">Plan</text><text class="hint" x="960" y="53" text-anchor="middle">dormant</text>
+  </g>
+  <text x="40" y="230" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14" fill="#6b7280">Execution remains a later, approval-gated milestone and is intentionally not part of the current runtime behavior.</text>
+</svg>
