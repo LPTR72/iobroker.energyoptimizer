@@ -24,6 +24,8 @@
 
 This page separates implemented behavior from planned capabilities.
 
+![Optimization pipeline](assets/pipeline.svg)
+
 > **Design rule**
 >
 > Features are documented as implemented only when they exist in the runtime or domain code. Planned capabilities are marked separately.
@@ -55,7 +57,7 @@ The repository contains domain foundations for:
 - time-series merging
 - situation evaluation
 - recommendation generation
-- dormant execution-plan modeling
+- dormant planning model semantics
 - History Service domain concepts
 
 These components are designed to be deterministic and testable without depending directly on ioBroker runtime APIs.
@@ -70,7 +72,7 @@ Planned capabilities include:
 - pattern recognition based on confirmed historical behavior
 - richer cost, efficiency, degradation, and priority models
 - first-class simulation framework capabilities such as replay, scenarios, benchmarks, and demo mode
-- execution providers for explicitly approved device-control milestones
+- separately approved device-behavior milestones
 
 ## Explicitly not current features
 
@@ -80,6 +82,6 @@ The following are not current runtime features:
 - appliance scheduling
 - direct vendor-cloud control
 - writes to third-party ioBroker adapter states
-- autonomous optimization execution
+- autonomous optimization actions
 
 The project deliberately builds toward these areas only through separate approval, implementation, and validation milestones.
