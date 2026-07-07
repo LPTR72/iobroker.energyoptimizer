@@ -24,9 +24,11 @@
 
 The project is designed for households that want to understand and improve their energy behavior in ioBroker.
 
+![History Service](assets/history.svg)
+
 > **Current runtime scope**
 >
-> These use cases describe both current read-only behavior and future direction. Device execution remains planned and approval-gated.
+> These use cases describe both current read-only behavior and future direction. Device behavior remains planned and approval-gated.
 
 ## 1. Understand current energy flow
 
@@ -48,9 +50,9 @@ This is the foundation for future optimization decisions.
 
 ## 4. Publish read-only recommendations
 
-The current read-only simulation pipeline can produce recommendation data without executing it.
+The current read-only simulation pipeline can produce recommendation data without applying it to devices.
 
-This allows users and developers to inspect optimizer behavior before any device-control capability exists.
+This allows users and developers to inspect optimizer behavior before any device-behavior capability exists.
 
 ## 5. Prepare historical learning
 
@@ -62,11 +64,13 @@ Future consumers may use historical context for better predictions, diagnostics,
 
 Future versions may recommend or plan actions for flexible loads such as washing machines, dishwashers, heating-related loads, pumps, or chargers.
 
-The current project does not execute such actions. Execution remains approval-gated.
+The current project does not apply such actions. This remains approval-gated.
 
 ## 7. Compare optimization strategies
 
 A future Simulation Framework may allow replaying scenarios, testing strategy changes, and comparing behavior across benchmark cases without depending on live hardware.
+
+![Simulation](assets/simulation.svg)
 
 Possible examples include sunny days, cloudy days, winter operation, dynamic tariffs, battery constraints, and flexible appliance windows.
 
