@@ -27,9 +27,22 @@
 
 The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular optimization platform that can analyze current energy flows, combine them with forecasts and history, evaluate situations, recommend actions, and later execute explicitly approved plans.
 
+![Optimization pipeline](assets/pipeline.svg)
+
 > **Current safety boundary**
 >
 > The current public runtime is not a device-control system. It does not switch devices, schedule loads, write to foreign states, or call external cloud APIs without a separate approved implementation step.
+
+## Visual overview
+
+| Diagram | Purpose |
+| --- | --- |
+| [Pipeline](assets/pipeline.svg) | Shows the optimization path from measurement to recommendation and later planning. |
+| [Architecture](assets/architecture.svg) | Shows the boundary between ioBroker runtime, integrations, and domain core. |
+| [Timeline](assets/timeline.svg) | Shows implemented foundations, current work, and future areas. |
+| [History Service](assets/history.svg) | Shows the planned historical data foundation. |
+| [Simulation](assets/simulation.svg) | Separates current read-only diagnostics from future framework work. |
+| [Future step](assets/future-step.svg) | Shows the later path beyond recommendations. |
 
 ## Presentation pages
 
