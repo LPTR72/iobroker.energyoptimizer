@@ -37,6 +37,8 @@ ioBroker, EcoFlow, Tibber, MQTT, Shelly, Anker, and other platforms or products 
 
 This separation keeps engines deterministic, portable, and testable and prevents source-adapter or device details from leaking into optimization decisions.
 
+The adapter-owned public ioBroker object namespace, current state tree, reserved future namespaces, JSON publication rules, and read/write policy are defined in [Object model](OBJECT_MODEL.md).
+
 The History Service remains a single external service even though it separates collection, aggregation, and repository responsibilities internally. Analysis, prediction, evaluation, simulation, diagnostics, future visualization, and future optimization models may consume it. The History Repository is an abstraction; its preferred initial implementation uses ioBroker SQL infrastructure rather than an adapter-owned database. `PredictionEngine` consumes history when available but does not persist it and continues without historical learning when history is disabled. The complete planned contract is defined by [ADR-0012](ADR/ADR-0012-history-service.md).
 
 Long-term pattern recognition consumes History Service data and produces device-neutral hypotheses. Only user-confirmed hypotheses may become persistent Pattern-based Virtual Energy Assets. These virtual assets enrich a future knowledge model without claiming direct device identification or enabling control. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
