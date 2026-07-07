@@ -26,6 +26,8 @@
 
 The core idea is simple: energy logic should not depend on ioBroker APIs, concrete vendors, cloud services, or device protocols. Those details belong at the edges of the system.
 
+![Architecture overview](assets/architecture.svg)
+
 > **Architecture principle**
 >
 > The core models the physical energy system. ioBroker, vendors, protocols, and cloud APIs remain integration concerns.
@@ -53,27 +55,20 @@ The domain core contains models and pure calculations for:
 - optimization situations
 - evaluation
 - recommendations
-- execution plans and actions
+- planning models
 - historical metrics and aggregation concepts
 
 Domain components should be portable, testable, and independent from ioBroker object IDs or adapter lifecycle APIs.
 
 ## Runtime boundary
 
-The ioBroker adapter runtime is responsible for:
-
-- adapter lifecycle
-- configuration access
-- polling configured source states
-- writing adapter-owned public states
-- publishing diagnostics
-- orchestrating approved read-only runtime components
+The ioBroker adapter runtime is responsible for adapter lifecycle, configuration access, source-state polling, adapter-owned public states, diagnostics, and approved read-only orchestration.
 
 It must not leak vendor-specific details into the domain model.
 
 ## Provider boundaries
 
-Future providers may supply forecasts, tariffs, weather data, history, or execution capabilities.
+Future providers may supply forecasts, tariffs, weather data, historical data, or device capabilities.
 
 Examples include photovoltaic forecast services, tariff APIs, weather sources, SQL history backends, device adapters, and protocol integrations.
 
@@ -85,11 +80,11 @@ The planned History Service is the central boundary for past observations and te
 
 Its responsibilities include typed metrics, samples, buckets, aggregation, quality metadata, retention policy, and repository abstraction. The preferred first persistence direction is to use existing ioBroker SQL infrastructure rather than an adapter-owned database.
 
-## Execution boundary
+## Action boundary
 
-Execution is intentionally separated from recommendations.
+Recommendations and later action planning are intentionally separated.
 
-A recommendation may say what could be useful. An execution plan may describe what could be done. A future execution provider may translate an approved plan into real device operations.
+A recommendation may say what could be useful. A future plan may describe what could be done. Any real-world device behavior remains a later, separately approved project step.
 
 This separation is a safety boundary. The current runtime does not control devices.
 
@@ -97,4 +92,4 @@ This separation is a safety boundary. The current runtime does not control devic
 
 The adapter owns its own public ioBroker state namespace. Adapter-owned states may expose live values, costs, health, simulation diagnostics, and recommendation summaries.
 
-Writes to foreign adapter states are not part of the current runtime behavior and require a separate approved execution milestone.
+Writes to foreign adapter states are not part of the current runtime behavior and require a separate approved milestone.
