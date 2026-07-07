@@ -1,6 +1,32 @@
+<p align="center">
+  <img src="../images/Logo_Large.png" alt="ioBroker Energy Optimizer" width="260">
+</p>
+
+<p align="center">
+  <strong>ioBroker Energy Optimizer</strong><br>
+  Public project presentation
+</p>
+
+<p align="center">
+  <a href="README.md">Home</a> ·
+  <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="PROJECT_STATUS.md">Status</a> ·
+  <a href="FEATURES.md">Features</a> ·
+  <a href="USE_CASES.md">Use Cases</a> ·
+  <a href="ARCHITECTURE_OVERVIEW.md">Architecture</a> ·
+  <a href="ROADMAP.md">Roadmap</a> ·
+  <a href="FAQ.md">FAQ</a>
+</p>
+
+---
+
 # Use Cases
 
 The project is designed for households that want to understand and improve their energy behavior in ioBroker.
+
+> **Current runtime scope**
+>
+> These use cases describe both current read-only behavior and future direction. Device execution remains planned and approval-gated.
 
 ## 1. Understand current energy flow
 
