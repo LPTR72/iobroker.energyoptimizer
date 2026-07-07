@@ -5,7 +5,7 @@
 <h1 align="center">ioBroker Energy Optimizer</h1>
 
 <p align="center">
-  <strong>Public project presentation 2.0</strong><br>
+  <strong>Public project presentation 2.1</strong><br>
   Explainable, vendor-neutral home energy optimization for ioBroker.
 </p>
 
@@ -24,7 +24,9 @@
 
 ## Why this project exists
 
-`ioBroker.energyoptimizer` is not designed as a simple automation script. It is evolving into an architecture-first energy optimization platform that can understand energy behavior before it recommends or later plans actions.
+Modern home energy systems are becoming increasingly complex. Solar generation, batteries, dynamic tariffs, smart devices, and changing household routines all influence each other. `ioBroker.energyoptimizer` aims to make this complexity understandable before it automates anything.
+
+Rather than being a simple automation script, `ioBroker.energyoptimizer` is evolving into an architecture-first energy optimization platform that can understand energy behavior before it recommends or later plans actions.
 
 The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular platform that combines live measurements, forecasts, historical knowledge, pattern recognition, prediction, evaluation, simulation, and explicit approval boundaries.
 
@@ -71,13 +73,3 @@ The project starts with safe energy data handling and read-only recommendations.
 | [Architecture overview](ARCHITECTURE_OVERVIEW.md) | Public explanation of the architecture and boundaries |
 | [Roadmap](ROADMAP.md) | High-level development direction |
 | [FAQ](FAQ.md) | Frequently asked questions |
-
-## Documentation scope
-
-These pages summarize the public project direction and are suitable as a future basis for GitHub Pages.
-
-Detailed project documentation remains in:
-
-- [`../architecture/`](../architecture/)
-- [`../roadmap/`](../roadmap/)
-- [`../development/`](../development/)
