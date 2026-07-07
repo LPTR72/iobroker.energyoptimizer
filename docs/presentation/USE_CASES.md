@@ -22,7 +22,19 @@
 
 # Use Cases
 
-The project is designed for households that want to understand and improve their energy behavior in ioBroker.
+> **Document status**
+>
+> Version: 2.1  
+> Status: Public presentation draft  
+> Last updated: 2026-07-07
+
+Energy optimization usually does not start with automation.
+
+A household first needs to understand where energy comes from, where it goes, and which decisions would be safe and useful. The project therefore follows a gradual path:
+
+**Understand → Recommend → Plan → Automate**
+
+The current runtime focuses on understanding energy flow, calculating simple import costs, and publishing read-only recommendation data. Planning and device behavior are part of the long-term direction, but remain explicit, approval-gated capabilities.
 
 ![History Service](assets/history.svg)
 
@@ -32,41 +44,45 @@ The project is designed for households that want to understand and improve their
 
 ## 1. Understand current energy flow
 
-A user can connect existing ioBroker states for grid power, house consumption, photovoltaic production, and battery values.
+A household may already have several useful ioBroker states: grid power, house consumption, photovoltaic production, battery values, or smart meter data.
 
-The adapter mirrors these values into a consistent adapter-owned state tree and reports whether the configured sources are usable.
+The adapter connects these values, mirrors them into a consistent adapter-owned state tree, and reports whether the configured sources are usable. This gives users a clearer picture before any optimization logic is applied.
 
 ## 2. Track simple import costs
 
-With a fixed work price, the adapter can estimate interval-based grid-import energy and accumulate daily and monthly import costs.
+A user may want to know how much grid import costs today or this month.
 
-This is intentionally simple and transparent. More advanced tariff handling remains planned.
+With a fixed work price, the adapter can estimate interval-based grid-import energy and accumulate daily and monthly import costs. This is intentionally simple and transparent. More advanced tariff handling remains planned.
 
 ## 3. Evaluate the current energy situation
 
-The domain model can represent whether the household currently has surplus power, grid import, battery context, or other relevant energy conditions.
+A sunny afternoon, a cloudy winter day, or a battery-heavy evening all create different energy situations.
 
-This is the foundation for future optimization decisions.
+The domain model can represent whether the household currently has surplus power, grid import, battery context, or other relevant energy conditions. This creates the foundation for later recommendations and planning decisions.
 
 ## 4. Publish read-only recommendations
 
-The current read-only simulation pipeline can produce recommendation data without applying it to devices.
+Before an optimizer should ever control devices, users and developers need to see what it would recommend.
 
-This allows users and developers to inspect optimizer behavior before any device-behavior capability exists.
+The current read-only simulation pipeline can publish recommendation data without applying it to devices. This makes optimizer behavior inspectable, testable, and safe while the project is still building toward later automation.
 
 ## 5. Prepare historical learning
 
-The History Service direction is intended to collect and aggregate past observations through a clear boundary.
+Energy decisions become more useful when the system can learn from past observations.
 
-Future consumers may use historical context for better predictions, diagnostics, pattern recognition, simulation, and optimization.
+The History Service direction is intended to collect and aggregate past observations through a clear boundary. Future consumers may use historical context for better predictions, diagnostics, pattern recognition, simulation, and optimization.
 
 ## 6. Support future flexible loads
 
-Future versions may recommend or plan actions for flexible loads such as washing machines, dishwashers, heating-related loads, pumps, or chargers.
+Some household loads do not always need to run immediately.
 
-The current project does not apply such actions. This remains approval-gated.
+Future versions may recommend or plan actions for flexible loads such as washing machines, dishwashers, heating-related loads, pumps, or chargers. The long-term goal is not only to understand energy behavior, but also to help decide when controllable devices should run.
+
+The current project does not apply such actions. Device behavior remains planned, explicit, and approval-gated.
 
 ## 7. Compare optimization strategies
+
+Different households, seasons, tariffs, and battery constraints can lead to different optimization strategies.
 
 A future Simulation Framework may allow replaying scenarios, testing strategy changes, and comparing behavior across benchmark cases without depending on live hardware.
 
@@ -76,6 +92,12 @@ Possible examples include sunny days, cloudy days, winter operation, dynamic tar
 
 ## 8. Keep vendor choice open
 
+A useful energy optimizer should not depend on one device vendor or one integration path.
+
 The project avoids binding the core model to one vendor. EcoFlow, Shelly, Zigbee, Matter, MQTT, Modbus, EVCC, tariff providers, weather services, and forecast providers belong at integration boundaries.
 
 This makes the architecture suitable for gradual, replaceable integrations.
+
+These use cases require an architecture that keeps the domain model independent from vendors, devices, and transport protocols.
+
+Next: [Architecture Overview](ARCHITECTURE_OVERVIEW.md)
