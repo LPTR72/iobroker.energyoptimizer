@@ -2,33 +2,46 @@
   <img src="../images/Logo_Large.png" alt="ioBroker Energy Optimizer" width="820">
 </p>
 
-# ioBroker Energy Optimizer - Public Presentation
+<h1 align="center">ioBroker Energy Optimizer</h1>
+
+<p align="center">
+  <strong>Public project presentation</strong><br>
+  Transparent, vendor-neutral home energy optimization for ioBroker.
+</p>
+
+<p align="center">
+  <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="PROJECT_STATUS.md">Status</a> ·
+  <a href="FEATURES.md">Features</a> ·
+  <a href="USE_CASES.md">Use Cases</a> ·
+  <a href="ARCHITECTURE_OVERVIEW.md">Architecture</a> ·
+  <a href="ROADMAP.md">Roadmap</a> ·
+  <a href="FAQ.md">FAQ</a>
+</p>
+
+---
+
+## Overview
 
 `ioBroker.energyoptimizer` is an ioBroker adapter project for transparent, vendor-neutral home energy optimization.
 
 The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular optimization platform that can analyze current energy flows, combine them with forecasts and history, evaluate situations, recommend actions, and later execute explicitly approved plans.
 
+> **Current safety boundary**
+>
+> The current public runtime is not a device-control system. It does not switch devices, schedule loads, write to foreign states, or call external cloud APIs without a separate approved implementation step.
+
 ## Presentation pages
 
-- [Project vision](PROJECT_VISION.md)
-- [Project status](PROJECT_STATUS.md)
-- [Features](FEATURES.md)
-- [Use cases](USE_CASES.md)
-- [Architecture overview](ARCHITECTURE_OVERVIEW.md)
-- [Roadmap](ROADMAP.md)
-- [FAQ](FAQ.md)
-
-## What the project is
-
-The project is designed as a gradual, architecture-first energy optimization platform for ioBroker.
-
-It models the home energy system in a vendor-neutral way and keeps core logic independent from concrete devices, protocols, cloud services, and ioBroker runtime APIs.
-
-## What the project is not
-
-The current public runtime is not a device-control system.
-
-It does not switch devices, schedule loads, write to foreign states, or call external cloud APIs without a separate approved implementation step.
+| Page | Purpose |
+| --- | --- |
+| [Project vision](PROJECT_VISION.md) | Long-term project direction and guiding principles |
+| [Project status](PROJECT_STATUS.md) | Current maturity, implemented foundations, and active milestone |
+| [Features](FEATURES.md) | Implemented behavior versus planned capabilities |
+| [Use cases](USE_CASES.md) | Typical user and developer scenarios |
+| [Architecture overview](ARCHITECTURE_OVERVIEW.md) | Public explanation of the architecture and boundaries |
+| [Roadmap](ROADMAP.md) | High-level development direction |
+| [FAQ](FAQ.md) | Frequently asked questions |
 
 ## Core pipeline
 
