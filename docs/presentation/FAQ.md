@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation
+  Public project presentation 2.1
 </p>
 
 <p align="center">
   <a href="README.md">Home</a> ·
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
@@ -22,51 +23,45 @@
 
 # FAQ
 
-## Where are the presentation graphics?
+## Why another energy optimizer?
 
-The reusable SVG graphics are stored in [`assets/`](assets/). The landing page and topic pages embed the most relevant diagrams directly.
+Many energy automations focus on immediate device switching. This project focuses first on understanding the energy system: measurements, history, forecasts, predictions, priorities, and explainable recommendations.
 
 ## Is this adapter already controlling devices?
 
 No. The current runtime is read-only with respect to external devices and foreign ioBroker states. It does not switch devices, schedule loads, or execute optimization actions.
 
-## What does the adapter currently do?
+## Why is it read-only first?
 
-It reads configured source states, mirrors live energy values, calculates simple fixed-tariff import costs, publishes health information, and exposes read-only diagnostics and recommendation data.
+Because a useful recommendation is not the same as a safe real-world action. The project deliberately separates analysis, prediction, evaluation, recommendation, planning, and later device behavior.
 
-## Why is execution separated from recommendations?
+## Why vendor-neutral?
 
-Because a useful recommendation is not the same as a safe device action.
+Home energy systems often combine multiple brands, protocols, and adapters. The core therefore models physical energy behavior instead of depending on a single vendor API.
 
-The project deliberately separates analysis, prediction, evaluation, recommendation, planning, and execution. This makes the system easier to test and safer to extend.
+## What are Pattern-based Virtual Energy Assets?
 
-## Is the project tied to one vendor?
+They are a planned knowledge concept. A future Pattern Recognition Engine may detect recurring energy behavior from history. Detected patterns remain hypotheses until the user confirms them. Confirmed patterns may become virtual energy assets that improve prediction and optimization.
 
-No. The architecture is vendor-neutral. Vendors and protocols belong at integration boundaries, while the core works with neutral energy assets and contracts.
+## Why is historical data important?
+
+Historical data can reveal recurring behavior, seasonal patterns, data quality, and likely future loads. This can make recommendations more useful than decisions based only on the current live value.
 
 ## Will it support dynamic tariffs?
 
 Dynamic tariffs are planned through provider integration and richer cost models. The current runtime supports fixed-tariff import-cost calculation.
 
-## Will it use historical data?
+## What is the History Service?
 
-Yes, this is a planned central capability. The History Service is intended to collect, aggregate, store, and expose historical observations through an implementation-neutral boundary.
-
-## Is the History Service complete?
-
-No. The History Service domain foundation is implemented but still pending architecture review and milestone closure. Runtime collection, SQL integration, retention policy enforcement, and consumers remain future work.
-
-## Why use the ioBroker SQL adapter for history?
-
-The preferred initial direction is to reuse existing ioBroker SQL infrastructure instead of creating an adapter-owned database. This keeps persistence replaceable and avoids coupling the domain model to one storage implementation.
+The History Service is the planned boundary for collecting, aggregating, storing, and querying historical energy data. It is intended to serve prediction, diagnostics, simulation, visualization, and optimization.
 
 ## What is the Simulation Runtime?
 
-The current Simulation Runtime is a narrow read-only runtime integration that publishes diagnostics and recommendation output. It must not be confused with the future first-class Simulation Framework.
+The current Simulation Runtime is a narrow read-only runtime integration that publishes diagnostics and recommendation output.
 
-## What is the future Simulation Framework?
+## What is the planned Simulation Framework?
 
-The future Simulation Framework is a planned architecture capability for replay, accelerated time, scenario testing, demonstrations, benchmarks, and regression testing.
+The planned Simulation Framework is a broader future capability for replay, controlled time, scenarios, benchmarks, demonstration mode, generated sample data, and regression testing.
 
 ## Can users rely on current state names?
 
