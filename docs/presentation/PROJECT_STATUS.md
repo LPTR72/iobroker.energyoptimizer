@@ -1,8 +1,34 @@
+<p align="center">
+  <img src="../images/Logo_Large.png" alt="ioBroker Energy Optimizer" width="260">
+</p>
+
+<p align="center">
+  <strong>ioBroker Energy Optimizer</strong><br>
+  Public project presentation
+</p>
+
+<p align="center">
+  <a href="README.md">Home</a> ·
+  <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="PROJECT_STATUS.md">Status</a> ·
+  <a href="FEATURES.md">Features</a> ·
+  <a href="USE_CASES.md">Use Cases</a> ·
+  <a href="ARCHITECTURE_OVERVIEW.md">Architecture</a> ·
+  <a href="ROADMAP.md">Roadmap</a> ·
+  <a href="FAQ.md">FAQ</a>
+</p>
+
+---
+
 # Project Status
 
 The project is under active development.
 
 The current runtime is intentionally conservative: it reads configured ioBroker states, mirrors live energy values, calculates fixed-tariff import costs, publishes diagnostics, and exposes read-only recommendation data. It does not control devices.
+
+> **Current status**
+>
+> The History Service domain foundation is implemented, but the milestone is not complete until architecture review, validation, documentation update, and milestone closure are finished.
 
 ## Implemented foundations
 
