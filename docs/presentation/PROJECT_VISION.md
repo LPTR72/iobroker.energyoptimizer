@@ -35,7 +35,7 @@ The long-term goal is to help households understand, predict, and improve how en
 
 ## Core idea
 
-Home energy systems are becoming more complex. A household may combine grid import and export, photovoltaic generation, electrical storage, thermal storage, heat pumps, flexible loads, variable tariffs, weather forecasts, historical behavior, and device-specific constraints.
+Home energy systems are becoming more complex. A household may combine grid interaction, renewable generation, electrical and thermal energy storage, electric vehicles and smart charging, heating systems, flexible loads, dynamic tariffs, weather forecasts, historical behavior, and device-specific constraints.
 
 The adapter models these elements as neutral energy assets instead of building logic around a specific vendor, device, protocol, or cloud service.
 
@@ -81,6 +81,6 @@ Over time, this foundation should allow the system to move from observation to u
 
 ## Why this matters
 
-A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
+A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, electric vehicle charging, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
 
 The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script. Its purpose is to help the home energy system become understandable first, useful second, and extensible when the underlying behavior is clear enough to justify it.
