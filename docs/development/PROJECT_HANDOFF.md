@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 06.07.2026 22:10 Uhr
+Stand: 07.07.2026 13:00 Uhr
 
 ## Purpose
 
@@ -12,15 +12,15 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 - Active branch: `refactor/core-architecture`.
 - Functional runtime remains read-only.
-- No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or simulation runtime is approved.
-- The latest functional architecture milestone refined the planned History Service and documented long-term Pattern-based Virtual Energy Assets and Simulation Framework topics.
+- No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or first-class Simulation Framework implementation is approved.
+- The adapter-owned public ioBroker object namespace and future object-model boundaries are now documented in `docs/architecture/OBJECT_MODEL.md`.
 - The History Service remains planned architecture only; functional implementation is still open.
 
 ## Latest Completed Milestone
 
-- Milestone: GitHub Actions CI infrastructure and project handoff refactoring.
-- Scope: added and validated the repository CI workflow, then separated functional project status from infrastructure status in this handoff.
-- Result: push and pull request validation is available through GitHub Actions, while the project handoff now distinguishes current functional state, infrastructure state, validation, risks, and next milestone.
+- Milestone: Object model boundary documentation.
+- Scope: documented the current implemented `energyoptimizer.0.*` public state tree, reserved future namespaces, History Service object boundaries, JSON publication rules, read/write policy, validation requirements, and compatibility rules.
+- Result: the next History Service implementation planning can use an explicit object-model boundary and does not need to infer future state structure from older chat context.
 - Runtime impact: none.
 - Production code impact: none.
 
@@ -34,8 +34,7 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Validation Summary
 
-- GitHub Actions first run for commit `aaa2630`: passed.
-- Documentation refactoring scope: `docs/development/PROJECT_HANDOFF.md` and `docs/development/WORKFLOW.md` only.
+- Documentation-only milestone: `docs/architecture/OBJECT_MODEL.md`, `docs/architecture/ARCHITECTURE.md`, and `docs/development/PROJECT_HANDOFF.md`.
 - Production code changed: no.
 - Tests changed: no.
 - Runtime behavior changed: no.
@@ -52,6 +51,7 @@ It intentionally stays short. Architecture details, historical milestones, workf
 - History Service implementation remains an open, likely multi-step epic/workstream.
 - SQL/ioBroker history-backend integration remains planned.
 - No runtime integration of the History Service has been approved.
+- Exact future History Service runtime states remain intentionally unselected until a dedicated runtime milestone approves names, semantics, validation, and migration impact.
 - Pattern recognition, virtual-asset persistence, user confirmation flows, and downstream optimization use remain planned and unselected.
 - Simulation Framework orchestration, scenario formats, benchmark metrics, demonstration behavior, and implementation order remain open and unselected.
 
@@ -59,9 +59,10 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 - Runtime integration.
 - SQL implementation.
-- History collection and aggregation.
+- History collection and aggregation runtime wiring.
+- Future History Service ioBroker states.
 - Pattern recognition and virtual assets.
-- Simulation framework implementation.
+- First-class Simulation Framework implementation.
 - Scheduling, execution provider, and device control.
 - Further Developer Workspace refinements that are private workflow concerns rather than repository documentation.
 
@@ -69,19 +70,21 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 Select and explicitly approve the next functional milestone from the roadmap before creating an implementation prompt.
 
-Recommended next direction: prepare the History Service implementation as a scoped, multi-step epic. Pattern-based Virtual Energy Assets and the Simulation Framework are not the next implementation task unless explicitly selected later.
+Recommended next direction: prepare the History Service Domain Foundation as the first scoped implementation slice. It should define typed historical metrics, samples, buckets, quality metadata, resolutions, and pure deterministic collector/aggregator behavior without SQL, runtime integration, new ioBroker states, configuration/UI changes, pattern recognition, or Simulation Framework work.
 
 ## Required Reading
 
 1. `docs/development/PROJECT_HANDOFF.md`.
 2. `docs/development/WORKFLOW.md`.
-3. Relevant ADRs for the selected milestone.
-4. Relevant architecture documents for the selected milestone.
-5. `docs/roadmap/ROADMAP.md` only when milestone planning or sequencing is required.
+3. `docs/architecture/OBJECT_MODEL.md`.
+4. `docs/architecture/ADR/ADR-0012-history-service.md`.
+5. Relevant architecture documents for the selected milestone.
+6. `docs/roadmap/ROADMAP.md` only when milestone planning or sequencing is required.
 
 ## References
 
 - [Architecture](../architecture/ARCHITECTURE.md)
+- [Object model](../architecture/OBJECT_MODEL.md)
 - [Pipeline](../architecture/PIPELINE.md)
 - [Domain model](../architecture/DOMAIN_MODEL.md)
 - [ADR-0010](../architecture/ADR/ADR-0010-neutral-execution-planner.md)
