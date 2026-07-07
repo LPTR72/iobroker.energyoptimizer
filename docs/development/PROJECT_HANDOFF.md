@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 07.07.2026 13:00 Uhr
+Stand: 07.07.2026 14:04 Uhr
 
 ## Purpose
 
@@ -13,14 +13,15 @@ It intentionally stays short. Architecture details, historical milestones, workf
 - Active branch: `refactor/core-architecture`.
 - Functional runtime remains read-only.
 - No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or first-class Simulation Framework implementation is approved.
-- The adapter-owned public ioBroker object namespace and future object-model boundaries are now documented in `docs/architecture/OBJECT_MODEL.md`.
+- The latest documentation work consolidated durable architecture decisions and public object-model boundaries into repository documentation.
+- The adapter-owned public ioBroker object namespace and future object-model boundaries are documented in `docs/architecture/OBJECT_MODEL.md`.
 - The History Service remains planned architecture only; functional implementation is still open.
 
 ## Latest Completed Milestone
 
-- Milestone: Object model boundary documentation.
-- Scope: documented the current implemented `energyoptimizer.0.*` public state tree, reserved future namespaces, History Service object boundaries, JSON publication rules, read/write policy, validation requirements, and compatibility rules.
-- Result: the next History Service implementation planning can use an explicit object-model boundary and does not need to infer future state structure from older chat context.
+- Milestone: Architecture Knowledge Consolidation with Object Model reconciliation.
+- Scope: preserved the Object Model boundary documentation and the Architecture Knowledge Consolidation decisions without changing production code.
+- Result: `docs/architecture/DECISIONS.md` owns durable architecture decisions and milestone boundaries. `docs/architecture/OBJECT_MODEL.md` owns the public ioBroker object/state model, reserved namespaces, read/write policy, JSON publication boundaries, object validation rules, compatibility, and brainstorming documentation rule. `docs/architecture/ARCHITECTURE.md` and this handoff cross-link those summaries.
 - Runtime impact: none.
 - Production code impact: none.
 
@@ -34,11 +35,12 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Validation Summary
 
-- Documentation-only milestone: `docs/architecture/OBJECT_MODEL.md`, `docs/architecture/ARCHITECTURE.md`, and `docs/development/PROJECT_HANDOFF.md`.
+- Documentation-only scope: `docs/architecture/DECISIONS.md`, `docs/architecture/OBJECT_MODEL.md`, `docs/architecture/ARCHITECTURE.md`, `docs/development/PROJECT_HANDOFF.md`, and `docs/development/WORKFLOW.md`.
 - Production code changed: no.
 - Tests changed: no.
 - Runtime behavior changed: no.
 - ioBroker validation required for this documentation-only milestone: no.
+- Required local validation for this documentation-only milestone: `git diff --check` and `git status`.
 
 ## Review Outcome
 
@@ -70,20 +72,23 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 Select and explicitly approve the next functional milestone from the roadmap before creating an implementation prompt.
 
-Recommended next direction: prepare the History Service Domain Foundation as the first scoped implementation slice. It should define typed historical metrics, samples, buckets, quality metadata, resolutions, and pure deterministic collector/aggregator behavior without SQL, runtime integration, new ioBroker states, configuration/UI changes, pattern recognition, or Simulation Framework work.
+Recommended next direction: prepare the first History Service implementation slice as a scoped domain-foundation milestone only: typed metrics, samples, buckets, quality metadata, supported resolutions, and deterministic collector/aggregator logic.
+
+Explicitly keep SQL, runtime integration, new ioBroker states, configuration UI, pattern recognition, and the Simulation Framework out of the first History slice unless a later milestone separately approves them.
 
 ## Required Reading
 
 1. `docs/development/PROJECT_HANDOFF.md`.
 2. `docs/development/WORKFLOW.md`.
 3. `docs/architecture/OBJECT_MODEL.md`.
-4. `docs/architecture/ADR/ADR-0012-history-service.md`.
+4. Relevant ADRs for the selected milestone.
 5. Relevant architecture documents for the selected milestone.
 6. `docs/roadmap/ROADMAP.md` only when milestone planning or sequencing is required.
 
 ## References
 
 - [Architecture](../architecture/ARCHITECTURE.md)
+- [Architecture decisions](../architecture/DECISIONS.md)
 - [Object model](../architecture/OBJECT_MODEL.md)
 - [Pipeline](../architecture/PIPELINE.md)
 - [Domain model](../architecture/DOMAIN_MODEL.md)

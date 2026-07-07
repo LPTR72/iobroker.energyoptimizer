@@ -4,6 +4,8 @@
 
 The project follows Clean Architecture: stable domain models and deterministic engines sit at the center, while ioBroker lifecycle, state access, providers, and eventual device execution remain boundary concerns. The core models the physical energy system rather than any particular automation platform, vendor, protocol, or cloud service.
 
+Durable architecture decisions and consolidated milestone boundaries are summarized in [Architecture decisions](DECISIONS.md). That document is the compact entry point for decisions that must not remain implicit chat knowledge.
+
 ## Implemented components
 
 - Adapter lifecycle and polling orchestration in `main.ts`

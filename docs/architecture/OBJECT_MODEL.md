@@ -28,59 +28,59 @@ The following tree describes the currently implemented public object structure. 
 
 ```text
 energyoptimizer.0
-├── config
-│   └── currentTariff
-│       ├── workPriceCt
-│       └── basePriceMonthlyEuro
-├── costs
-│   ├── today
-│   │   └── currentTariffEuro
-│   └── month
-│       └── currentTariffEuro
-├── health
-│   ├── configuredSources
-│   ├── validSources
-│   ├── missingSources
-│   ├── lastPollingTimestamp
-│   ├── lastPollingDurationMs
-│   └── assets
-│       ├── count
-│       ├── grid
-│       │   └── count
-│       ├── pv
-│       │   └── count
-│       ├── battery
-│       │   └── count
-│       └── consumer
-│           └── count
-├── info
-│   └── connection
-├── live
-│   ├── grid
-│   │   ├── importPower
-│   │   └── exportPower
-│   ├── house
-│   │   └── consumptionPower
-│   ├── pv
-│   │   └── power
-│   └── battery
-│       ├── soc
-│       └── power
-├── optimizer
-│   └── recommendation
-├── recommendation
-│   ├── available
-│   ├── count
-│   └── best
-│       ├── type
-│       ├── priority
-│       ├── reason
-│       ├── validFrom
-│       └── validTo
-└── simulation
-    ├── ready
-    └── publication
-        └── json
+|-- config
+|   `-- currentTariff
+|       |-- workPriceCt
+|       `-- basePriceMonthlyEuro
+|-- costs
+|   |-- today
+|   |   `-- currentTariffEuro
+|   `-- month
+|       `-- currentTariffEuro
+|-- health
+|   |-- configuredSources
+|   |-- validSources
+|   |-- missingSources
+|   |-- lastPollingTimestamp
+|   |-- lastPollingDurationMs
+|   `-- assets
+|       |-- count
+|       |-- grid
+|       |   `-- count
+|       |-- pv
+|       |   `-- count
+|       |-- battery
+|       |   `-- count
+|       `-- consumer
+|           `-- count
+|-- info
+|   `-- connection
+|-- live
+|   |-- grid
+|   |   |-- importPower
+|   |   `-- exportPower
+|   |-- house
+|   |   `-- consumptionPower
+|   |-- pv
+|   |   `-- power
+|   `-- battery
+|       |-- soc
+|       `-- power
+|-- optimizer
+|   `-- recommendation
+|-- recommendation
+|   |-- available
+|   |-- count
+|   `-- best
+|       |-- type
+|       |-- priority
+|       |-- reason
+|       |-- validFrom
+|       `-- validTo
+`-- simulation
+    |-- ready
+    `-- publication
+        `-- json
 ```
 
 ## Current namespace semantics
@@ -163,47 +163,47 @@ Future Simulation Framework object design should stay under `simulation.*` and s
 
 ```text
 energyoptimizer.0.simulation
-├── mode
-│   ├── active
-│   ├── type
-│   └── source
-├── clock
-│   ├── now
-│   ├── speed
-│   ├── startedAt
-│   └── finishedAt
-├── scenario
-│   ├── id
-│   ├── name
-│   ├── version
-│   ├── category
-│   └── status
-├── replay
-│   ├── active
-│   ├── source
-│   ├── position
-│   └── progress
-├── benchmark
-│   ├── active
-│   ├── scenarioId
-│   ├── runId
-│   ├── score
-│   └── metrics
-│       └── json
-├── demo
-│   ├── active
-│   └── scenarioId
-├── synthetic
-│   ├── active
-│   └── profile
-├── regression
-│   ├── active
-│   ├── suite
-│   ├── passed
-│   └── result
-│       └── json
-└── publication
-    └── json
+|-- mode
+|   |-- active
+|   |-- type
+|   `-- source
+|-- clock
+|   |-- now
+|   |-- speed
+|   |-- startedAt
+|   `-- finishedAt
+|-- scenario
+|   |-- id
+|   |-- name
+|   |-- version
+|   |-- category
+|   `-- status
+|-- replay
+|   |-- active
+|   |-- source
+|   |-- position
+|   `-- progress
+|-- benchmark
+|   |-- active
+|   |-- scenarioId
+|   |-- runId
+|   |-- score
+|   `-- metrics
+|       `-- json
+|-- demo
+|   |-- active
+|   `-- scenarioId
+|-- synthetic
+|   |-- active
+|   `-- profile
+|-- regression
+|   |-- active
+|   |-- suite
+|   |-- passed
+|   `-- result
+|       `-- json
+`-- publication
+    `-- json
 ```
 
 Simulation Framework boundary rules:

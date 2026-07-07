@@ -16,7 +16,7 @@ Use the documents according to their responsibility:
 
 1. `docs/development/PROJECT_HANDOFF.md` answers where the project currently stands and what should happen next.
 2. `docs/development/WORKFLOW.md` defines neutral repository development and validation rules.
-3. Architecture documents and ADRs define the system design and accepted decisions.
+3. Architecture documents, [Architecture decisions](../architecture/DECISIONS.md), [Object model](../architecture/OBJECT_MODEL.md), and ADRs define the system design, public object boundaries, and accepted decisions.
 4. Roadmap and project status documents define planned direction and historical progress.
 5. Implementation files define actual runtime behavior.
 
