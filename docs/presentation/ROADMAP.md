@@ -22,75 +22,118 @@
 
 # Roadmap
 
-This roadmap summarizes the public direction at a high level. It does not replace the detailed project roadmap in [`../roadmap/ROADMAP.md`](../roadmap/ROADMAP.md).
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+
+The goal of ioBroker Energy Optimizer is not to jump directly from measurements to automation.
+
+A home energy system becomes trustworthy step by step: first it must understand what is happening, then explain useful recommendations, then plan future actions, and only later — with explicit user approval and safety rules — control devices.
+
+That is the guiding path of the roadmap:
+
+> **Understand → Recommend → Plan → Automate**
 
 ![Project timeline](assets/timeline.svg)
 
 > **Roadmap rule**
 >
-> Runtime changes, history integration, and device behavior are split into explicit milestones. Planned direction does not imply current runtime behavior.
+> Planned direction does not imply current runtime behavior. Runtime changes, history integration, planning, and device behavior are split into explicit milestones so that each step can be reviewed, validated, and kept safe.
 
-## Completed foundations
+## 1. Foundations already completed
 
-The project has established the main architectural and domain foundations:
+The project has established the technical and domain foundations needed before more advanced optimization can happen.
 
-- ioBroker adapter lifecycle and safe polling
+These foundations include:
+
+- an ioBroker adapter lifecycle with safe polling
 - live value mirroring
 - fixed-tariff import-cost calculation
 - generic energy assets
 - normalized configuration
-- analysis, forecast abstraction, prediction, evaluation, and recommendation foundations
+- analysis, forecast, prediction, evaluation, and recommendation foundations
 - read-only simulation runtime integration
 - structured read-only recommendation output
 - dormant planning model semantics
 
-## Current milestone
+In practical terms, this means the project can already represent energy sources and consumers in a structured way and produce safe recommendation-oriented output without controlling devices.
 
-The current milestone is the History Service domain foundation.
+## 2. Current focus: History Service foundation
 
-Its purpose is to establish implementation-neutral history concepts before integrating a concrete backend or runtime collection path.
+The current milestone is the **History Service domain foundation**.
+
+The purpose is to define how past observations should be represented before a concrete storage backend or runtime collection path is integrated.
 
 ![History Service](assets/history.svg)
 
-The milestone is not complete until architecture review and validation are finished.
+For non-developers, this is the step that turns isolated live values into useful memory.
 
-## Next likely direction: History Service integration
+A history layer can help answer questions such as:
 
-The History Service is expected to become the central source for past observations and temporal context.
+- When does a device usually consume energy?
+- How reliable was a forecast compared with reality?
+- Which household patterns repeat over time?
+- Which recommendations worked well in the past?
 
-Planned topics include:
+This milestone is not about automatic device control. It is about creating the reliable context that future recommendations and planning will need.
+
+## 3. Next direction: History Service integration
+
+After the foundation is complete, the History Service is expected to become the central source for past observations and temporal context.
+
+Planned areas include:
+
+### Historical data model
 
 - typed historical metrics
 - sample and bucket models
 - deterministic aggregation
 - quality metadata
 - retention policies
+
+### Storage and access
+
 - repository abstraction
 - SQL-backed persistence through existing ioBroker infrastructure
-- consumers such as prediction, diagnostics, simulation, and later optimization
+- clean boundaries between storage and consumers
 
-## Later direction: provider integrations
+### Future consumers
 
-Future provider work may include:
+- prediction
+- diagnostics
+- simulation
+- later optimization
+
+The important idea is that history should not be tied to one specific database or one specific use case. It should become a neutral building block that other parts of the system can rely on.
+
+## 4. Later direction: provider integrations
+
+Future provider work may add external context to the optimizer.
+
+Possible provider areas include:
 
 - photovoltaic forecast providers
 - tariff providers
 - weather providers
 - device capability providers
 
-Provider integrations should remain behind neutral boundaries.
+These integrations should remain behind neutral boundaries. The optimizer should be able to use provider information without becoming dependent on one specific service, vendor, or data source.
 
-## Later direction: pattern knowledge
+## 5. Later direction: pattern knowledge
 
 A future Pattern Recognition Engine may use historical data to detect recurring household behavior.
 
-Detected patterns should remain hypotheses until confirmed by the user. Confirmed patterns may become device-neutral virtual energy assets for prediction and optimization.
+Examples could include typical device runtimes, recurring consumption peaks, or regular solar surplus windows.
 
-## Later direction: simulation framework
+Detected patterns should remain hypotheses until confirmed by the user. Confirmed patterns may then become device-neutral virtual energy assets that improve prediction and later planning.
 
-A future first-class Simulation Framework may support:
+## 6. Later direction: simulation framework
 
-- replay mode
+A future first-class Simulation Framework may help test energy behavior before it affects a real household.
+
+![Simulation](assets/simulation.svg)
+
+Possible capabilities include:
+
+- replaying historical situations
 - accelerated time
 - scenario libraries
 - benchmark scenarios
@@ -98,14 +141,39 @@ A future first-class Simulation Framework may support:
 - synthetic data generation
 - regression testing
 
-![Simulation](assets/simulation.svg)
+This remains a long-term architecture capability. Its implementation order is still open, but the intent is clear: important behavior should be explainable and testable before it becomes part of real runtime decisions.
 
-This is a long-term architecture capability. Its implementation order is still open.
+## 7. Long-term direction: planning and controlled device behavior
 
-## Long-term direction: controlled device behavior
+The long-term vision includes more than understanding energy flows.
 
-Device behavior is planned but approval-gated.
+The project should eventually be able to help plan when devices should run — for example when solar surplus is expected, prices are lower, or household comfort is not affected.
 
-Before this can be safe, the project needs reliable recommendations, planning semantics, validation, conflict handling, provider boundaries, user approval rules, and runtime safety controls.
+Controlled device behavior is therefore part of the long-term roadmap, but it is approval-gated and safety-gated.
 
-The current runtime stops at read-only recommendation output.
+Before the system can safely control devices, it needs:
+
+- reliable recommendations
+- clear planning semantics
+- validation and conflict handling
+- provider boundaries
+- user approval rules
+- runtime safety controls
+- transparent explanations of what will happen and why
+
+The current runtime stops at read-only recommendation output. Future automation must be built gradually, reviewed carefully, and remain under explicit user control.
+
+## Roadmap summary
+
+The roadmap deliberately moves from understanding to action:
+
+1. **Understand** energy data and household behavior.
+2. **Recommend** useful actions without changing runtime behavior.
+3. **Plan** future actions safely and transparently.
+4. **Automate** only after explicit approval, safety checks, and clear boundaries.
+
+This makes ioBroker Energy Optimizer a long-term project for trustworthy home energy intelligence — not just a collection of calculations.
+
+---
+
+Next: read the [FAQ](FAQ.md) for concise answers to common questions about scope, current limitations, and long-term direction.
