@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation
+  Public project presentation 2.1
 </p>
 
 <p align="center">
   <a href="README.md">Home</a> ·
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
@@ -21,6 +22,8 @@
 ---
 
 # Architecture Overview
+
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
 
 `ioBroker.energyoptimizer` follows a Clean Architecture style.
 
@@ -93,3 +96,7 @@ This separation is a safety boundary. The current runtime does not control devic
 The adapter owns its own public ioBroker state namespace. Adapter-owned states may expose live values, costs, health, simulation diagnostics, and recommendation summaries.
 
 Writes to foreign adapter states are not part of the current runtime behavior and require a separate approved milestone.
+
+---
+
+Next: read the [Roadmap](ROADMAP.md) to see how the architecture is planned to grow from read-only recommendations toward safe future planning and automation.
