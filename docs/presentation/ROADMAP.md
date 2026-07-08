@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation
+  Public project presentation 2.1
 </p>
 
 <p align="center">
   <a href="README.md">Home</a> ·
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
