@@ -31,6 +31,8 @@ A household first needs to understand where energy comes from, where it goes, an
 
 **Understand → Recommend → Plan → Automate**
 
+Most households already collect a surprising amount of energy data. The difficult part is turning that data into better decisions: when to use solar surplus, when to wait, when a device is flexible, and when doing nothing is the safest choice.
+
 The current runtime focuses on understanding energy flow, calculating simple import costs, and publishing read-only recommendation data. Planning and device behavior are part of the long-term direction, but remain explicit, approval-gated capabilities.
 
 ![History Service](assets/history.svg)
@@ -75,6 +77,8 @@ Some household loads do not always need to run immediately.
 
 Future versions may recommend or plan actions for flexible loads such as washing machines, dishwashers, heating-related loads, pumps, or chargers. The long-term goal is not only to understand energy behavior, but also to help decide when controllable devices should run.
 
+This is where the project starts moving from analysis toward real optimization: not by switching devices blindly, but by learning when a future action would be useful, explainable, and safe.
+
 The current project does not apply such actions. Device behavior remains planned, explicit, and approval-gated.
 
 ## 7. Compare optimization strategies
@@ -95,7 +99,7 @@ The project avoids binding the core model to one vendor. EcoFlow, Shelly, Zigbee
 
 This makes the architecture suitable for gradual, replaceable integrations.
 
-These use cases require an architecture that keeps the domain model independent from vendors, devices, and transport protocols.
+Delivering these use cases requires an architecture that keeps the domain model independent from vendors, devices, and transport protocols.
 
 ---
 
