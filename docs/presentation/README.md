@@ -26,9 +26,11 @@
 
 Modern home energy systems are becoming increasingly complex. Solar generation, batteries, dynamic tariffs, smart devices, and changing household routines all influence each other. `ioBroker.energyoptimizer` aims to make this complexity understandable before it automates anything.
 
+Imagine a home that learns how energy behaves before it ever switches a device: when solar surplus usually appears, when flexible loads could wait, when a battery should be protected, and when a recommendation is useful enough to deserve attention.
+
 Rather than being a simple automation script, `ioBroker.energyoptimizer` is evolving into an architecture-first energy optimization platform that can understand energy behavior before it recommends or later plans actions.
 
-The project starts with safe energy data handling and read-only recommendations. Its long-term direction is a modular platform that combines live measurements, forecasts, historical knowledge, pattern recognition, prediction, evaluation, simulation, and explicit approval boundaries.
+The project already provides the first safe foundations for this direction: live energy values, cost tracking, diagnostics, vendor-neutral domain models, simulation diagnostics, and structured read-only recommendations. Its long-term direction is a modular platform that combines live measurements, forecasts, historical knowledge, pattern recognition, prediction, evaluation, simulation, and explicit approval boundaries.
 
 ![Optimization pipeline](assets/pipeline.svg)
 
