@@ -29,6 +29,8 @@
 
 The long-term goal is to help households understand, predict, and improve how energy is produced, stored, converted, and consumed while keeping the system transparent, deterministic, and safe.
 
+The goal is not another automation rule. The goal is a digital understanding of the home's energy behavior: why energy is needed, when flexibility exists, and which future actions would be useful, safe, and explainable.
+
 ![Optimization pipeline](assets/pipeline.svg)
 
 > **Vision in one sentence**
@@ -55,6 +57,8 @@ Live values
   -> Better prediction
   -> Better recommendations
 ```
+
+In everyday terms, this means a home should eventually be able to learn that some loads are flexible, that some surplus windows repeat, that some forecasts are reliable, and that some recommendations worked better than others.
 
 ![Pattern-based Virtual Energy Assets](assets/virtual-assets.svg)
 
@@ -84,6 +88,8 @@ Over time, this foundation should allow the system to move from observation to u
 ## Why this matters
 
 A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, electric vehicle charging, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
+
+That is what makes the project more than a collection of calculations. It is designed to help a household understand its own energy behavior first, then receive useful recommendations, and only later consider safe planning or automation.
 
 The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script. Its purpose is to help the home energy system become understandable first, useful second, and extensible when the underlying behavior is clear enough to justify it.
 
