@@ -23,6 +23,8 @@
 
 # Project Vision
 
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+
 `ioBroker.energyoptimizer` aims to become a modular energy intelligence platform for the whole home energy system.
 
 The long-term goal is to help households understand, predict, and improve how energy is produced, stored, converted, and consumed while keeping the system transparent, deterministic, and safe.
@@ -84,3 +86,7 @@ Over time, this foundation should allow the system to move from observation to u
 A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, electric vehicle charging, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
 
 The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script. Its purpose is to help the home energy system become understandable first, useful second, and extensible when the underlying behavior is clear enough to justify it.
+
+---
+
+Next: read the [Key Concepts](KEY_CONCEPTS.md) to see the architecture ideas behind this vision.
