@@ -27,13 +27,19 @@
 
 `ioBroker.energyoptimizer` follows a Clean Architecture style.
 
-The core idea is simple: energy logic should not depend on ioBroker APIs, concrete vendors, cloud services, or device protocols. Those details belong at the edges of the system.
+In practical terms, this means the project keeps the household energy model separate from device brands, APIs, cloud services, and ioBroker runtime details. The optimizer should be able to reason about energy behavior first and connect to concrete systems only through clear boundaries.
 
 ![Architecture overview](assets/architecture.svg)
 
 > **Architecture principle**
 >
 > The core models the physical energy system. ioBroker, vendors, protocols, and cloud APIs remain integration concerns.
+
+## Why this matters
+
+A home energy optimizer may eventually need to compare many different situations: a battery that should not be drained too early, a washer that could run later, an electric vehicle that should charge when prices are lower, or a heat pump that can use thermal storage without reducing comfort.
+
+Those decisions should not be hardcoded around one vendor or one device API. They need a stable energy model that can survive changing hardware, integrations, and household routines.
 
 ## Layer model
 
