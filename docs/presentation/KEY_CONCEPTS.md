@@ -23,6 +23,8 @@
 
 # Key Concepts
 
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+
 `ioBroker.energyoptimizer` is designed to help a home energy system become understandable before it becomes automated.
 
 Instead of reacting to single live values, the project builds a gradual understanding of energy assets, historical behavior, predictions, costs, priorities, and safety boundaries. This makes future recommendations easier to inspect, explain, and improve over time.
@@ -80,3 +82,7 @@ This keeps the model honest: the system may recognize recurring behavior without
 ## Current boundary
 
 Pattern recognition and virtual assets are long-term architecture topics. They are part of the project vision, but they are not current runtime features.
+
+---
+
+Next: read the [Project Status](PROJECT_STATUS.md) to see what already works today and what is still planned.
