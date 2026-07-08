@@ -23,6 +23,8 @@
 
 # Project Status
 
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+
 The project is under active development.
 
 The long-term goal is intelligent, explainable energy optimization across the home energy system, including optional device control in later stages. The current runtime intentionally stops before automation: it reads configured ioBroker states, mirrors live energy values, calculates fixed-tariff import costs, publishes diagnostics, and exposes read-only recommendation data.
@@ -112,4 +114,6 @@ The goal is not quick automation. The goal is trustworthy automation: a system t
 
 The project follows an architecture-first development style. Core domain logic is designed to be deterministic, testable, and independent from vendor APIs or ioBroker runtime details. Public runtime behavior is introduced in stages so new capabilities can be inspected before they affect real devices.
 
-The next section shows which capabilities these foundations already provide and which use cases they are intended to support.
+---
+
+Next: read the [Features](FEATURES.md) to see which capabilities these foundations already provide and which future use cases they support.
