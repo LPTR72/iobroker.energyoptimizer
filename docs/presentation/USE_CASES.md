@@ -4,12 +4,13 @@
 
 <p align="center">
   <strong>ioBroker Energy Optimizer</strong><br>
-  Public project presentation
+  Public project presentation 2.1
 </p>
 
 <p align="center">
   <a href="README.md">Home</a> ·
   <a href="PROJECT_VISION.md">Vision</a> ·
+  <a href="KEY_CONCEPTS.md">Key Concepts</a> ·
   <a href="PROJECT_STATUS.md">Status</a> ·
   <a href="FEATURES.md">Features</a> ·
   <a href="USE_CASES.md">Use Cases</a> ·
@@ -22,11 +23,7 @@
 
 # Use Cases
 
-> **Document status**
->
-> Version: 2.1  
-> Status: Public presentation draft  
-> Last updated: 2026-07-07
+**Document status:** Public presentation, version 2.1, updated 2026-07-08.
 
 Energy optimization usually does not start with automation.
 
@@ -100,4 +97,6 @@ This makes the architecture suitable for gradual, replaceable integrations.
 
 These use cases require an architecture that keeps the domain model independent from vendors, devices, and transport protocols.
 
-Next: [Architecture Overview](ARCHITECTURE_OVERVIEW.md)
+---
+
+Next: read the [Architecture Overview](ARCHITECTURE_OVERVIEW.md) to see how the project keeps these use cases vendor-neutral and safely separated from device control.
