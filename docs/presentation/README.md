@@ -73,3 +73,7 @@ The project starts with safe energy data handling and read-only recommendations.
 | [Architecture overview](ARCHITECTURE_OVERVIEW.md) | Public explanation of the architecture and boundaries |
 | [Roadmap](ROADMAP.md) | High-level development direction |
 | [FAQ](FAQ.md) | Frequently asked questions |
+
+---
+
+Next: start with the [Project Vision](PROJECT_VISION.md) to understand the long-term direction behind the optimizer.
