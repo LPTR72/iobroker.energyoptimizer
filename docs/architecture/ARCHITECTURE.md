@@ -20,7 +20,7 @@ External source
 
 The optimizer supports information types rather than a fixed list of adapters or manufacturers. Aliases and source bindings stabilize identity. The Information Interpreter stabilizes meaning, units, sign and direction conventions, temporal semantics, freshness, quality, and availability.
 
-History, forecast, prediction, simulation, recommendation, planning, and execution remain separate capabilities behind this boundary.
+History, forecast, prediction, analysis, evaluation, simulation, recommendation, planning, and execution remain separate capabilities behind this boundary.
 
 ## Implemented components
 
@@ -62,21 +62,38 @@ External Sources
     -> Information Types
     -> Information Interpreter
     -> Domain Information
-         |-> Current State -------------------|
-         |-> History -------------------------|-> Prediction
-         |-> Forecast ------------------------|
-         |-> Context Information -------------|
-         |                                      -> Simulation
-         |                                      -> Recommendation
-         |                                      -> Planning
-         |                                      -> Execution (future)
-         |                                      -> Measurement and Re-evaluation
-         |
-         |-> Energy Assets / Asset Profiles
-         |-> KPIs / Goals / Target Values / Constraints / Priorities
+         |-> Current State ---------> Analysis ---------> Evaluation ----|
+         |-> History ------------------------------|                      |
+         |-> Forecast -----------------------------|-> Prediction --------+-> Recommendation
+         |-> Context Information -----------------|                      |
+         |                                                               |
+         |-> Scenario / candidate actions -----------------> Simulation --|
+         |                                                               |
+         |-> Energy Assets / Asset Profiles                              |
+         |-> KPIs / Goals / Target Values / Constraints / Priorities ----|
+                                                                         -> Planning
+                                                                         -> Execution (future)
+                                                                         -> Measurement and Re-evaluation
 ```
 
 This communicates dependencies and information relationships, not a mandatory single runtime call graph. The canonical terminology and model relationships are defined in [Domain model](DOMAIN_MODEL.md).
+
+## Analysis, evaluation, and simulation
+
+These capabilities are related but not interchangeable.
+
+- **Analysis** derives deterministic facts and KPIs from current, historical, or predicted state. It answers questions such as how energy currently flows, whether surplus exists, or which assets are available.
+- **Evaluation** classifies relevant conditions as neutral `EnergySituation` values using explicit thresholds and validated inputs. It does not recommend, plan, simulate, or execute actions.
+- **Simulation** evaluates alternative parameter systems, strategies, scenarios, or candidate actions. It may produce simulated state, KPIs, situations, costs, warnings, and outcomes for comparison.
+- **Recommendation** consumes evaluated evidence from live, predicted, or simulated paths and expresses explainable, device-independent intent.
+
+Simulation does not replace Evaluation. A live or predicted state may be evaluated directly, while simulated alternatives may also be evaluated or compared before a recommendation is selected. The exact orchestration may evolve, but these responsibilities must remain deterministic and separately testable.
+
+## Context topology
+
+`Context Information` is the broad category for decision-relevant conditions that do not necessarily represent physical energy flow. Current context, forecast context, and historical or temporal context are projections of that broader category rather than competing top-level concepts.
+
+Examples include weather, tariffs, calendars, occupancy, solar position, comfort conditions, user availability, and grid restrictions. Context may influence Prediction, Evaluation, Simulation, Recommendation, and Planning directly where the relevant domain contract permits it.
 
 ## Boundaries
 
@@ -86,7 +103,7 @@ The provider and integration layers acquire external values and capabilities. So
 
 The planned History Service owns past observations and temporal context behind its own boundary. Forecast providers own external future-looking information. Prediction describes expected behavior of the concrete system. Adapter runtime code manages lifecycle, polling, state mirroring, and orchestration. The future execution layer translates approved neutral plans into device operations.
 
-ioBroker, EcoFlow, Tibber, MQTT, Shelly, Anker, SQL, InfluxDB, and other platforms or products belong at integration boundaries. They may supply measurements, forecasts, tariffs, context, persistence, or execution capabilities, but the core represents these through information types, physical assets, context information, and vendor-independent contracts.
+ioBroker, EcoFlow, Tibber, MQTT, Shelly, Anker, SQL, InfluxDB, and other platforms or products belong at integration boundaries. They may supply measurements, forecasts, tariffs, context, persistence, or execution capabilities, but the core represents these through information types, physical assets, context information, capabilities, and vendor-independent contracts.
 
 This separation keeps engines deterministic, portable, and testable and prevents source-adapter, storage, or device details from leaking into optimization decisions.
 
@@ -98,7 +115,7 @@ Long-term pattern recognition consumes History Service data and produces device-
 
 The future Simulation Framework reuses production pipeline and domain components whenever practical. Neutral inputs and an explicit simulation clock should keep optimizers unaware of live versus simulated operation. Its exact runtime interaction and implementation order remain open. See [ADR-0014](ADR/ADR-0014-simulation-framework.md).
 
-The canonical definitions for the architecture's [timing, efficiency, cost, and priority/goal models](OPTIMIZATION_MODELS.md) are maintained separately so future engines use consistent physical and economic semantics.
+The canonical definitions for the architecture's [timing, efficiency, cost, KPI, goal, target, constraint, preference, and priority models](OPTIMIZATION_MODELS.md) are maintained separately so future engines use consistent physical, temporal, and economic semantics.
 
 ## Compatibility
 
