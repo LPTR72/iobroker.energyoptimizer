@@ -23,165 +23,244 @@
 
 # Features
 
-**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+**Document status:** Public presentation, version 2.1, updated 2026-07-10.
 
 The Energy Optimizer is designed to grow in carefully validated steps.
 
-It already provides a read-only analytical foundation for understanding energy flows in an ioBroker system. Higher-level optimization, planning, and automation capabilities are built on top of this foundation step by step.
+It already provides a read-only analytical foundation for understanding energy flows in an ioBroker system. Information interpretation, history, prediction, simulation, planning, and automation are built on top of this foundation step by step.
 
-This page therefore describes features as scenarios: what the optimizer can already help with today, what is under development, and what the long-term product is being prepared to achieve.
+This page describes features as scenarios: what the optimizer can already help with today, what is prepared in the domain architecture, and what the long-term product is intended to achieve.
 
 ![Optimization pipeline](assets/pipeline.svg)
 
 > **Design rule**
 >
-> Features are documented as implemented only when they exist in the runtime or domain code. Planned capabilities are marked separately.
+> Features are documented as implemented only when they exist in runtime or domain code. Planned capabilities are marked separately.
 >
-> The long-term direction is clear: **understand first, recommend next, plan carefully, and only then automate trusted device behavior.**
+> The long-term direction remains: **understand first, recommend next, plan carefully, and only then automate trusted device behavior.**
+
+## Interpret available energy information
+
+The optimizer should not depend on a fixed list of adapters or manufacturers. It should depend on understandable information such as grid power, photovoltaic generation, battery state, tariffs, weather, target times, and limits.
+
+**Available today**
+
+- read configured numeric ioBroker source states;
+- tolerate missing, empty, or non-numeric values without crashing;
+- normalize legacy configuration into neutral energy-system inputs;
+- publish health and configuration status.
+
+**Planned capabilities**
+
+- an Information Interpreter for meaning, units, sign conventions, time semantics, freshness, and quality;
+- stable alias or source-binding guidance;
+- an information-type catalog;
+- minimum, recommended, and reference-system information profiles;
+- configurable import/export direction for signed grid-power sources.
 
 ## Understand the home energy system
 
-The first job of the optimizer is to build a reliable picture of the current energy situation.
-
-Today, the adapter can read configured numeric ioBroker source states and mirror grid, house, photovoltaic, and battery values into adapter-owned states. It also tolerates missing, empty, or non-numeric input values without crashing.
-
-This makes the current runtime intentionally conservative: it observes, validates, and publishes its own view of the energy system before attempting any higher-level decisions.
+The first runtime job is to build a reliable picture of the current energy situation before attempting higher-level decisions.
 
 **Available today**
 
-- read configured numeric ioBroker source states
-- mirror grid, house, photovoltaic, and battery values into adapter-owned states
-- tolerate missing, empty, or non-numeric input values without crashing
-- publish health and configuration status
+- mirror grid, house, photovoltaic, and battery values into adapter-owned states;
+- calculate deterministic energy-system snapshots;
+- expose source completeness and health information;
+- derive current analysis values without writing to foreign adapter states.
 
 **Planned capabilities**
 
-- SQL-backed historical data collection through an implementation-neutral repository boundary
-- deterministic aggregation and quality metadata for historical observations
-- pattern recognition based on confirmed historical behavior
+- richer heterogeneous Energy Asset models;
+- explicit Context Information such as weather, tariffs, calendars, occupancy, solar position, and grid restrictions;
+- clearer separation between physical capabilities and decision context.
 
 ## Track energy and cost development
 
-A useful optimizer must not only know the current power flow. It also needs to understand what this means over time.
-
-The current runtime already calculates interval-based grid-import energy and accumulates daily and monthly fixed-tariff import costs. This turns raw measurements into a first layer of useful energy and cost information.
+A useful optimizer must understand what current power flows mean over time.
 
 **Available today**
 
-- calculate interval-based grid-import energy
-- accumulate daily fixed-tariff import costs
-- accumulate monthly fixed-tariff import costs
+- calculate interval-based grid-import energy;
+- accumulate daily fixed-tariff import costs;
+- accumulate monthly fixed-tariff import costs.
 
 **Planned capabilities**
 
-- richer cost models
-- dynamic tariff support
-- feed-in tariff awareness
-- optional battery wear and opportunity-cost modelling
+- richer cost models;
+- dynamic tariff support;
+- tariff and price changes over time;
+- feed-in tariff awareness;
+- import and export valuation;
+- optional battery-wear and opportunity-cost modelling;
+- cost forecasts and later validation against observed results.
 
-## Predict what happens next
+## Build reusable history
 
-Future optimization depends on more than the current state. The optimizer needs to reason about expected production, consumption, prices, and external conditions.
+Live values are only snapshots. Historical observations should become reusable evidence for prediction, diagnostics, simulation, and later optimization.
 
-The repository already contains deterministic domain foundations for forecast abstraction, prediction, time-series merging, energy-system snapshots, and optimizer input construction. These components are designed to be testable without depending directly on ioBroker runtime APIs.
+**Architecture prepared**
+
+- typed historical metrics;
+- deterministic multi-resolution aggregation;
+- quality and coverage metadata;
+- backend-neutral repository boundaries;
+- explicit separation between history and forecast.
+
+**Planned capabilities**
+
+- bootstrap from existing SQL, History Adapter, InfluxDB, or other repository data;
+- configurable retention and resolution policies;
+- historical comparison of forecast and reality;
+- reusable evidence for pattern recognition and profile calibration.
+
+## Forecast and predict what happens next
+
+Future optimization depends on more than current state.
+
+The project keeps two concepts separate:
+
+- **Forecast** describes externally expected future conditions.
+- **Prediction** describes what is likely to happen in the concrete household system.
 
 **Available today**
 
-- forecast abstraction in the domain layer
-- prediction foundations
-- time-series merging foundations
-- energy-system snapshot concepts
-- optimizer input construction
+- forecast abstraction in the domain layer;
+- prediction foundations;
+- configurable resolution and horizon;
+- reusable time-series merging;
+- deterministic optimizer-input construction.
 
 **Planned capabilities**
 
-- provider integrations for forecast data
-- provider integrations for tariff data
-- provider integrations for weather data
-- prediction based on historical behavior and current context
+- provider integrations for forecast, tariff, weather, calendar, and other context information;
+- prediction calibrated by history and observed asset behavior;
+- quality, uncertainty, and fallback information;
+- comparison between predicted and observed behavior.
+
+## Learn explainable asset behavior
+
+The project does not require black-box learning to improve over time.
+
+A future asset may begin with a generic standard profile or an initial profile derived from existing history. Observations can then calibrate duration, energy demand, phases, flexibility, and uncertainty.
+
+**Planned capabilities**
+
+- generic standard profiles;
+- bootstrap from existing smart-plug and history data;
+- calibrated asset-specific profiles;
+- explainable confidence and variance;
+- pattern hypotheses that remain uncertain until confirmed;
+- user-confirmed Pattern-based Virtual Energy Assets.
 
 ## Evaluate possible decisions
 
-Before the optimizer can recommend or automate anything, it must be able to compare possible actions safely and deterministically.
-
-The repository already contains foundations for analysis, situation evaluation, recommendation generation, dormant planning model semantics, and read-only simulation diagnostics. These are early building blocks for future decision-making, not autonomous control features.
+Before the optimizer recommends or automates anything, it must compare alternatives safely and deterministically.
 
 **Available today**
 
-- analysis foundations
-- situation evaluation foundations
-- recommendation generation foundations
-- dormant planning model semantics
-- read-only simulation diagnostics
+- analysis foundations;
+- situation evaluation foundations;
+- deterministic recommendation generation;
+- dormant planning semantics;
+- read-only simulation diagnostics.
 
 **Planned capabilities**
 
-- richer efficiency models
-- degradation-aware evaluation
-- priority and goal models
-- simulation framework capabilities such as replay, scenarios, benchmarks, and demo mode
+- first-class simulation, replay, scenarios, benchmarks, and demo mode;
+- complete parameter-system evaluation instead of isolated parameter changes;
+- richer efficiency and degradation models;
+- explicit KPIs, goals, target values, priorities, constraints, and preferences;
+- transparent comparison of alternative strategies.
 
 ## Recommend better actions
 
-The current project direction is not to jump directly from measurement to automation.
+Recommendations are the trust-building step between understanding and action.
 
-Recommendations are the intermediate step: the optimizer should first explain what it sees, why a certain action would be useful, and what trade-offs are involved. This keeps the system understandable and trustworthy.
+The optimizer should explain what it sees, what it expects, which goal is relevant, which limits apply, and why a particular option is useful.
 
 **Available today**
 
-- structured read-only recommendation output
-- deterministic recommendation generation foundations
-- health and configuration status that make recommendations easier to validate
+- structured read-only recommendation output;
+- deterministic recommendation foundations;
+- source-completeness and health information for validation.
 
 **Planned capabilities**
 
-- user-facing recommendation scenarios
-- recommendation quality metadata
-- explanations for why a recommendation was produced
-- comparison of alternative optimization strategies
+- user-facing recommendation scenarios;
+- recommendation confidence and quality metadata;
+- traceable explanations based on measurements, history, forecasts, predictions, goals, and constraints;
+- comparison of alternative recommendations;
+- later validation of whether a recommendation had the expected effect.
+
+## Plan desired outcomes
+
+The long-term product should not require users to define only fixed switching times.
+
+A user may instead describe a desired result such as:
+
+- washing finished by a target time;
+- an electric vehicle charged before departure;
+- a room or hot-water store within a comfort range;
+- a battery reserve preserved at sunset.
+
+**Architecture prepared**
+
+- neutral recommendation intent;
+- dormant ExecutionPlanner foundations;
+- capability, time-window, physical-limit, conflict, and expiry semantics.
+
+**Planned capabilities**
+
+- a stable domain term for goal-oriented user requests;
+- flexible start and completion windows;
+- hard constraints, soft constraints, and preferences;
+- capability-aware planning;
+- explainable blocked and feasible plans.
 
 ## Coordinate energy assets
 
-The long-term product is not limited to passive monitoring. It is being built toward intelligent coordination of energy assets in the home.
+The long-term product is intended to coordinate heterogeneous physical assets and flexibility.
 
-Energy assets may include photovoltaic production, batteries, flexible household consumers, thermal storage, heat pumps, electric vehicles, and other controllable loads. The current repository already contains generic energy-asset foundations that can support this direction.
+Possible assets include photovoltaic systems, batteries, flexible household consumers, thermal storage, heat pumps, electric vehicles, and controllable chargers.
 
 **Available today**
 
-- generic energy-asset domain foundations
-- normalized configuration foundations
-- deterministic, testable domain components
+- generic Energy Asset foundations;
+- normalized configuration foundations;
+- deterministic and testable domain components.
 
 **Planned capabilities**
 
-- battery-aware optimization
-- flexible-load planning
-- photovoltaic surplus usage
-- thermal energy storage modelling
-- heat-pump modelling
-- electric-vehicle charging as an optimization dimension
-- future vehicle-to-home and vehicle-to-grid concepts
+- battery-aware optimization;
+- flexible-load planning;
+- photovoltaic surplus use;
+- thermal storage and building-inertia modelling;
+- heat-pump and hot-water optimization;
+- electric-vehicle charging;
+- future vehicle-to-home and vehicle-to-grid concepts;
+- explicit asset capabilities and controllability boundaries.
 
 ## Prepare trusted automation
 
 Automatic device control is an explicit long-term goal, but it is not a current runtime feature.
 
-The project deliberately avoids uncontrolled automation. Device behavior should only become available after the analytical, recommendation, planning, and validation stages have proven reliable.
-
 **Not current runtime features**
 
-- automatic device control
-- appliance scheduling
-- direct vendor-cloud control
-- writes to third-party ioBroker adapter states
-- autonomous optimization actions
+- automatic device control;
+- appliance scheduling;
+- direct vendor-cloud control;
+- writes to third-party ioBroker adapter states;
+- autonomous optimization actions.
 
 **Long-term direction**
 
-- separately approved device-behavior milestones
-- transparent planning before control
-- user-approved automation paths
-- safe coordination of controllable energy assets
+- separately approved execution integrations;
+- transparent planning before control;
+- user approval and manual override paths;
+- runtime safety and conflict checks;
+- measurement and re-evaluation after actions;
+- safe coordination of controllable Energy Assets.
 
 The guiding principle remains:
 
