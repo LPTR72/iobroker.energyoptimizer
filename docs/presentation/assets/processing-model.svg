@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+  <title id="title">Energy optimizer processing model</title>
+  <desc id="desc">Interpreted information feeds current state, history, forecast and context. These paths support prediction, simulation, recommendation, planning and future execution. Measurements feed back into re-evaluation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .box{fill:#ffffff;stroke:#d1d5db;stroke-width:2}
+      .domain{fill:#ecfdf3;stroke:#2fbf71;stroke-width:2.5}
+      .context{fill:#fff7ed;stroke:#f59e0b;stroke-width:2}
+      .future{fill:#f9fafb;stroke:#9ca3af;stroke-width:2;stroke-dasharray:7 5}
+      .label{font:600 17px Inter,Segoe UI,Arial,sans-serif;fill:#111827}
+      .hint{font:13px Inter,Segoe UI,Arial,sans-serif;fill:#6b7280}
+      .line{fill:none;stroke:#4b5563;stroke-width:2;marker-end:url(#arrow)}
+      .feedback{fill:none;stroke:#2fbf71;stroke-width:2.5;stroke-dasharray:8 6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1100" height="620" rx="24" fill="#f6fbf8"/>
+  <text x="44" y="54" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">Processing model</text>
+  <text x="44" y="84" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" fill="#4b5563">Interpreted information enters several cooperating paths and returns through measurement and re-evaluation.</text>
+
+  <rect class="box" x="44" y="130" width="190" height="78" rx="17"/>
+  <text class="label" x="139" y="160" text-anchor="middle">External information</text>
+  <text class="hint" x="139" y="184" text-anchor="middle">states · providers · scripts</text>
+
+  <line class="line" x1="234" y1="169" x2="292" y2="169"/>
+
+  <rect class="domain" x="300" y="130" width="210" height="78" rx="17"/>
+  <text class="label" x="405" y="160" text-anchor="middle">Information Interpreter</text>
+  <text class="hint" x="405" y="184" text-anchor="middle">meaning · unit · quality</text>
+
+  <path class="line" d="M510 169 H565 V142 H625"/>
+  <path class="line" d="M510 169 H565 V232 H625"/>
+  <path class="line" d="M510 169 H565 V322 H625"/>
+  <path class="line" d="M510 169 H565 V412 H625"/>
+
+  <rect class="box" x="630" y="108" width="190" height="68" rx="16"/>
+  <text class="label" x="725" y="137" text-anchor="middle">Current State</text>
+  <text class="hint" x="725" y="159" text-anchor="middle">what is true now</text>
+
+  <rect class="box" x="630" y="198" width="190" height="68" rx="16"/>
+  <text class="label" x="725" y="227" text-anchor="middle">History</text>
+  <text class="hint" x="725" y="249" text-anchor="middle">observations · calibration</text>
+
+  <rect class="box" x="630" y="288" width="190" height="68" rx="16"/>
+  <text class="label" x="725" y="317" text-anchor="middle">Forecast</text>
+  <text class="hint" x="725" y="339" text-anchor="middle">external future expectations</text>
+
+  <rect class="context" x="630" y="378" width="190" height="68" rx="16"/>
+  <text class="label" x="725" y="407" text-anchor="middle">Context</text>
+  <text class="hint" x="725" y="429" text-anchor="middle">tariffs · weather · limits</text>
+
+  <path class="line" d="M820 142 H868 V240 H910"/>
+  <path class="line" d="M820 232 H882 V240 H910"/>
+  <path class="line" d="M820 322 H868 V240 H910"/>
+  <path class="line" d="M820 412 H852 V240 H910"/>
+
+  <rect class="domain" x="914" y="202" width="142" height="76" rx="17"/>
+  <text class="label" x="985" y="233" text-anchor="middle">Prediction</text>
+  <text class="hint" x="985" y="255" text-anchor="middle">expected system behavior</text>
+
+  <path class="line" d="M985 278 V332"/>
+
+  <rect class="domain" x="895" y="338" width="180" height="70" rx="17"/>
+  <text class="label" x="985" y="368" text-anchor="middle">Simulation</text>
+  <text class="hint" x="985" y="390" text-anchor="middle">compare alternatives</text>
+
+  <path class="line" d="M895 373 H840 V486 H760"/>
+
+  <rect class="domain" x="590" y="452" width="170" height="70" rx="17"/>
+  <text class="label" x="675" y="482" text-anchor="middle">Recommendation</text>
+  <text class="hint" x="675" y="504" text-anchor="middle">explain useful options</text>
+
+  <line class="line" x1="590" y1="487" x2="514" y2="487"/>
+
+  <rect class="future" x="344" y="452" width="170" height="70" rx="17"/>
+  <text class="label" x="429" y="482" text-anchor="middle">Planning</text>
+  <text class="hint" x="429" y="504" text-anchor="middle">feasible course of action</text>
+
+  <line class="line" x1="344" y1="487" x2="268" y2="487"/>
+
+  <rect class="future" x="98" y="452" width="170" height="70" rx="17"/>
+  <text class="label" x="183" y="482" text-anchor="middle">Execution</text>
+  <text class="hint" x="183" y="504" text-anchor="middle">future · approval gated</text>
+
+  <path class="feedback" d="M183 522 V566 H985 V412"/>
+  <text x="584" y="590" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14" fill="#2f855a">measurement and re-evaluation close the optimization loop</text>
+</svg>
