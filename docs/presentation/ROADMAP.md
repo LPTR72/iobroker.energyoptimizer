@@ -23,11 +23,11 @@
 
 # Roadmap
 
-**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+**Document status:** Public presentation, version 2.1, updated 2026-07-10.
 
 The goal of ioBroker Energy Optimizer is not to jump directly from measurements to automation.
 
-A home energy system becomes trustworthy step by step: first it must understand what is happening, then explain useful recommendations, then plan future actions, and only later — with explicit user approval and safety rules — control devices.
+A trustworthy home energy system develops step by step: first it interprets and understands available information, then it explains useful recommendations, then it prepares feasible plans, and only later — with explicit approval and safety boundaries — may it control devices.
 
 That is the guiding path of the roadmap:
 
@@ -37,7 +37,7 @@ That is the guiding path of the roadmap:
 
 > **Roadmap rule**
 >
-> Planned direction does not imply current runtime behavior. Runtime changes, history integration, planning, and device behavior are split into explicit milestones so that each step can be reviewed, validated, and kept safe.
+> Planned direction does not imply current runtime behavior. Information interpretation, history integration, prediction, simulation, planning, and device behavior are split into explicit milestones so that each step can be reviewed, validated, and kept safe.
 
 ## 1. Foundations already completed
 
@@ -45,136 +45,201 @@ The project has established the technical and domain foundations needed before m
 
 These foundations include:
 
-- an ioBroker adapter lifecycle with safe polling
-- live value mirroring
-- fixed-tariff import-cost calculation
-- generic energy assets
-- normalized configuration
-- analysis, forecast, prediction, evaluation, and recommendation foundations
-- read-only simulation runtime integration
-- structured read-only recommendation output
-- dormant planning model semantics
+- an ioBroker adapter lifecycle with safe polling;
+- live value mirroring;
+- fixed-tariff import-cost calculation;
+- generic energy assets and normalized configuration;
+- deterministic analysis, forecast, prediction, evaluation, and recommendation foundations;
+- read-only simulation runtime integration;
+- structured read-only recommendation output;
+- dormant planning semantics with no runtime execution.
 
-In practical terms, this means the project can already represent energy sources and consumers in a structured way and produce safe recommendation-oriented output without controlling devices.
+In practical terms, the project can already represent energy sources and consumers in a structured way and produce safe recommendation-oriented output without controlling devices.
 
-## 2. Current focus: History Service foundation
+## 2. Current architecture focus: information and domain foundations
 
-The current milestone is the **History Service domain foundation**.
+The next architecture layer is about making the meaning of incoming data explicit.
 
-The purpose is to define how past observations should be represented before a concrete storage backend or runtime collection path is integrated.
+Different adapters, providers, scripts, and devices may expose the same physical information using different state names, units, sign conventions, timestamps, and quality indicators. The planned **Information Interpreter** becomes the semantic boundary that translates those technical values into stable domain information.
+
+```text
+Technical source
+  -> alias or source binding
+  -> Information Interpreter
+  -> validated domain information
+```
+
+This changes the integration question from:
+
+> Which adapter is supported?
+
+into:
+
+> Which information type is available, and can it be interpreted reliably?
+
+Planned architecture work includes:
+
+- an initial information-type catalog;
+- stable source-binding and alias guidance;
+- unit, sign, direction, time, and quality semantics;
+- clear separation between Energy Assets and Context Information;
+- minimum, recommended, and reference-system information profiles.
+
+## 3. History Service foundation and integration
+
+The History Service turns isolated observations into reusable memory.
 
 ![History Service](assets/history.svg)
 
-For non-developers, this is the step that turns isolated live values into useful memory.
+For non-developers, this helps answer questions such as:
 
-A history layer can help answer questions such as:
-
-- When does a device usually consume energy?
+- When does a load usually consume energy?
 - How reliable was a forecast compared with reality?
 - Which household patterns repeat over time?
-- Which recommendations worked well in the past?
+- Which recommendations or plans worked well in the past?
 
-This milestone is not about automatic device control. It is about creating the reliable context that future recommendations and planning will need.
-
-## 3. Next direction: History Service integration
-
-After the foundation is complete, the History Service is expected to become the central source for past observations and temporal context.
+The History Service remains backend-neutral. Existing ioBroker SQL infrastructure may provide an initial repository implementation, but SQL, History Adapter, InfluxDB, or future repositories must remain replaceable behind the same architecture boundary.
 
 Planned areas include:
 
 ### Historical data model
 
-- typed historical metrics
-- sample and bucket models
-- deterministic aggregation
-- quality metadata
-- retention policies
+- typed historical metrics;
+- sample and bucket models;
+- deterministic aggregation;
+- quality and coverage metadata;
+- explicit source, calculation, and output resolutions;
+- configurable retention policies.
 
 ### Storage and access
 
-- repository abstraction
-- SQL-backed persistence through existing ioBroker infrastructure
-- clean boundaries between storage and consumers
+- repository abstraction;
+- bootstrap from existing history;
+- clean boundaries between persistence and consumers;
+- observable repository availability and data quality.
 
 ### Future consumers
 
-- prediction
-- diagnostics
-- simulation
-- later optimization
+- prediction and calibration;
+- diagnostics and visualization;
+- pattern recognition;
+- simulation and replay;
+- later optimization and validation.
 
-The important idea is that history should not be tied to one specific database or one specific use case. It should become a neutral building block that other parts of the system can rely on.
+History stores evidence. It does not itself identify devices, create forecasts, or decide which action should be taken.
 
-## 4. Later direction: provider integrations
+## 4. Forecast, context, and provider integrations
 
-Future provider work may add external context to the optimizer.
+Future integrations add externally available expectations and decision context.
 
-Possible provider areas include:
+Possible information areas include:
 
-- photovoltaic forecast providers
-- tariff providers
-- weather providers
-- device capability providers
+- photovoltaic and consumption forecasts;
+- tariffs and price validity periods;
+- weather and solar position;
+- calendars, occupancy, and presence;
+- grid restrictions and regulatory limits;
+- device capabilities and availability.
 
-These integrations should remain behind neutral boundaries. The optimizer should be able to use provider information without becoming dependent on one specific service, vendor, or data source.
+Providers remain integration details. The core consumes neutral information contracts, not provider-specific data structures.
 
-## 5. Later direction: pattern knowledge
+Forecast and prediction remain separate:
+
+- **Forecast** describes externally expected future conditions.
+- **Prediction** describes what is likely to happen in the concrete household system.
+
+History, calibrated profiles, current state, and context may improve prediction without becoming forecast providers themselves.
+
+## 5. Asset profiles and explainable learning
+
+A future asset may begin with a generic standard profile or with a profile derived from existing history.
+
+```text
+Standard profile
+  -> observations
+  -> calibration
+  -> asset-specific profile
+  -> continuous improvement
+```
+
+This supports an explainable form of learning:
+
+- first predictions can be made before extensive local history exists;
+- existing smart-plug or history data can improve the initial model;
+- later observations can refine duration, energy demand, phases, flexibility, and uncertainty;
+- the reasoning remains inspectable instead of becoming a black-box decision.
+
+## 6. Pattern knowledge and virtual assets
 
 A future Pattern Recognition Engine may use historical data to detect recurring household behavior.
 
-Examples could include typical device runtimes, recurring consumption peaks, or regular solar surplus windows.
+Examples include typical load sequences, recurring consumption peaks, regular solar-surplus windows, seasonal behavior, or anomalies.
 
-Detected patterns should remain hypotheses until confirmed by the user. Confirmed patterns may then become device-neutral virtual energy assets that improve prediction and later planning.
+Detected patterns remain hypotheses with evidence and confidence. Only user-confirmed hypotheses may become Pattern-based Virtual Energy Assets that enrich later prediction, simulation, and optimization.
 
-## 6. Later direction: simulation framework
+## 7. Simulation and goal-oriented optimization
 
-A future first-class Simulation Framework may help test energy behavior before it affects a real household.
+A future first-class Simulation Framework should evaluate complete parameter systems rather than isolated values.
 
 ![Simulation](assets/simulation.svg)
 
 Possible capabilities include:
 
-- replaying historical situations
-- accelerated time
-- scenario libraries
-- benchmark scenarios
-- demonstration mode
-- synthetic data generation
-- regression testing
+- replaying historical situations;
+- accelerated and controlled time;
+- scenario libraries;
+- benchmark scenarios;
+- demonstration mode;
+- synthetic data generation;
+- regression testing;
+- comparing alternative plans and strategies.
 
-This remains a long-term architecture capability. Its implementation order is still open, but the intent is clear: important behavior should be explainable and testable before it becomes part of real runtime decisions.
+The decision model must keep these concepts separate:
 
-## 7. Long-term direction: planning and controlled device behavior
+- KPIs describe measured or predicted conditions;
+- goals describe desired outcomes or optimization directions;
+- target values quantify desired states;
+- constraints limit the feasible solution space;
+- priorities and preferences help resolve trade-offs.
+
+## 8. Planning and controlled device behavior
 
 The long-term vision includes more than understanding energy flows.
 
-The project should eventually be able to help plan when devices should run — for example when solar surplus is expected, prices are lower, or household comfort is not affected.
+The project should eventually help plan desired outcomes such as:
 
-Controlled device behavior is therefore part of the long-term roadmap, but it is approval-gated and safety-gated.
+- a washing machine finished by a target time;
+- an electric vehicle charged before departure;
+- useful thermal storage increased without violating comfort limits;
+- a battery reserve preserved for a later period;
+- flexible consumption shifted toward solar surplus or lower prices.
 
-Before the system can safely control devices, it needs:
+The user should describe the desired result and relevant boundaries. The optimizer should determine a feasible path rather than merely applying fixed switching rules.
 
-- reliable recommendations
-- clear planning semantics
-- validation and conflict handling
-- provider boundaries
-- user approval rules
-- runtime safety controls
-- transparent explanations of what will happen and why
+Before real device behavior can be enabled, the system needs:
 
-The current runtime stops at read-only recommendation output. Future automation must be built gradually, reviewed carefully, and remain under explicit user control.
+- reliable and explainable recommendations;
+- clear target, planning, and timing semantics;
+- hard and soft constraint handling;
+- capability and conflict validation;
+- user approval and manual override rules;
+- runtime safety controls;
+- transparent explanations of what will happen and why;
+- measurement and re-evaluation after an action.
+
+The current runtime stops at read-only recommendation output. Future automation remains separately approved, safety-gated, and under explicit user control.
 
 ## Roadmap summary
 
-The roadmap deliberately moves from understanding to action:
+The roadmap deliberately moves from information to trusted action:
 
-1. **Understand** energy data and household behavior.
-2. **Recommend** useful actions without changing runtime behavior.
-3. **Plan** future actions safely and transparently.
-4. **Automate** only after explicit approval, safety checks, and clear boundaries.
+1. **Understand** interpreted energy data, context, history, and household behavior.
+2. **Recommend** useful options and explain their expected effects.
+3. **Plan** feasible actions against goals, target values, constraints, priorities, and capabilities.
+4. **Automate** only after explicit approval, safety checks, measurement, and re-evaluation.
 
-This makes ioBroker Energy Optimizer a long-term project for trustworthy home energy intelligence — not just a collection of calculations.
+This makes ioBroker Energy Optimizer a long-term project for trustworthy home energy intelligence — not just a collection of calculations or adapter-specific automation rules.
 
 ---
 
-Next: read the [FAQ](FAQ.md) for concise answers to common questions about scope, current limitations, and long-term direction.
+Next: read the [FAQ](FAQ.md) for concise answers to common questions about information requirements, current limitations, and long-term direction.
