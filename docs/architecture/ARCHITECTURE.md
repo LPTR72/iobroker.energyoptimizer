@@ -2,9 +2,25 @@
 
 ## Overview
 
-The project follows Clean Architecture: stable domain models and deterministic engines sit at the center, while ioBroker lifecycle, state access, providers, and eventual device execution remain boundary concerns. The core models the physical energy system rather than any particular automation platform, vendor, protocol, or cloud service.
+The project follows Clean Architecture: stable domain models and deterministic engines sit at the center, while ioBroker lifecycle, state access, providers, persistence, and eventual device execution remain boundary concerns. The core models the physical energy system and its decision context rather than any particular automation platform, vendor, protocol, adapter, or cloud service.
 
-Durable architecture decisions and consolidated milestone boundaries are summarized in [Architecture decisions](DECISIONS.md). That document is the compact entry point for decisions that must not remain implicit chat knowledge.
+Durable architecture decisions and consolidated milestone boundaries are summarized in [Architecture decisions](DECISIONS.md). The cross-document semantic reference is the [Domain model](DOMAIN_MODEL.md). These documents must not remain implicit chat knowledge.
+
+## System boundary
+
+The Information Interpreter is the semantic system boundary established by [ADR-0015](ADR/ADR-0015-information-interpreter-boundary.md).
+
+```text
+External source
+    -> source binding or alias
+    -> information type
+    -> Information Interpreter
+    -> validated domain information
+```
+
+The optimizer supports information types rather than a fixed list of adapters or manufacturers. Aliases and source bindings stabilize identity. The Information Interpreter stabilizes meaning, units, sign and direction conventions, temporal semantics, freshness, quality, and availability.
+
+History, forecast, prediction, simulation, recommendation, planning, and execution remain separate capabilities behind this boundary.
 
 ## Implemented components
 
@@ -22,26 +38,61 @@ Durable architecture decisions and consolidated milestone boundaries are summari
 - Pure dormant `ExecutionPlanner` with conservative capability, physical-limit, time-window, conflict, and expiry handling
 - Read-only `SimulationRuntime` integration after successful polling, with source-completeness reporting
 - Deterministic `SimulationPublication` snapshot and structured read-only recommendation projection
+- Initial History Service domain foundation with typed metrics, samples, buckets, collector, aggregator, and tests
 
 ## Planned components
 
-- Forecast, tariff, and weather provider implementations
+- Information Interpreter runtime contracts, validation results, transformations, and source-binding model
+- Initial information-type catalog and minimum/recommended/reference information profiles
+- Forecast, tariff, weather, calendar, and context provider implementations
 - A dedicated `History Service` as the central historical data platform, with typed metrics, deterministic aggregation, abstract persistence, retention, data quality, and temporal context
+- Asset Profiles, Standard Profiles, calibration, and explainable learning
 - A generic `Pattern Recognition Engine` and user-confirmed Pattern-based Virtual Energy Assets / Knowledge Model
 - A first-class `Simulation Framework` for development, replay, validation, benchmarks, demonstrations, accelerated time, and regression testing
+- First-class KPI, Goal, Target Value, Hard Constraint, Soft Constraint, Preference, and Goal Task semantics
 - Capability-aware execution adapters with explicit safety controls
+
+## Domain topology
+
+The architecture is not one rigid runtime pipeline. Interpreted information can feed several cooperating paths.
+
+```text
+External Sources
+    -> Source Bindings / Aliases
+    -> Information Types
+    -> Information Interpreter
+    -> Domain Information
+         |-> Current State -------------------|
+         |-> History -------------------------|-> Prediction
+         |-> Forecast ------------------------|
+         |-> Context Information -------------|
+         |                                      -> Simulation
+         |                                      -> Recommendation
+         |                                      -> Planning
+         |                                      -> Execution (future)
+         |                                      -> Measurement and Re-evaluation
+         |
+         |-> Energy Assets / Asset Profiles
+         |-> KPIs / Goals / Target Values / Constraints / Priorities
+```
+
+This communicates dependencies and information relationships, not a mandatory single runtime call graph. The canonical terminology and model relationships are defined in [Domain model](DOMAIN_MODEL.md).
 
 ## Boundaries
 
-The domain layer contains models and pure calculations. It must not know about ioBroker object IDs, adapter lifecycle APIs, logging APIs, concrete vendors, or transport protocols. The provider layer translates external future-looking data into neutral domain models. The planned History Service owns past observations and temporal context behind its own boundary. Adapter runtime code manages lifecycle, polling, state mirroring, and orchestration. The future execution layer translates approved plans into device operations.
+The domain layer contains models and pure calculations. It must not know about ioBroker object IDs, adapter lifecycle APIs, logging APIs, concrete vendors, storage schemas, or transport protocols.
 
-ioBroker, EcoFlow, Tibber, MQTT, Shelly, Anker, and other platforms or products belong at integration boundaries. They may supply measurements, forecasts, tariffs, or execution capabilities, but the core represents these through physical assets and vendor-independent contracts.
+The provider and integration layers acquire external values and capabilities. Source bindings and aliases connect them to configured semantic purposes. The Information Interpreter converts those values into validated domain information.
 
-This separation keeps engines deterministic, portable, and testable and prevents source-adapter or device details from leaking into optimization decisions.
+The planned History Service owns past observations and temporal context behind its own boundary. Forecast providers own external future-looking information. Prediction describes expected behavior of the concrete system. Adapter runtime code manages lifecycle, polling, state mirroring, and orchestration. The future execution layer translates approved neutral plans into device operations.
+
+ioBroker, EcoFlow, Tibber, MQTT, Shelly, Anker, SQL, InfluxDB, and other platforms or products belong at integration boundaries. They may supply measurements, forecasts, tariffs, context, persistence, or execution capabilities, but the core represents these through information types, physical assets, context information, and vendor-independent contracts.
+
+This separation keeps engines deterministic, portable, and testable and prevents source-adapter, storage, or device details from leaking into optimization decisions.
 
 The adapter-owned public ioBroker object namespace, current state tree, reserved future namespaces, JSON publication rules, and read/write policy are defined in [Object model](OBJECT_MODEL.md).
 
-The History Service remains a single external service even though it separates collection, aggregation, and repository responsibilities internally. Analysis, prediction, evaluation, simulation, diagnostics, future visualization, and future optimization models may consume it. The History Repository is an abstraction; its preferred initial implementation uses ioBroker SQL infrastructure rather than an adapter-owned database. `PredictionEngine` consumes history when available but does not persist it and continues without historical learning when history is disabled. The complete planned contract is defined by [ADR-0012](ADR/ADR-0012-history-service.md).
+The History Service remains a single external service even though it separates collection, aggregation, and repository responsibilities internally. Analysis, prediction, evaluation, simulation, diagnostics, future visualization, pattern recognition, profile calibration, and future optimization models may consume it. The History Repository is an abstraction; SQL, the ioBroker History Adapter, InfluxDB, or future backends may provide implementations without becoming domain contracts. `PredictionEngine` consumes history when available but does not persist it and continues without historical calibration when history is disabled. The complete planned contract is defined by [ADR-0012](ADR/ADR-0012-history-service.md).
 
 Long-term pattern recognition consumes History Service data and produces device-neutral hypotheses. Only user-confirmed hypotheses may become persistent Pattern-based Virtual Energy Assets. These virtual assets enrich a future knowledge model without claiming direct device identification or enabling control. See [ADR-0013](ADR/ADR-0013-pattern-based-virtual-energy-assets.md).
 
