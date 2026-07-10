@@ -16,5 +16,6 @@ Architecture Decision Records (ADRs) capture important technical choices and the
 - [ADR-0012: History Service](ADR-0012-history-service.md)
 - [ADR-0013: Pattern-based Virtual Energy Assets](ADR-0013-pattern-based-virtual-energy-assets.md)
 - [ADR-0014: Simulation Framework](ADR-0014-simulation-framework.md)
+- [ADR-0015: Information Interpreter as the System Boundary](ADR-0015-information-interpreter-boundary.md)
 
 New ADRs should be numbered sequentially and contain Status, Context, Decision, and Consequences sections.
