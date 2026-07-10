@@ -9,6 +9,10 @@ export type HistoricalMetricType =
 
 export type HistoricalBucketResolution = "1m" | "5m" | "15m" | "60m" | "1d";
 
+export type HistoryDayBoundaryStrategy = "rolling24h" | "calendarDayLocal";
+
+export const DEFAULT_HISTORY_DAY_BOUNDARY_STRATEGY: HistoryDayBoundaryStrategy = "rolling24h";
+
 export type GenericNumberReducer = "average" | "minimum" | "maximum" | "sum" | "last";
 
 export interface HistoricalInterval {

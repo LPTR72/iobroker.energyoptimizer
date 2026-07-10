@@ -1,6 +1,6 @@
 # Testing
 
-Stand: 07.07.2026 16:27 Uhr
+Stand: 10.07.2026 21:00 Uhr
 
 The project uses strict TypeScript compilation and Node's built-in test runner without an additional test framework.
 
@@ -14,7 +14,7 @@ Current tests cover:
 - `RecommendationEngine` empty inputs, ranking, deterministic ordering, relevance, constraints, and input immutability
 - `ExecutionPlanner` no-op, dormant and blocked plans, physical-limit intersection, time windows, expiry, future-effective opposite-action conflicts, deterministic output, validation, and input immutability
 - `SimulationRuntime` surplus, deficit, neutral-threshold, and incomplete-source scenarios
-- History Service domain foundation collection and aggregation for power, energy counters, state of charge, binary state, temperature, price, generic numbers, invalid samples, and resolution-chain guards
+- History Service domain foundation collection and aggregation for power, energy counters, state of charge, strictly validated binary state, temperature, price, generic numbers, invalid samples, every aggregation level through `1d`, rolling 24-hour boundaries, local calendar-day boundaries, daylight-saving transitions, and resolution-chain guards
 - `TimeSeriesMerger`
 - Optimization domain models
 

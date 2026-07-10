@@ -178,6 +178,8 @@ The History Service owns historical treatment of already interpreted information
 
 The interpreter defines timestamp meaning and temporal semantics. The History Service may align valid timestamps to bucket boundaries, but it must not reinterpret their semantic meaning.
 
+Daily history uses an explicit boundary strategy. `rolling24h` is the default and produces epoch-aligned 24-hour intervals. `calendarDayLocal` follows local calendar midnights and daylight-saving transitions. Broader time-zone and temporal-context configuration remains planned.
+
 The repository remains backend-neutral. SQL, the ioBroker History Adapter, InfluxDB, or future storage implementations may sit behind the same boundary.
 
 ### Forecast

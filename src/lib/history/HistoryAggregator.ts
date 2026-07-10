@@ -1,22 +1,27 @@
 import {
+    DEFAULT_HISTORY_DAY_BOUNDARY_STRATEGY,
     GenericNumberReducer,
     HISTORICAL_BUCKET_RESOLUTION_MS,
     HistoricalBucket,
     HistoricalBucketResolution,
     HistoricalMetricType,
+    HistoryDayBoundaryStrategy,
     NEXT_HISTORICAL_BUCKET_RESOLUTION,
 } from "./model";
 import { createBucketFromBuckets } from "./aggregation";
 
 export interface HistoryAggregatorOptions {
     readonly genericNumberReducer?: GenericNumberReducer;
+    readonly dayBoundaryStrategy?: HistoryDayBoundaryStrategy;
 }
 
 export class HistoryAggregator {
     private readonly genericNumberReducer?: GenericNumberReducer;
+    private readonly dayBoundaryStrategy: HistoryDayBoundaryStrategy;
 
     public constructor(options: HistoryAggregatorOptions = {}) {
         this.genericNumberReducer = options.genericNumberReducer;
+        this.dayBoundaryStrategy = options.dayBoundaryStrategy ?? DEFAULT_HISTORY_DAY_BOUNDARY_STRATEGY;
     }
 
     public aggregate(
@@ -33,8 +38,8 @@ export class HistoryAggregator {
                 throw new Error(`Cannot aggregate ${bucket.resolution} buckets directly into ${targetResolution} buckets`);
             }
 
-            const bucketStart = floorToResolution(bucket.interval.from, HISTORICAL_BUCKET_RESOLUTION_MS[targetResolution]);
-            const key = groupKey(bucket.assetId, bucket.metricType, bucketStart);
+            const interval = targetInterval(bucket.interval.from, targetResolution, this.dayBoundaryStrategy);
+            const key = groupKey(bucket.assetId, bucket.metricType, interval.from);
             const group = groups.get(key);
 
             if (group) {
@@ -46,18 +51,32 @@ export class HistoryAggregator {
 
         return [...groups.values()]
             .map(group => {
-                const bucketStart = floorToResolution(group[0].interval.from, HISTORICAL_BUCKET_RESOLUTION_MS[targetResolution]);
+                const interval = targetInterval(group[0].interval.from, targetResolution, this.dayBoundaryStrategy);
                 return createBucketFromBuckets(group, {
                     resolution: targetResolution,
-                    interval: {
-                        from: bucketStart,
-                        to: bucketStart + HISTORICAL_BUCKET_RESOLUTION_MS[targetResolution],
-                    },
+                    interval,
                     genericNumberReducer: this.genericNumberReducer,
                 });
             })
             .sort(compareBuckets);
     }
+}
+
+function targetInterval(
+    timestamp: number,
+    resolution: HistoricalBucketResolution,
+    dayBoundaryStrategy: HistoryDayBoundaryStrategy,
+): { readonly from: number; readonly to: number } {
+    if (resolution !== "1d" || dayBoundaryStrategy === "rolling24h") {
+        const from = floorToResolution(timestamp, HISTORICAL_BUCKET_RESOLUTION_MS[resolution]);
+        return { from, to: from + HISTORICAL_BUCKET_RESOLUTION_MS[resolution] };
+    }
+
+    const fromDate = new Date(timestamp);
+    fromDate.setHours(0, 0, 0, 0);
+    const toDate = new Date(fromDate);
+    toDate.setDate(toDate.getDate() + 1);
+    return { from: fromDate.getTime(), to: toDate.getTime() };
 }
 
 function previousResolution(resolution: HistoricalBucketResolution): HistoricalBucketResolution {

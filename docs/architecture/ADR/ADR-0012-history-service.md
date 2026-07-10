@@ -18,7 +18,7 @@ Introduce a planned **History Service** as the adapter's central historical data
 
 Internally the service has three responsibilities:
 
-- **History Collector** receives interpreted samples, normalizes timestamps where necessary, validates history-specific requirements, classifies their `HistoricalMetricType`, and builds deterministic 1-minute buckets.
+- **History Collector** receives interpreted or explicitly typed historical samples, validates and uses their already assigned `HistoricalMetricType`, aligns timestamps to history bucket boundaries, validates history-specific requirements, and builds deterministic 1-minute buckets.
 - **History Aggregator** owns deterministic, metric-specific aggregation and creates every higher-resolution bucket from the immediately preceding level.
 - **History Repository** is the persistence abstraction through which historical buckets are stored and retrieved.
 
@@ -47,7 +47,7 @@ The future information-type catalog may declare whether history is required, rec
 The canonical hierarchy is:
 
 ```text
-Live samples
+Interpreted or explicitly typed historical samples
   -> 1 minute
   -> 5 minutes
   -> 15 minutes
@@ -55,7 +55,9 @@ Live samples
   -> daily
 ```
 
-Only 1-minute buckets receive live samples. Each later level is generated exclusively from the immediately previous level: 5-minute buckets from 1-minute buckets, 15-minute buckets from 5-minute buckets, 60-minute buckets from 15-minute buckets, and daily buckets from 60-minute buckets. Reprocessing the same complete input must produce the same output.
+Only 1-minute buckets receive interpreted or explicitly typed historical samples. Each later level is generated exclusively from the immediately previous level: 5-minute buckets from 1-minute buckets, 15-minute buckets from 5-minute buckets, 60-minute buckets from 15-minute buckets, and daily buckets from 60-minute buckets. Reprocessing the same complete input must produce the same output.
+
+The meaning of `1d` is selected explicitly through a day-boundary strategy. The default `rolling24h` strategy uses deterministic, epoch-aligned intervals of exactly 24 hours. The `calendarDayLocal` strategy uses local calendar midnights and therefore follows the host's configured local time zone; a calendar day may be 23, 24, or 25 hours across daylight-saving transitions. This initial strategy is a History domain concern only. Arbitrary time-zone selection, global temporal context, reporting windows, and runtime configuration remain separate future work.
 
 ### Typed metrics and data quality
 
@@ -70,6 +72,8 @@ Historical values use an explicit `HistoricalMetricType`; they are not untyped n
 - **Generic Number:** an explicitly configured reducer; no implicit energy or power semantics.
 
 Buckets carry data-quality metadata including expected and valid sample counts, temporal coverage, gaps, rejected values, and source freshness. Aggregations propagate quality information so consumers can distinguish complete history from partial or stale data.
+
+Binary-state samples must already be interpreted as exactly `0` or `1`. The History Service rejects other numeric encodings instead of inferring boolean meaning.
 
 Interpreter quality and History Service quality are related but distinct. The interpreter determines whether an external value can become valid domain information. The History Service records whether enough valid information exists to form a reliable historical interval.
 

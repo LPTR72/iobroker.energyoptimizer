@@ -180,3 +180,77 @@ test("aggregates binary transitions across bucket boundaries", () => {
     assert.equal(fiveMinuteBuckets[0].value.first, 0);
     assert.equal(fiveMinuteBuckets[0].value.last, 0);
 });
+
+test("rejects binary values that were not already interpreted as exactly zero or one", () => {
+    const collector = new HistoryCollector({ expectedSampleIntervalMs: 10_000 });
+    const buckets = collector.collect([
+        sample("binary_state", 0, 0),
+        sample("binary_state", 10_000, 1),
+        sample("binary_state", 20_000, -1),
+        sample("binary_state", 30_000, 0.5),
+        sample("binary_state", 40_000, 2),
+        sample("binary_state", 50_000, Number.NaN),
+        sample("binary_state", 55_000, Number.POSITIVE_INFINITY),
+    ]);
+
+    assert.deepEqual(buckets[0].value, {
+        falseDurationMs: 10_000,
+        trueDurationMs: 50_000,
+        transitionCount: 1,
+        first: 0,
+        last: 1,
+    });
+    assert.equal(buckets[0].quality.validSampleCount, 2);
+    assert.equal(buckets[0].quality.rejectedSampleCount, 5);
+});
+
+test("aggregates the complete resolution chain into the default rolling 24-hour day", () => {
+    const collector = new HistoryCollector();
+    const aggregator = new HistoryAggregator();
+    const oneMinuteBuckets = collector.collect(powerSamples(0, 24 * 60));
+    const fiveMinuteBuckets = aggregator.aggregate(oneMinuteBuckets, "5m");
+    const fifteenMinuteBuckets = aggregator.aggregate(fiveMinuteBuckets, "15m");
+    const hourlyBuckets = aggregator.aggregate(fifteenMinuteBuckets, "60m");
+    const dailyBuckets = aggregator.aggregate(hourlyBuckets, "1d");
+
+    assert.equal(oneMinuteBuckets.length, 24 * 60);
+    assert.equal(fiveMinuteBuckets.length, 24 * 12);
+    assert.equal(fifteenMinuteBuckets.length, 24 * 4);
+    assert.equal(hourlyBuckets.length, 24);
+    assert.equal(dailyBuckets.length, 1);
+    assert.deepEqual(dailyBuckets[0].interval, { from: 0, to: 24 * 60 * MINUTE });
+    assert.deepEqual(dailyBuckets[0].value, { average: 100, minimum: 100, maximum: 100 });
+});
+
+test("uses local calendar boundaries for a daylight-saving 23-hour day", () => {
+    const previousTimeZone = process.env.TZ;
+    process.env.TZ = "Europe/Berlin";
+
+    try {
+        const from = new Date(2026, 2, 29, 0, 0, 0, 0).getTime();
+        const to = new Date(2026, 2, 30, 0, 0, 0, 0).getTime();
+        assert.equal(to - from, 23 * 60 * MINUTE);
+
+        const collector = new HistoryCollector();
+        const aggregator = new HistoryAggregator({ dayBoundaryStrategy: "calendarDayLocal" });
+        const oneMinuteBuckets = collector.collect(powerSamples(from, 23 * 60));
+        const fiveMinuteBuckets = aggregator.aggregate(oneMinuteBuckets, "5m");
+        const fifteenMinuteBuckets = aggregator.aggregate(fiveMinuteBuckets, "15m");
+        const hourlyBuckets = aggregator.aggregate(fifteenMinuteBuckets, "60m");
+        const dailyBuckets = aggregator.aggregate(hourlyBuckets, "1d");
+
+        assert.equal(hourlyBuckets.length, 23);
+        assert.equal(dailyBuckets.length, 1);
+        assert.deepEqual(dailyBuckets[0].interval, { from, to });
+    } finally {
+        if (previousTimeZone === undefined) {
+            delete process.env.TZ;
+        } else {
+            process.env.TZ = previousTimeZone;
+        }
+    }
+});
+
+function powerSamples(from, minuteCount) {
+    return Array.from({ length: minuteCount }, (_, index) => sample("power", from + index * MINUTE, 100));
+}

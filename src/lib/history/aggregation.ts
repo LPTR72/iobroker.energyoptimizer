@@ -362,7 +362,8 @@ function isValidSample(sample: HistoricalSample, interval: HistoricalInterval): 
         sample.timestamp >= interval.from &&
         sample.timestamp < interval.to &&
         Number.isFinite(sample.timestamp) &&
-        Number.isFinite(sample.value)
+        Number.isFinite(sample.value) &&
+        (sample.metricType !== "binary_state" || sample.value === 0 || sample.value === 1)
     );
 }
 
@@ -411,7 +412,8 @@ function compareBuckets(left: HistoricalBucket, right: HistoricalBucket): number
 }
 
 function normalizeBinary(value: number): 0 | 1 {
-    return value > 0 ? 1 : 0;
+    if (value !== 0 && value !== 1) throw new Error("binary_state samples must be exactly 0 or 1");
+    return value;
 }
 
 function duration(interval: HistoricalInterval): number {

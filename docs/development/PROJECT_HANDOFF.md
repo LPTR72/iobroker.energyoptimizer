@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 07.07.2026 16:27 Uhr
+Stand: 10.07.2026 21:00 Uhr
 
 ## Purpose
 
@@ -10,7 +10,7 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Current Project State
 
-- Active branch: `refactor/core-architecture`.
+- Active branch: `integration/history-domain-foundation`.
 - Functional runtime remains read-only.
 - No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or first-class Simulation Framework implementation is approved.
 - The History Service domain foundation is implemented as pure deterministic domain code only.
@@ -18,11 +18,11 @@ It intentionally stays short. Architecture details, historical milestones, workf
 - The adapter-owned public ioBroker object namespace and future object-model boundaries are documented in `docs/architecture/OBJECT_MODEL.md`.
 - The remaining History Service work is still open and must be split into separately approved milestones.
 
-## Latest Completed Milestone
+## Active Milestone
 
-- Milestone: History Service Domain Foundation.
-- Scope: implemented pure domain models and deterministic collection/aggregation for the first History Service slice.
-- Result: `src/lib/history/` now defines typed historical metrics, samples, buckets, resolutions, quality metadata, a 1-minute collector from live samples, and an aggregator that advances only through the ADR-0012 resolution chain. Metric-specific aggregation covers power, reset-aware energy counters, state of charge, binary state, temperature, price, and generic numbers with an explicit reducer.
+- Milestone: History Domain Foundation Contract Alignment; completion review in progress.
+- Scope: pure domain models and deterministic collection/aggregation for the first History Service slice, aligned with the Information Interpreter boundary.
+- Result: `src/lib/history/` defines typed historical metrics, samples, buckets, resolutions, quality metadata, a 1-minute collector from interpreted or explicitly typed historical samples, and an aggregator that advances only through the ADR-0012 resolution chain. Metric-specific aggregation covers power, reset-aware energy counters, state of charge, strictly validated binary state, temperature, price, and generic numbers with an explicit reducer. Daily aggregation supports explicit `rolling24h` and `calendarDayLocal` boundary strategies.
 - Runtime impact: none.
 - Production code impact: pure domain code only; no runtime wiring.
 
@@ -37,7 +37,9 @@ It intentionally stays short. Architecture details, historical milestones, workf
 ## Validation Summary
 
 - Local build: `npm.cmd run build` passed.
-- Local tests: `npm.cmd test` passed with 97 passing tests.
+- Local tests: `npm.cmd test` passed with 100 passing tests.
+- Lint: `npm.cmd run lint` passed.
+- Package dry run: `npm.cmd run test:package` passed.
 - Diff whitespace check: `git diff --check` passed.
 - Production code changed: yes, pure history domain code under `src/lib/history/`.
 - Tests changed: yes, focused History Service domain tests added.
@@ -47,9 +49,9 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Review Outcome
 
-- Blocking issues found: 0.
-- Blocking issues resolved before approval: 0.
-- Final review status: Approved.
+- Blocking issues found by the architecture review: binary-value reinterpretation, undefined daily-boundary semantics, incomplete resolution-chain coverage, and documentation status inconsistencies.
+- The approved correction scope has passed local validation and is awaiting final completion review.
+- Final review status: Pending.
 
 ## Open Risks
 
@@ -76,7 +78,7 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 Select and explicitly approve the next functional milestone from the roadmap before creating an implementation prompt.
 
-Recommended next direction: prepare the next History Service slice as a separately scoped milestone. A conservative next step is an implementation-neutral repository contract and retention-policy design without SQL wiring or runtime integration.
+Do not select the next functional milestone until this History Domain Foundation Contract Alignment milestone passes validation and completion review.
 
 Keep SQL, runtime integration, new ioBroker states, configuration UI, pattern recognition, and the Simulation Framework out of the next step unless explicitly approved.
 
