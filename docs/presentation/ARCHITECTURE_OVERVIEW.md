@@ -64,20 +64,9 @@ A provider change should therefore not affect the optimizer as long as the stabl
 
 ## Processing model
 
-The architecture is not a single rigid pipeline. Interpreted information can enter several cooperating paths:
+The architecture is not a single rigid pipeline. Interpreted information can enter several cooperating paths, and context may influence prediction, simulation, recommendation, and planning rather than belonging to only one stage.
 
-```text
-                           -> Current State ----
-External information      -> History ----------+-> Prediction
-    -> Interpreter         -> Forecast ---------|
-                           -> Context -----------
-                                                  -> Simulation
-                                                  -> Recommendation
-                                                  -> Planning
-                                                  -> Execution (future)
-                                                  -> Measurement
-                                                  -> Re-evaluation
-```
+![Energy optimizer processing model](assets/processing-model.svg)
 
 - **History** supplies past observations and calibration evidence.
 - **Forecast** supplies externally expected future conditions.
@@ -86,6 +75,8 @@ External information      -> History ----------+-> Prediction
 - **Recommendation** explains useful options.
 - **Planning** describes a feasible course of action.
 - **Execution** remains a later, separately approved boundary.
+
+Measurement and re-evaluation close the loop. When conditions change, the optimizer can reassess the feasible solution space instead of treating the previous plan as a failed static rule.
 
 ## Domain core
 
