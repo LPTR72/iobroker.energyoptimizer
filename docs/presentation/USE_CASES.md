@@ -23,84 +23,180 @@
 
 # Use Cases
 
-**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+**Document status:** Public presentation, version 2.1, updated 2026-07-10.
 
 Energy optimization usually does not start with automation.
 
-A household first needs to understand where energy comes from, where it goes, and which decisions would be safe and useful. The project therefore follows a gradual path:
+A household first needs to understand which information is available, what it means, where energy comes from, where it goes, and which decisions would be safe and useful. The project therefore follows a gradual path:
 
 **Understand → Recommend → Plan → Automate**
 
-Most households already collect a surprising amount of energy data. The difficult part is turning that data into better decisions: when to use solar surplus, when to wait, when a device is flexible, and when doing nothing is the safest choice.
+Most households already collect a surprising amount of useful data. The difficult part is turning adapter-specific states into stable information and then using that information to make explainable decisions.
 
-The current runtime focuses on understanding energy flow, calculating simple import costs, and publishing read-only recommendation data. Planning and device behavior are part of the long-term direction, but remain explicit, approval-gated capabilities.
-
-![History Service](assets/history.svg)
+The current runtime focuses on understanding energy flow, calculating simple import costs, and publishing read-only recommendation data. Planning and device behavior remain explicit, approval-gated capabilities.
 
 > **Current runtime scope**
 >
 > These use cases describe both current read-only behavior and future direction. Device behavior remains planned and approval-gated.
 
-## 1. Understand current energy flow
+## 1. Replace a device without redesigning the optimizer
 
-A household may already have several useful ioBroker states: grid power, house consumption, photovoltaic production, battery values, or smart meter data.
+A smart plug, meter, weather source, or battery integration may be replaced over time.
 
-The adapter connects these values, mirrors them into a consistent adapter-owned state tree, and reports whether the configured sources are usable. This gives users a clearer picture before any optimization logic is applied.
+The preferred architecture keeps a stable alias or source binding and interprets the incoming value as a known information type. As long as the same semantic contract remains available, a change from one adapter or protocol to another should not require the energy model to be redesigned.
 
-## 2. Track simple import costs
+This is the practical benefit of supporting information instead of hardcoding adapter names.
+
+## 2. Understand current energy flow
+
+A household may already have grid power, house consumption, photovoltaic production, battery values, or smart-meter information.
+
+The current adapter reads configured numeric sources, mirrors them into a consistent adapter-owned state tree, and reports whether those sources are usable. Future interpreter capabilities will make units, sign conventions, direction, time semantics, and data quality explicit at the system boundary.
+
+## 3. Track import costs and later tariff changes
 
 A user may want to know how much grid import costs today or this month.
 
-With a fixed work price, the adapter can estimate interval-based grid-import energy and accumulate daily and monthly import costs. This is intentionally simple and transparent. More advanced tariff handling remains planned.
+With a fixed work price, the current runtime estimates interval-based grid-import energy and accumulates daily and monthly costs.
 
-## 3. Evaluate the current energy situation
+Future cost models should also support:
 
-A sunny afternoon, a cloudy winter day, or a battery-heavy evening all create different energy situations.
+- tariff or price changes over time;
+- dynamic prices;
+- feed-in compensation;
+- different import and export valuations;
+- later comparison between predicted and observed costs.
 
-The domain model can represent whether the household currently has surplus power, grid import, battery context, or other relevant energy conditions. This creates the foundation for later recommendations and planning decisions.
+## 4. Combine physical assets with decision context
 
-## 4. Publish read-only recommendations
+A battery and a weather forecast have different roles.
 
-Before an optimizer should ever control devices, users and developers need to see what it would recommend.
+The battery is an Energy Asset with physical state and capabilities. Weather, tariffs, calendars, occupancy, solar position, comfort limits, and grid restrictions are Context Information that can change which decision is best.
 
-The current read-only simulation pipeline can publish recommendation data without applying it to devices. This makes optimizer behavior inspectable, testable, and safe while the project is still building toward later automation.
+A useful optimization may therefore combine:
 
-## 5. Prepare historical learning
+```text
+Asset capability
+  + current state
+  + history
+  + forecast
+  + context
+  + goal and constraints
+  = explainable decision
+```
 
-Energy decisions become more useful when the system can learn from past observations.
+## 5. Publish read-only recommendations
 
-The History Service direction is intended to collect and aggregate past observations through a clear boundary. Future consumers may use historical context for better predictions, diagnostics, pattern recognition, simulation, and optimization.
+Before an optimizer controls devices, users and developers need to inspect what it would recommend and why.
 
-## 6. Support future flexible loads
+The current read-only simulation path can publish recommendation data without applying it to devices. This makes behavior visible, testable, and safe while later planning and execution remain disconnected.
 
-Some household loads do not always need to run immediately.
+Future recommendations should explain:
 
-Future versions may recommend or plan actions for flexible loads such as washing machines, dishwashers, heating-related loads, pumps, or chargers. The long-term goal is not only to understand energy behavior, but also to help decide when controllable devices should run.
+- what was measured;
+- what was forecast or predicted;
+- which goal or target value was relevant;
+- which constraints applied;
+- which alternatives were compared;
+- why the preferred option was selected.
 
-This is where the project starts moving from analysis toward real optimization: not by switching devices blindly, but by learning when a future action would be useful, explainable, and safe.
+## 6. Learn a washing-machine profile from existing history
 
-The current project does not apply such actions. Device behavior remains planned, explicit, and approval-gated.
+A user may already have months of smart-plug data before installing the optimizer.
 
-## 7. Compare optimization strategies
+A future History Service could provide those observations to bootstrap an Asset Profile. A generic washing-machine profile may offer an initial expectation; existing local history can calibrate typical duration, energy demand, power phases, variance, and completion detection.
 
-Different households, seasons, tariffs, and battery constraints can lead to different optimization strategies.
+This allows useful prediction without pretending that an inferred pattern is automatically a confirmed device identity.
 
-A future Simulation Framework may allow replaying scenarios, testing strategy changes, and comparing behavior across benchmark cases without depending on live hardware.
+## 7. Finish a flexible load by a target time
 
-![Simulation](assets/simulation.svg)
+A user may care more about the outcome than about a fixed switching time:
 
-Possible examples include sunny days, cloudy days, winter operation, dynamic tariffs, battery constraints, and flexible appliance windows.
+> The washing machine should be finished by 18:00.
 
-## 8. Keep vendor choice open
+The optimizer should eventually combine the expected program profile, photovoltaic forecast, tariff information, battery state, earliest start, latest completion, and user constraints.
 
-A useful energy optimizer should not depend on one device vendor or one integration path.
+It can then recommend or plan a feasible start window instead of blindly applying a static rule.
 
-The project avoids binding the core model to one vendor. EcoFlow, Shelly, Zigbee, Matter, MQTT, Modbus, EVCC, tariff providers, weather services, and forecast providers belong at integration boundaries.
+The current runtime does not schedule or start the appliance.
 
-This makes the architecture suitable for gradual, replaceable integrations.
+## 8. Preserve battery reserve for the evening
 
-Delivering these use cases requires an architecture that keeps the domain model independent from vendors, devices, and transport protocols.
+A household may want at least 30% state of charge available at sunset to cover evening or night demand.
+
+Depending on user intent, this may be:
+
+- a hard constraint that must not be violated;
+- a target value the optimizer should aim for;
+- a softer preference that may be traded against cost or comfort.
+
+The distinction matters because the same number can represent different decision semantics.
+
+## 9. Use thermal flexibility without reducing comfort
+
+A building, room, hot-water store, or heating system may shift energy over time.
+
+A future optimizer could use photovoltaic surplus or a low-price period to increase useful thermal storage while respecting temperature limits, target times, equipment capabilities, and comfort constraints.
+
+The optimization concept is therefore broader than switching a heat pump on or off. It models useful flexibility within physical and user-defined boundaries.
+
+## 10. Charge an electric vehicle before departure
+
+A user may want the vehicle at 80% by 07:00 rather than charging immediately after arrival.
+
+A future plan may consider:
+
+- current state of charge;
+- departure time;
+- charging capability and limits;
+- photovoltaic and tariff forecasts;
+- household power limits;
+- battery and comfort priorities;
+- later vehicle-to-home or vehicle-to-grid possibilities.
+
+The desired result is clear even when the best start time changes as conditions change.
+
+## 11. Re-plan when conditions change
+
+A forecast may change, a device may become unavailable, a grid restriction may apply, or actual consumption may differ from prediction.
+
+The previous plan is not simply treated as broken. The feasible solution space has changed.
+
+A future closed loop should:
+
+```text
+measure
+  -> compare with expectation
+  -> update state and prediction
+  -> simulate alternatives
+  -> revise recommendation or plan
+```
+
+This is the difference between a one-time switching rule and an optimization loop.
+
+## 12. Compare strategies safely in simulation
+
+Different households, seasons, tariffs, storage sizes, and constraints can favor different strategies.
+
+A future Simulation Framework may replay historical situations, evaluate complete parameter systems, and compare strategy changes without depending on live hardware.
+
+Possible examples include sunny days, cloudy days, winter operation, dynamic tariffs, battery reserves, flexible appliance windows, EV charging, and thermal storage.
+
+## 13. Start with a minimal setup and improve later
+
+The project's own smart home is a reference system, not a mandatory baseline.
+
+One user may begin with only grid import and a fixed tariff. Another may have photovoltaic production, a battery, weather, calendar information, and extensive history.
+
+Future documentation should distinguish:
+
+- minimum required information;
+- recommended information;
+- optional enhancements;
+- the project's richer reference system.
+
+This allows the optimizer to remain useful without making one specific hardware or adapter combination mandatory.
 
 ---
 
-Next: read the [Architecture Overview](ARCHITECTURE_OVERVIEW.md) to see how the project keeps these use cases vendor-neutral and safely separated from device control.
+Next: read the [Architecture Overview](ARCHITECTURE_OVERVIEW.md) to see how the project keeps these use cases information-centered, vendor-neutral, and safely separated from device control.
