@@ -23,75 +23,132 @@
 
 # Project Vision
 
-**Document status:** Public presentation, version 2.1, updated 2026-07-08.
+**Document status:** Public presentation, version 2.1, updated 2026-07-10.
 
-`ioBroker.energyoptimizer` aims to become a modular energy intelligence platform for the whole home energy system.
+`ioBroker.energyoptimizer` aims to become a modular energy-intelligence and optimization platform for the whole home energy system.
 
-The long-term goal is to help households understand, predict, and improve how energy is produced, stored, converted, and consumed while keeping the system transparent, deterministic, and safe.
+The long-term goal is to help households understand, predict, simulate, and improve how energy is produced, stored, converted, and consumed while keeping the system transparent, deterministic, explainable, and safe.
 
-The goal is not another automation rule. The goal is a digital understanding of the home's energy behavior: why energy is needed, when flexibility exists, and which future actions would be useful, safe, and explainable.
+The goal is not another automation rule. The goal is a digital understanding of the home's energy behavior: what information is available, why energy is needed, when flexibility exists, which boundaries apply, and which future actions would be useful and feasible.
 
 ![Optimization pipeline](assets/pipeline.svg)
 
 > **Vision in one sentence**
 >
-> Build a safe, explainable energy optimizer that understands the home energy system before it recommends changes.
+> Build a safe and explainable energy optimizer that understands the home energy system before it recommends, plans, and eventually performs changes.
 
 ## Core idea
 
-Home energy systems are becoming more complex. A household may combine grid interaction, renewable generation, electrical and thermal energy storage, electric vehicles and smart charging, heating systems, flexible loads, dynamic tariffs, weather forecasts, historical behavior, and device-specific constraints.
+Home energy systems are becoming more complex. A household may combine grid interaction, renewable generation, electrical and thermal energy storage, electric vehicles and smart charging, heating systems, flexible loads, dynamic tariffs, weather forecasts, historical behavior, calendars, occupancy, and device-specific or regulatory constraints.
 
-The adapter models these elements as neutral energy assets instead of building logic around a specific vendor, device, protocol, or cloud service.
+The optimizer should not depend on a fixed list of adapters or manufacturers. It should depend on interpretable information such as grid power, photovoltaic generation, battery state, weather, tariffs, target times, and limits.
 
-This means the project is not limited to electricity flows only. It should also be able to reason about energy flexibility across different physical domains, such as storing surplus energy in a battery, shifting a flexible load, or increasing useful thermal storage.
+```text
+Technical source
+  -> stable source binding or alias
+  -> Information Interpreter
+  -> vendor-neutral domain information
+```
+
+This allows hardware, providers, protocols, and adapter object IDs to change without redefining the energy model.
+
+## Energy assets and decision context
+
+Energy assets describe physical behavior: generation, consumption, conversion, storage, flexibility, and controllability.
+
+Context information describes the conditions under which decisions are made. Weather, tariffs, calendars, occupancy, solar position, comfort limits, and grid restrictions may not represent energy flow themselves, but they can change which solution is best.
+
+The optimizer therefore combines:
+
+```text
+Physical capabilities
+  + current state
+  + history
+  + forecast
+  + context
+  + goals and constraints
+  = explainable optimization decisions
+```
+
+The project is not limited to electricity flows only. It should also reason about flexibility across physical domains, such as storing surplus energy in a battery, shifting a flexible load, charging an electric vehicle, or increasing useful thermal storage.
 
 ## From data to knowledge
 
-The project direction is not limited to reading live power values. Historical data should become reusable knowledge:
+The project direction is not limited to reading live power values. Historical data should become reusable and explainable knowledge:
 
 ```text
-Live values
+Interpreted observations
   -> Historical context
   -> Pattern hypotheses
+  -> Standard and calibrated profiles
   -> User-confirmed virtual assets
   -> Better prediction
+  -> Better simulation
   -> Better recommendations
 ```
 
-In everyday terms, this means a home should eventually be able to learn that some loads are flexible, that some surplus windows repeat, that some forecasts are reliable, and that some recommendations worked better than others.
+A generic standard profile may provide an initial expectation. Existing and future observations can calibrate that profile toward the real behavior of the concrete household asset.
+
+In everyday terms, this means a home should eventually be able to recognize that some loads are flexible, that some surplus windows repeat, that some forecasts are reliable, and that some plans worked better than others.
 
 ![Pattern-based Virtual Energy Assets](assets/virtual-assets.svg)
 
+## From rules to a closed optimization loop
+
+A simple automation reacts once. An optimizer measures, evaluates, acts only within approved boundaries, and then checks the result again.
+
+```text
+Goal
+  -> Current state
+  -> Forecast
+  -> Prediction
+  -> Simulation
+  -> Recommendation
+  -> Planning
+  -> Execution (later)
+  -> Measurement
+  -> Re-evaluation
+```
+
+When weather, tariffs, availability, comfort requirements, or grid restrictions change, the previous plan is not simply considered broken. The feasible solution space has changed, so the system should calculate and explain the best available response again.
+
 ## Guiding principles
 
+- **Information-centered:** the optimizer requires semantic information, not a mandatory adapter or manufacturer.
 - **Vendor-neutral:** energy assets are modeled by physical behavior, not by brand names.
+- **Interpreter boundary:** external values are validated and translated into stable domain information at one explicit boundary.
 - **Architecture-first:** domain logic is kept independent from ioBroker runtime APIs and integration details.
-- **History-driven:** past observations and temporal context become reusable knowledge for multiple consumers.
+- **History-driven:** past observations and temporal context become reusable evidence for multiple consumers.
+- **Forecast and prediction remain distinct:** external expectations and household-specific expected behavior are not treated as the same thing.
 - **Hypothesis before knowledge:** detected patterns remain uncertain until confirmed by the user.
-- **Read-only first:** analysis, diagnostics, and recommendations come before any later automation stage.
-- **Explicit approval gates:** later runtime stages require separate, deliberate implementation decisions.
+- **Read-only first:** analysis, diagnostics, simulation, and recommendations come before any later automation stage.
+- **Explicit approval gates:** planning and execution require separate, deliberate implementation decisions.
 - **Deterministic behavior:** calculations should be predictable, testable, and explainable.
 - **Compatibility:** existing public states and legacy configuration fields remain stable unless a migration is explicitly approved.
 
 ## Long-term direction
 
-The intended optimization pipeline is:
+The product direction remains:
 
 ```text
-measure -> analyze -> forecast -> predict -> evaluate -> recommend -> plan
+Understand -> Recommend -> Plan -> Automate
 ```
 
-The current project focuses on building this pipeline safely from the inside out: domain models and pure engines first, runtime integration second, later automation stages last.
+The architectural capabilities behind that story are:
 
-Over time, this foundation should allow the system to move from observation to useful recommendations and carefully reviewed planning.
+```text
+interpret -> observe -> forecast -> predict -> simulate -> recommend -> plan -> execute -> re-evaluate
+```
+
+The current project focuses on building this safely from the inside out: domain models and pure engines first, integration second, read-only runtime behavior before planning, and controlled execution last.
 
 ## Why this matters
 
-A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, battery state, thermal context, electric vehicle charging, tariff context, comfort constraints, recurring behavior, priorities, and safety boundaries.
+A useful energy optimizer should not simply react whenever surplus power appears. It needs to understand timing, forecasts, expected asset behavior, battery state, thermal context, electric vehicle charging, tariffs, comfort constraints, recurring patterns, priorities, and safety boundaries.
 
-That is what makes the project more than a collection of calculations. It is designed to help a household understand its own energy behavior first, then receive useful recommendations, and only later consider safe planning or automation.
+It must also explain the distinction between what it measured, what it predicts, what the user wants, which constraints limit the solution, and why a recommendation or plan is preferred.
 
-The project is therefore designed as a foundation for gradual, reviewable energy intelligence rather than as a quick automation script. Its purpose is to help the home energy system become understandable first, useful second, and extensible when the underlying behavior is clear enough to justify it.
+That is what makes the project more than a collection of calculations. It is designed to help a household understand its own energy behavior first, receive useful recommendations second, prepare feasible plans third, and only later permit safe and reviewable automation.
 
 ---
 
