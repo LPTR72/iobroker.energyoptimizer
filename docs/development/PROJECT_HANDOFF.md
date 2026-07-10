@@ -1,6 +1,6 @@
 # PROJECT_HANDOFF
 
-Stand: 07.07.2026 14:04 Uhr
+Stand: 07.07.2026 16:27 Uhr
 
 ## Purpose
 
@@ -13,17 +13,18 @@ It intentionally stays short. Architecture details, historical milestones, workf
 - Active branch: `refactor/core-architecture`.
 - Functional runtime remains read-only.
 - No device control, scheduling, execution provider, foreign-state writes, SQL history collection, pattern recognition, or first-class Simulation Framework implementation is approved.
-- The latest documentation work consolidated durable architecture decisions and public object-model boundaries into repository documentation.
+- The History Service domain foundation is implemented as pure deterministic domain code only.
+- No History Service runtime integration, SQL persistence, new ioBroker states, configuration UI, pattern recognition, or Simulation Framework work is implemented.
 - The adapter-owned public ioBroker object namespace and future object-model boundaries are documented in `docs/architecture/OBJECT_MODEL.md`.
-- The History Service remains planned architecture only; functional implementation is still open.
+- The remaining History Service work is still open and must be split into separately approved milestones.
 
 ## Latest Completed Milestone
 
-- Milestone: Architecture Knowledge Consolidation with Object Model reconciliation.
-- Scope: preserved the Object Model boundary documentation and the Architecture Knowledge Consolidation decisions without changing production code.
-- Result: `docs/architecture/DECISIONS.md` owns durable architecture decisions and milestone boundaries. `docs/architecture/OBJECT_MODEL.md` owns the public ioBroker object/state model, reserved namespaces, read/write policy, JSON publication boundaries, object validation rules, compatibility, and brainstorming documentation rule. `docs/architecture/ARCHITECTURE.md` and this handoff cross-link those summaries.
+- Milestone: History Service Domain Foundation.
+- Scope: implemented pure domain models and deterministic collection/aggregation for the first History Service slice.
+- Result: `src/lib/history/` now defines typed historical metrics, samples, buckets, resolutions, quality metadata, a 1-minute collector from live samples, and an aggregator that advances only through the ADR-0012 resolution chain. Metric-specific aggregation covers power, reset-aware energy counters, state of charge, binary state, temperature, price, and generic numbers with an explicit reducer.
 - Runtime impact: none.
-- Production code impact: none.
+- Production code impact: pure domain code only; no runtime wiring.
 
 ## Infrastructure Status
 
@@ -35,12 +36,14 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Validation Summary
 
-- Documentation-only scope: `docs/architecture/DECISIONS.md`, `docs/architecture/OBJECT_MODEL.md`, `docs/architecture/ARCHITECTURE.md`, `docs/development/PROJECT_HANDOFF.md`, and `docs/development/WORKFLOW.md`.
-- Production code changed: no.
-- Tests changed: no.
+- Local build: `npm.cmd run build` passed.
+- Local tests: `npm.cmd test` passed with 97 passing tests.
+- Diff whitespace check: `git diff --check` passed.
+- Production code changed: yes, pure history domain code under `src/lib/history/`.
+- Tests changed: yes, focused History Service domain tests added.
 - Runtime behavior changed: no.
-- ioBroker validation required for this documentation-only milestone: no.
-- Required local validation for this documentation-only milestone: `git diff --check` and `git status`.
+- ioBroker validation required for this domain-only, non-runtime milestone: no.
+- Required local validation for this milestone: `npm run build`, `npm test`, `git diff --check`, `git status --short`, and `git diff --stat`.
 
 ## Review Outcome
 
@@ -50,10 +53,11 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 ## Open Risks
 
-- History Service implementation remains an open, likely multi-step epic/workstream.
+- History Service implementation remains an open multi-step epic/workstream after the domain foundation.
 - SQL/ioBroker history-backend integration remains planned.
 - No runtime integration of the History Service has been approved.
 - Exact future History Service runtime states remain intentionally unselected until a dedicated runtime milestone approves names, semantics, validation, and migration impact.
+- Repository abstraction, retention policy enforcement, temporal context providers, configuration, health reporting, and consumer integration remain open.
 - Pattern recognition, virtual-asset persistence, user confirmation flows, and downstream optimization use remain planned and unselected.
 - Simulation Framework orchestration, scenario formats, benchmark metrics, demonstration behavior, and implementation order remain open and unselected.
 
@@ -72,9 +76,9 @@ It intentionally stays short. Architecture details, historical milestones, workf
 
 Select and explicitly approve the next functional milestone from the roadmap before creating an implementation prompt.
 
-Recommended next direction: prepare the first History Service implementation slice as a scoped domain-foundation milestone only: typed metrics, samples, buckets, quality metadata, supported resolutions, and deterministic collector/aggregator logic.
+Recommended next direction: prepare the next History Service slice as a separately scoped milestone. A conservative next step is an implementation-neutral repository contract and retention-policy design without SQL wiring or runtime integration.
 
-Explicitly keep SQL, runtime integration, new ioBroker states, configuration UI, pattern recognition, and the Simulation Framework out of the first History slice unless a later milestone separately approves them.
+Keep SQL, runtime integration, new ioBroker states, configuration UI, pattern recognition, and the Simulation Framework out of the next step unless explicitly approved.
 
 ## Required Reading
 

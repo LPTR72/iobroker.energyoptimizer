@@ -64,7 +64,7 @@ Historical values use an explicit `HistoricalMetricType`; they are not untyped n
 - **Power:** representative average with minimum and maximum observations.
 - **Energy Counter:** opening and closing counter values plus a reset-aware interval delta; higher levels aggregate deltas without treating counter resets as consumption.
 - **State of Charge:** average, minimum, maximum, and last valid value.
-- **Binary State:** duration per state, transition count, and last valid state.
+- **Binary State:** duration per state, transition count, first valid state for deterministic higher-level transition aggregation, and last valid state.
 - **Temperature:** average, minimum, and maximum.
 - **Price:** time-weighted average with minimum and maximum for the validity period.
 - **Generic Number:** an explicitly configured reducer; no implicit energy or power semantics.
