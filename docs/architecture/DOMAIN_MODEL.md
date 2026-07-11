@@ -2,7 +2,7 @@
 
 ## Status
 
-Draft architecture baseline, updated 2026-07-10.
+Draft architecture baseline, updated 2026-07-11.
 
 This document consolidates the current domain language of `ioBroker.energyoptimizer`. It does not replace ADRs. ADRs explain individual decisions; this document shows how accepted and planned concepts relate to one another.
 
@@ -83,6 +83,70 @@ It does not own history aggregation, forecasting, prediction, simulation, recomm
 Domain Information is a validated value with explicit semantics. Depending on its Information Type, it may contribute to current state, history, forecast, context, goals, constraints, or capability descriptions.
 
 Domain Information must not contain unresolved adapter, vendor, protocol, or object-ID semantics.
+
+## Information quality and confidence
+
+Information quality is part of the domain boundary, not a presentation-only concern. Technical validity of individual values is necessary but not sufficient; related Domain Information may also require joint plausibility evaluation.
+
+```text
+External values
+    -> Interpretation and normalization
+    -> Individual validation
+    -> Cross-information plausibility
+    -> Data Quality
+    -> Capability results with Result Confidence
+```
+
+### Asset Health *(planned)*
+
+Asset Health describes whether an Energy Asset or its configured source is reachable, responsive, and fundamentally operational.
+
+Asset Health may include communication availability, source status, staleness caused by an unavailable source, device-reported faults, and basic operability. It does not state that the supplied information is complete, synchronized, or physically plausible.
+
+### Data Quality *(planned first-class model)*
+
+Data Quality describes the fitness of Domain Information for a specific use. It may evaluate:
+
+- completeness of required Information Types;
+- freshness and validity duration;
+- temporal synchronization between related values;
+- source coverage and sampling quality;
+- range, unit, sign, and direction validity;
+- physical and logical plausibility;
+- consistency of derived and measured information;
+- known fallbacks, substitutions, or missing evidence.
+
+The Information Interpreter owns initial quality classification at the system boundary. Downstream capabilities may add use-specific quality findings, but they must not silently reinterpret unresolved source semantics.
+
+A physically inconsistent energy balance is itself domain information. The system must not silently repair contradictory inputs and present the result as certain.
+
+### Plausibility Assessment *(planned)*
+
+A Plausibility Assessment evaluates related Domain Information as an information system rather than as isolated values.
+
+Examples include:
+
+- whether generation, consumption, grid flow, and storage flow form a balance within defined tolerances;
+- whether import and export states contradict one another;
+- whether values are sufficiently synchronized for the intended calculation;
+- whether required information is missing;
+- whether conflicting sources have explicit precedence or confidence rules.
+
+A failed plausibility assessment may produce warnings, reduced operating modes, suppressed recommendations, or invalid results depending on the affected capability and decision risk.
+
+### Result Confidence *(planned first-class model)*
+
+Result Confidence describes how strongly the available evidence supports a derived result such as Prediction, Simulation, Recommendation, or Planning.
+
+Result Confidence is not the same as Data Quality. Data Quality assesses the fitness of inputs; Result Confidence assesses the dependability of an output after considering input quality, model maturity, forecast uncertainty, calibration evidence, assumptions, fallbacks, and scenario coverage.
+
+Result Confidence must remain explainable. A published confidence classification should identify the material evidence and limitations that produced it.
+
+The three concepts remain separate:
+
+- **Asset Health**: is the asset or source reachable and basically operational?
+- **Data Quality**: are the supplied information sets complete, fresh, synchronized, and plausible enough for the intended use?
+- **Result Confidence**: how dependable is a derived result given its inputs, models, assumptions, and evidence?
 
 ## Physical and contextual domain
 
@@ -330,6 +394,46 @@ Goal
 
 A changed condition changes the feasible solution space. It does not merely make the previous rule fail.
 
+## Capability timing *(planned)*
+
+Each capability has a natural horizon, a validity duration, an update strategy, and a computation budget. These are domain-relevant characteristics because they determine when a result is meaningful, stale, or worth recomputing.
+
+Examples include:
+
+- measurements and live state: event-near or short-interval updates;
+- current KPIs and cost: seconds to minutes depending on source and intended statement;
+- Prediction: when relevant state, Forecast, Context Information, profile, or quality evidence changes;
+- Recommendation and Planning: when goals, constraints, priorities, confidence, or the feasible solution space changes;
+- Simulation: bounded jobs for explicit evaluation demand;
+- Asset Profile calibration and Pattern Recognition: after completed observation sequences or during scheduled low-priority windows;
+- long-term model maintenance: periodic execution with low time pressure.
+
+No single global polling interval should define all capabilities.
+
+A future capability timing contract may include:
+
+- triggering Information Types or domain events;
+- natural horizon;
+- validity duration and staleness rules;
+- minimum and maximum refresh interval;
+- debounce or coalescing behavior;
+- priority and computation budget;
+- cacheability and reuse rules;
+- dependencies that become stale together;
+- publication timestamp, validity interval, and next evaluation hint.
+
+A possible lifecycle is:
+
+```text
+New or changed Domain Information
+    -> affected models and results become stale
+    -> prioritized capability job is scheduled
+    -> result is recalculated
+    -> generation time, validity, Data Quality, and Result Confidence are published
+```
+
+Capability Timing describes required semantics and operating constraints. The scheduler, job queue, cache, or optional offloading mechanism that implements those semantics remains an architectural and infrastructure concern.
+
 ## Capability topology
 
 The main relationships are:
@@ -340,6 +444,7 @@ External Sources
     -> Information Types
     -> Information Interpreter
     -> Domain Information
+         |-> Asset Health / Data Quality / Plausibility
          |-> Current State -------------------|
          |-> History -------------------------|-> Prediction
          |-> Forecast ------------------------|
@@ -352,6 +457,10 @@ External Sources
          |
          |-> Energy Assets / Asset Profiles
          |-> KPIs / Goals / Target Values / Constraints / Priorities
+
+Capability results
+    -> Result Confidence
+    -> capability-specific validity and timing
 ```
 
 This communicates dependencies and information relationships, not a mandatory single runtime call graph.
@@ -360,7 +469,7 @@ This communicates dependencies and information relationships, not a mandatory si
 
 Implemented foundations include generic Energy Assets, analysis, forecast abstraction, prediction, evaluation, recommendation, dormant planning, read-only runtime publication, and the initial History Service domain foundation.
 
-Planned or incomplete concepts include the Information Interpreter runtime contract, the complete Information Type catalog, broad Context Information modeling, profile calibration, pattern recognition, Goal Tasks, first-class simulation, capability-aware execution adapters, and closed-loop automation.
+Planned or incomplete concepts include the Information Interpreter runtime contract, the complete Information Type catalog, broad Context Information modeling, profile calibration, pattern recognition, Goal Tasks, first-class Data Quality, Plausibility Assessment, Result Confidence, Capability Timing, first-class simulation, capability-aware execution adapters, and closed-loop automation.
 
 No planned concept becomes runtime behavior merely because it appears in this document.
 
@@ -385,4 +494,7 @@ No planned concept becomes runtime behavior merely because it appears in this do
 - relationship between physical Energy Assets and Pattern-based Virtual Energy Assets;
 - source-binding cardinality, fallback, and derivation rules;
 - ownership of profile persistence and calibration state;
+- exact contracts and classification scales for Asset Health, Data Quality, Plausibility Assessment, and Result Confidence;
+- ownership of cross-information plausibility evaluation between Interpreter and downstream domain services;
+- capability timing contract boundaries, dependency invalidation, and scheduling semantics;
 - capability contracts for future execution.
