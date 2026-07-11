@@ -13,139 +13,124 @@ It intentionally stays concise. Architecture details, workflow rules, historical
 - Active branch: `refactor/core-architecture`.
 - Functional runtime remains read-only.
 - No device control, execution provider, foreign-state writes, or autonomous actuation is approved.
-- The History Service Domain Foundation is implemented and validated.
+- The History Service Domain Foundation remains implemented and Raspberry-/ioBroker-validated.
+- The subsequent **Domain Model Consolidation** documentation milestone is completed.
+- `docs/architecture/DOMAIN_MODEL.md` now includes first-class planned concepts for Asset Health, Data Quality, Plausibility Assessment, Result Confidence, and Capability Timing.
+- Goal-oriented planning, Asset Profiles, Forecast, Prediction, Simulation, Information Interpreter responsibilities, and parameter-system evaluation are consolidated in the canonical domain language.
+- The Developer Workspace Schnipselkompost was consolidated to v2.1 and its Development Platform Refresh addendum was marked as integrated.
 - History collection from external SQL/ioBroker history backends and runtime persistence remain separate future milestones.
-- Recommendation and Simulation publication remain operational and were included in the Raspberry Pi regression validation.
-- The Information Interpreter remains the semantic system boundary for normalization, validation, direction/sign interpretation, temporal meaning, quality, freshness, and availability.
+- Recommendation and Simulation publication remain operational from the last successful Raspberry Pi regression validation.
 
 ## Latest Completed Milestone
 
-- Milestone: **History Service Domain Foundation**.
+- Milestone: **Domain Model Consolidation**.
 - Status: **Completed and approved**.
 - Scope:
-  - typed history metrics, samples, buckets, resolutions, and quality metadata;
-  - deterministic collector and aggregation domain logic;
-  - complete aggregation chain through `1d`;
-  - exact binary-value contract accepting only `0` and `1`;
-  - rejected-sample accounting for invalid binary inputs;
-  - typed Day Boundary Strategy with `rolling24h` and `calendarDayLocal`;
-  - unchanged `first` aggregation semantics;
-  - no runtime or ioBroker dependency added to the domain layer.
-- Architecture result:
-  - `rolling24h` represents epoch-aligned intervals of exactly 24 hours;
-  - `calendarDayLocal` represents local calendar-day boundaries using JavaScript calendar arithmetic, including DST behavior;
-  - temporal semantics are explicit rather than hidden inside the aggregator.
+  - consolidate mature Schnipselkompost knowledge into the canonical domain model;
+  - define and separate Asset Health, Data Quality, Plausibility Assessment, and Result Confidence;
+  - define Capability Timing as domain-relevant semantics for natural horizon, validity, refresh strategy, and computation budget;
+  - preserve the separation between domain timing requirements and scheduler/infrastructure implementation;
+  - confirm Standard Profile and calibrated Asset Profile as related but distinct concepts;
+  - preserve Goal Task as a planned working term while keeping its final name and aggregate boundary open;
+  - consolidate Forecast, Prediction, Simulation, and parameter-system semantics;
+  - integrate the Development Platform Refresh addendum without mixing infrastructure migration into functional adapter development.
+- Documentation result:
+  - `docs/architecture/DOMAIN_MODEL.md` updated;
+  - `Brainstorming/Schnipselkompost_v2.0.md` consolidated as Schnipselkompost v2.1 in the Developer Workspace;
+  - `Brainstorming/SK_ADDENDUM_DEVELOPMENT_PLATFORM_REFRESH.md` marked as content-integrated and retained as provenance;
+  - stable knowledge moved to the `Übernommen` lifecycle state while unresolved contracts and naming questions remain explicit.
 
 ## Validation Summary
 
-### Local validation
+### Documentation validation
 
-- Strict TypeScript build: passed.
-- Automated tests: passed.
-- History aggregation chain through `1d`: passed.
-- Binary contract and rejected-sample behavior: passed.
-- Day Boundary Strategy coverage: passed.
-- Existing `first` semantics regression coverage: passed.
-- No runtime or ioBroker dependency introduced into the History domain foundation.
+- Canonical domain model reread after update: passed.
+- Schnipselkompost consolidation self-review: passed.
+- No intentional knowledge deletion: confirmed by the consolidation review.
+- Addendum integration status: confirmed.
+- Open naming and contract questions remain explicitly documented instead of being decided implicitly.
 
-### Raspberry Pi / ioBroker validation
+### Runtime validation baseline
 
-Runtime validation on the ioBroker Raspberry Pi completed successfully.
+No runtime or implementation behavior changed in this documentation-only milestone, so no new Raspberry deployment was required.
 
-Verified adapter states included:
+The last Raspberry Pi / ioBroker validation remains valid for the unchanged runtime baseline. It successfully covered:
 
-- `health.lastPollingTimestamp`
-- `health.configuredSources`
-- `health.validSources`
-- `health.missingSources`
-- `live.grid.importPower`
-- `costs.today.currentTariffEuro`
-- `costs.month.currentTariffEuro`
-- `recommendation.available`
-- `recommendation.count`
-- `simulation.ready`
-- `simulation.publication.json`
+- adapter runtime and polling;
+- configured, valid, and missing fixed-source health states;
+- grid import publication;
+- current tariff cost counters;
+- recommendation availability and count;
+- Simulation readiness and publication JSON.
 
-Observed validation outcome:
-
-- configured fixed sources: `2`;
-- valid fixed sources: `2`;
-- missing fixed sources: `0`;
-- recommendation available: `true`;
-- recommendation count: `1`;
-- simulation ready: `true`;
-- simulation publication: valid JSON containing analysis, prediction, situations, recommendations, and warnings.
-
-The different source counts in Health and Simulation are intentional: Health counts the fixed configured source objects, while Simulation also represents normalized/modelled inputs and assets.
-
-The deliberately configured test values were not energy-balanced (`PV 500 W`, consumption `620 W`, grid export `120 W`, grid import `0 W`). This was an input-data characteristic, not a failure of publication. The resulting discussion identified future domain work for data-quality and plausibility classification at the system boundary; it is not part of this completed milestone.
+The earlier deliberately inconsistent energy-balance input remains the trigger for the now-documented Plausibility Assessment, Data Quality, and Result Confidence concepts. Their appearance in the domain model does not imply runtime implementation.
 
 ## Review Outcome
 
-- Blocking implementation issues found: 0 remaining.
-- Blocking architecture issues found: 0 remaining.
-- Blocking runtime issues found: 0 remaining.
-- Local build and tests: passed.
-- Raspberry Pi / ioBroker validation: passed.
-- Runtime publication regression: passed.
+- Blocking documentation issues found: 0 remaining.
+- Blocking architecture inconsistencies found: 0 remaining for the consolidation scope.
+- Runtime changes introduced: none.
+- New implementation approved: none.
 - Final review status: **Approved**.
 - Milestone status: **Closed**.
 
 ## Architecture Confidence
 
-- Domain isolation: high.
-- Determinism: high.
-- Aggregation semantics: high.
-- Binary-value contract: high.
-- Temporal semantics: high after introducing explicit Day Boundary Strategy.
-- Runtime compatibility: confirmed by Raspberry Pi / ioBroker validation.
-- Extensibility: good; backend integration and further temporal contracts remain intentionally separate.
+- Canonical domain-language consistency: high.
+- Separation of Asset Health, Data Quality, and Result Confidence: high at concept level.
+- Information Interpreter boundary: high at concept level.
+- Capability Timing semantics: good baseline; exact contracts remain open.
+- Goal-oriented planning model: good baseline; final Goal Task boundary remains open.
+- Asset Profile lifecycle: good baseline; persistence and calibration ownership remain open.
 
-Architecture Confidence supplements, but does not replace, tests, runtime validation, Review Outcome, or approval.
+Architecture Confidence supplements, but does not replace, implementation tests, runtime validation, Review Outcome, or approval.
 
 ## Open Risks and Deferred Topics
 
 - SQL/ioBroker history-backend integration remains unimplemented.
 - Runtime history collection and persistence remain unimplemented.
 - Future History Service ioBroker states remain intentionally unselected.
-- Pattern recognition and calibrated Asset Profiles remain domain candidates, not current runtime functionality.
-- Goal Task / Zielauftrag naming and contract remain open.
-- Data Quality, energy-balance plausibility, and Result Confidence require later domain consolidation.
-- Capability-specific natural horizons and refresh intervals require later temporal-domain work.
-- Rechenintensive simulations and large parameter searches require explicit performance budgets, caching, scheduling, or optional offloading.
-- Development Platform Refresh to a complete `arm64` operating system remains a separate infrastructure milestone; it is not part of functional adapter development.
+- Pattern recognition and calibrated Asset Profiles remain planned domain concepts, not current runtime functionality.
+- The final name and aggregate boundary for `Goal Task` remain open.
+- Ownership of Asset Profile persistence and calibration state remains open.
+- Exact contracts and classification scales for Asset Health, Data Quality, Plausibility Assessment, and Result Confidence remain open.
+- Ownership of cross-information plausibility evaluation between the Information Interpreter and downstream domain services remains open.
+- Capability Timing contract boundaries, dependency invalidation, and scheduling semantics remain open.
+- A broader capability-spanning Temporal Contract remains a candidate rather than an accepted model.
+- `Context Information` versus `Context Asset` remains unresolved.
+- Final domain treatment and implementation names for Hard Constraint, Soft Constraint, and Preference remain unresolved.
+- Rechenintensive simulations and large parameter searches still require explicit performance budgets, caching, scheduling, or optional offloading.
+- Development Platform Refresh to a complete `arm64` operating system remains a separate infrastructure milestone.
 - Scheduling, execution providers, device control, and autonomous actuation remain deferred.
 
-## Knowledge and Workflow Follow-up
+## Knowledge and Workflow State
 
-The related exploratory findings are recorded in the Developer Workspace:
+The exploratory findings were consolidated in the private Developer Workspace:
 
-- `Brainstorming/Schnipselkompost_v2.0.md`
-- `Brainstorming/SK_ADDENDUM_DEVELOPMENT_PLATFORM_REFRESH.md`
+- `Brainstorming/Schnipselkompost_v2.0.md` — consolidated to v2.1 through commit `edd5886`;
+- `Brainstorming/SK_ADDENDUM_DEVELOPMENT_PLATFORM_REFRESH.md` — marked as content-integrated;
+- `workflow/DEVELOPMENT_PLATFORM.md` — canonical infrastructure facts and arm64 migration boundary.
 
-The addendum currently preserves:
-
-- Development Platform Refresh;
-- natural capability horizons and update intervals;
-- plausibility validation at the system boundary;
-- separation of Asset Health, Data Quality, and Result Confidence;
-- links to Standard Profiles and calibrated Asset Profiles.
-
-These topics must be consolidated into stable domain or workflow documentation before implementation is approved.
+The Schnipselkompost remains the working memory for new or unresolved knowledge. Stable domain decisions belong in the project architecture documentation and ADRs.
 
 ## Next Recommended Milestone
 
-Do not start another implementation slice automatically.
+Do not start implementation automatically.
 
-First perform a scoped **Domain Model Consolidation** to evaluate and name the mature knowledge candidates around:
+First scope the next domain-contract milestone. The strongest current candidate is **Goal-oriented Planning Domain**, focused on:
 
-- Goal State / Goal Task;
-- Standard Profile and Calibrated Asset Profile;
-- Data Quality and Result Confidence;
-- capability-specific horizons and refresh intervals;
-- energy-system plausibility at the Information Interpreter boundary.
+- the final responsibility and aggregate boundary of Goal Task / Zielauftrag;
+- relationships among Goal, Target Value, Constraint, Preference, Priority, Recommendation, and Planning;
+- temporal and operational freedom of user-described target states;
+- explicit exclusions from execution and device-specific control.
 
-The consolidation should decide which topics become stable domain contracts, which remain Schnipsel, and which require an ADR. SQL integration, runtime history wiring, device control, and autonomous execution remain outside that consolidation unless separately approved.
+Before approving that milestone, compare it against the other mature contract candidates:
+
+- Asset Profile persistence and calibration ownership;
+- Data Quality, Plausibility Assessment, and Result Confidence contracts;
+- Capability Timing, invalidation, and scheduling semantics.
+
+Choose one bounded contract slice, define acceptance criteria, and keep implementation outside the milestone unless separately approved.
 
 ## Required Reading
 
@@ -153,10 +138,11 @@ The consolidation should decide which topics become stable domain contracts, whi
 2. `docs/development/WORKFLOW.md`.
 3. `docs/architecture/DOMAIN_MODEL.md`.
 4. `docs/architecture/ARCHITECTURE.md`.
-5. `docs/architecture/ADR/ADR-0012-history-service.md`.
-6. `docs/architecture/ADR/ADR-0015-information-interpreter-boundary.md`.
-7. `docs/development/TESTING.md`.
+5. `docs/architecture/ADR/ADR-0015-information-interpreter-boundary.md` when information quality or system-boundary work is in scope.
+6. `docs/architecture/ADR/ADR-0012-history-service.md` when history or temporal aggregation work is in scope.
+7. `docs/development/TESTING.md` before implementation work.
 8. `docs/roadmap/ROADMAP.md` only when milestone sequencing is required.
+9. Relevant Schnipselkompost entries from the Developer Workspace for unresolved naming or cross-domain questions.
 
 ## References
 
